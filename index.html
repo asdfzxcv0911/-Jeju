@@ -675,11 +675,8 @@
                 <h4 class="font-bold text-sm text-jeju-dark mb-2">樂天租車</h4>
                 
                 <div class="flex gap-1 w-full">
-                    <a href="https://www.klook.com/zh-TW/bookings/?spm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7" target="_blank" class="flex-1 text-[10px] border border-gray-200 rounded py-1 text-gray-500 hover:bg-gray-50">
-                        管理
-                    </a>
                     <button onclick="openVoucher('WNF147844')" class="flex-1 text-[10px] bg-gray-600 text-white rounded py-1 shadow-sm hover:bg-gray-700">
-                        憑證
+                        📄 憑證圖片
                     </button>
                 </div>
             </div>
@@ -692,11 +689,8 @@
                 <h4 class="font-bold text-sm text-jeju-dark mb-2">Aqua Planet</h4>
                 
                 <div class="flex gap-1 w-full">
-                    <a href="https://www.klook.com/zh-TW/bookings/?spm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7" target="_blank" class="flex-1 text-[10px] border border-gray-200 rounded py-1 text-gray-500 hover:bg-gray-50">
-                        管理
-                    </a>
                     <button onclick="openVoucher('HRG192574')" class="flex-1 text-[10px] bg-cyan-500 text-white rounded py-1 shadow-sm hover:bg-cyan-600">
-                        憑證
+                        📄 憑證圖片
                     </button>
                 </div>
             </div>
@@ -726,45 +720,17 @@
 
     <!-- Voucher Modal (Dynamic) -->
     <div id="voucher-modal" class="modal-overlay">
-        <div class="modal-content relative">
-            <button onclick="closeVoucher()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <div class="modal-content relative bg-white max-h-[90vh] overflow-y-auto">
+            <button onclick="closeVoucher()" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10 bg-white/50 rounded-full p-1">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             
             <div class="text-center mb-6">
-                <span class="text-2xl font-black text-orange-500 italic">klook</span>
                 <h3 id="v-title" class="text-lg font-bold text-jeju-dark mt-2"></h3>
-                <p id="v-subtitle" class="text-xs text-gray-400"></p>
             </div>
 
-            <div class="bg-gray-50 rounded-xl p-4 mb-4 space-y-3 text-sm">
-                <div class="flex justify-between">
-                    <span class="text-gray-500">預訂人</span>
-                    <span id="v-user" class="font-bold text-jeju-dark"></span>
-                </div>
-                <div class="flex justify-between">
-                    <span id="v-label-1" class="text-gray-500"></span>
-                    <span id="v-value-1" class="font-bold text-jeju-dark"></span>
-                </div>
-                <div class="flex justify-between">
-                    <span id="v-label-2" class="text-gray-500"></span>
-                    <span id="v-value-2" class="font-bold text-jeju-dark text-right w-1/2"></span>
-                </div>
-            </div>
-
-            <div class="border-t border-dashed border-gray-200 py-4 text-center">
-                <p class="text-xs text-gray-400 mb-2">請出示憑證 / QR Code</p>
-                <div class="bg-white border-2 border-jeju-dark p-2 inline-block rounded-lg" id="v-qr-container">
-                    <img id="v-qr" src="" class="w-32 h-32 object-contain" alt="QR Code">
-                </div>
-                <!-- Custom Images Container -->
-                <div id="v-custom-images" class="hidden grid gap-2"></div>
-                <p id="v-code" class="text-xs font-mono font-bold mt-2 tracking-widest"></p>
-            </div>
-
-            <div class="text-center">
-                <span id="v-order-id" class="text-[10px] text-gray-400"></span>
-            </div>
+            <!-- Images Container -->
+            <div id="v-custom-images" class="grid gap-4"></div>
         </div>
     </div>
 
@@ -878,17 +844,7 @@
         const voucherData = {
             'HRG192574': {
                 title: 'Aqua Planet 水族館門票',
-                subtitle: 'Foreigners Only',
-                user: 'LIIKUN',
-                label1: '數量',
-                value1: '3 x 每人',
-                label2: '方案',
-                value2: '水族館+特別展覽+海洋競技場',
-                code: '2848 2644 9612 9901',
-                qr: '2848264496129901',
-                orderId: 'HRG192574',
-                // ↓↓↓ 請將這裡的連結替換為您 GitHub 上的圖片網址 ↓↓↓
-                // 例如: 'https://raw.githubusercontent.com/您的帳號/repo/main/images/Klook_voucher.jpg'
+                // ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
                 voucherImages: [
                     'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+1+(Replace+with+GitHub+Link)',
                     'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+2+(Replace+with+GitHub+Link)'
@@ -896,15 +852,10 @@
             },
             'WNF147844': {
                 title: '租車- 現代 Staria 或同級',
-                subtitle: '座位數:11 | 行李:3',
-                user: 'MR I KUN LI',
-                label1: '取車時間',
-                value1: '2026/01/30 20:00',
-                label2: '確認編號',
-                value2: '2622040804',
-                code: '2622040804',
-                qr: '2622040804',
-                orderId: 'WNF147844'
+                 // ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
+                voucherImages: [
+                     'https://placehold.co/600x800/f3f4f6/333333?text=Car+Rental+Voucher+(Replace+with+GitHub+Link)'
+                ]
             }
         };
 
@@ -914,29 +865,15 @@
             if (!data) return;
 
             document.getElementById('v-title').textContent = data.title;
-            document.getElementById('v-subtitle').textContent = data.subtitle;
-            document.getElementById('v-user').textContent = data.user;
-            document.getElementById('v-label-1').textContent = data.label1;
-            document.getElementById('v-value-1').textContent = data.value1;
-            document.getElementById('v-label-2').textContent = data.label2;
-            document.getElementById('v-value-2').textContent = data.value2;
-            document.getElementById('v-code').textContent = data.code;
-            document.getElementById('v-order-id').textContent = '訂單編號: ' + data.orderId;
-            
-            // Handle Images or QR
-            const qrContainer = document.getElementById('v-qr-container');
             const customImagesContainer = document.getElementById('v-custom-images');
             
             if (data.voucherImages && data.voucherImages.length > 0) {
-                qrContainer.classList.add('hidden');
                 customImagesContainer.classList.remove('hidden');
                 customImagesContainer.innerHTML = data.voucherImages.map(url => 
-                    `<img src="${url}" class="w-full rounded-lg mb-2 border border-gray-200 shadow-sm">`
+                    `<img src="${url}" class="w-full rounded-lg mb-4 border border-gray-200 shadow-sm" alt="Voucher Image">`
                 ).join('');
             } else {
-                qrContainer.classList.remove('hidden');
-                customImagesContainer.classList.add('hidden');
-                document.getElementById('v-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data.qr}`;
+                customImagesContainer.innerHTML = '<p class="text-center text-gray-500 py-4">暫無圖片</p>';
             }
 
             document.getElementById('voucher-modal').classList.add('active');
@@ -1141,8 +1078,8 @@
 
         // 初始化
         function initData() {
-            // 行程資料 (v34)
-            const storedSchedule = localStorage.getItem('jeju_schedule_data_v34');
+            // 行程資料 (v41)
+            const storedSchedule = localStorage.getItem('jeju_schedule_data_v41');
             try {
                 if (storedSchedule) {
                     scheduleData = JSON.parse(storedSchedule);
@@ -1311,7 +1248,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('jeju_schedule_data_v34', JSON.stringify(scheduleData));
+            localStorage.setItem('jeju_schedule_data_v41', JSON.stringify(scheduleData));
             switchDay(currentDay);
         }
 
@@ -1326,7 +1263,7 @@
         
         function resetData() {
             if(confirm('確定要重置所有資料嗎？')) {
-                localStorage.removeItem('jeju_schedule_data_v34');
+                localStorage.removeItem('jeju_schedule_data_v41');
                 localStorage.removeItem('jeju_expenses_v1');
                 initData();
                 switchDay(1);
@@ -1488,9 +1425,8 @@
                         btnClass = 'btn-naver bg-orange-500 shadow-orange-200';
                         btnContent = `<span class="font-black text-xs">K</span> Klook`;
                     } else if (event.link.includes('map.naver.com')) {
-                        // Naver Map 導航 - 已整合到交通膠囊，這裡不需要再顯示
-                        // 但保留邏輯以防有其他類型的連結需要顯示
-                        btnContent = ''; 
+                        // Naver Map 導航
+                        btnContent = `<span class="font-black text-xs">N</span> 導航`;
                     } else if (event.link.includes('catchtable')) {
                         // Catch Table
                         btnClass = 'btn-naver bg-red-500 shadow-red-200';
