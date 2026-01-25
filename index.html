@@ -890,8 +890,8 @@
                 // ↓↓↓ 請將這裡的連結替換為您 GitHub 上的圖片網址 ↓↓↓
                 // 例如: 'https://raw.githubusercontent.com/您的帳號/repo/main/images/Klook_voucher.jpg'
                 voucherImages: [
-                    'https://github.com/asdfzxcv0911/-Jeju/blob/main/Aqua%20Planet%E6%86%91%E8%AD%891.png',
-                    'https://github.com/asdfzxcv0911/-Jeju/blob/main/Aqua%20Planet%E6%86%91%E8%AD%892.png'
+                    'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+1+(Replace+with+GitHub+Link)',
+                    'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+2+(Replace+with+GitHub+Link)'
                 ]
             },
             'WNF147844': {
@@ -930,9 +930,8 @@
             if (data.voucherImages && data.voucherImages.length > 0) {
                 qrContainer.classList.add('hidden');
                 customImagesContainer.classList.remove('hidden');
-                // 這裡會顯示多張圖片
                 customImagesContainer.innerHTML = data.voucherImages.map(url => 
-                    `<img src="${url}" class="w-full rounded-lg mb-2 border border-gray-200 shadow-sm" alt="Voucher Image">`
+                    `<img src="${url}" class="w-full rounded-lg mb-2 border border-gray-200 shadow-sm">`
                 ).join('');
             } else {
                 qrContainer.classList.remove('hidden');
@@ -1050,7 +1049,7 @@
             3: [
                  { time: '08:00', title: '城山貝斯特飯店', desc: '前往港口搭船', type: 'hotel', link: 'https://map.naver.com/p/search/코업시티호텔%20성산', weather: '⛅ 8°C' },
                  { transport: '🚗 開車 7m', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
-                 { time: '08:30', title: '前往牛島', desc: '城山埔港搭船', type: 'ship', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
+                 { time: '08:30', title: '城山港 (搭船)', desc: '填寫乘船單，車輛上船', type: 'ship', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
                  { transport: '🚢 渡輪 15m', link: '' },
                  { time: '09:00', title: '牛島 (Udo)', desc: '抵達天津港或下牛木洞港', type: 'fun', link: 'https://map.naver.com/p/search/우도' },
                  { transport: '🚗 環島 15m', link: 'https://map.naver.com/p/search/우도봉' },
@@ -1136,12 +1135,17 @@
         let scheduleData = {};
         let currentDay = 1;
 
+        // 記帳資料
+        let expenses = [];
+        let expenseIdCounter = 0;
+
+        // 初始化
         function initData() {
-            // 使用新版本 v40 強制更新資料
-            const stored = localStorage.getItem('jeju_schedule_data_v40');
+            // 行程資料 (v34)
+            const storedSchedule = localStorage.getItem('jeju_schedule_data_v34');
             try {
-                if (stored) {
-                    scheduleData = JSON.parse(stored);
+                if (storedSchedule) {
+                    scheduleData = JSON.parse(storedSchedule);
                 } else {
                     scheduleData = JSON.parse(JSON.stringify(defaultScheduleData));
                 }
@@ -1149,10 +1153,165 @@
                 console.error("Data parse error", e);
                 scheduleData = JSON.parse(JSON.stringify(defaultScheduleData));
             }
+
+            // 記帳資料 (expenses_v1)
+            const storedExpenses = localStorage.getItem('jeju_expenses_v1');
+            if (storedExpenses) {
+                try {
+                    expenses = JSON.parse(storedExpenses);
+                    // 找出最大的 ID 以延續計數
+                    if(expenses.length > 0) {
+                        expenseIdCounter = Math.max(...expenses.map(e => e.id)) + 1;
+                    }
+                } catch(e) {
+                    console.error("Expenses parse error", e);
+                    expenses = [];
+                }
+            }
+
+            renderExpenses();
+            updateTotal();
+        }
+
+        // 手動設定匯率
+        function manualRateUpdate() {
+            const newRate = prompt("請輸入自訂匯率 (1 KRW = ? TWD)", currentRate);
+            if (newRate && !isNaN(newRate)) {
+                currentRate = parseFloat(newRate);
+                updateRateDisplay();
+                alert(`匯率已更新為: ${currentRate}`);
+            }
+        }
+
+        function updateRateDisplay() {
+            const rateDisplay = document.getElementById('rate-display');
+            rateDisplay.textContent = `1 KRW ≈ ${currentRate.toFixed(4)} TWD`;
+            // 重新計算換算器
+            calcTWD();
+            // 重新渲染列表以更新台幣金額
+            renderExpenses();
+            updateTotal();
+        }
+
+        // 新增記帳
+        function addExpense() {
+            const nameInput = document.getElementById('expense-name');
+            const categorySelect = document.getElementById('expense-category');
+            const amountInput = document.getElementById('expense-amount');
+
+            const name = nameInput.value.trim();
+            const category = categorySelect.value;
+            const amount = parseFloat(amountInput.value);
+
+            if (!name || isNaN(amount)) {
+                alert("請輸入項目名稱與金額！");
+                return;
+            }
+
+            const newExpense = {
+                id: expenseIdCounter++,
+                date: new Date().toISOString(), // 紀錄當下時間
+                name: name,
+                category: category,
+                amountKRW: amount
+            };
+
+            expenses.unshift(newExpense); // 加到最前面
+            saveExpenses();
+            renderExpenses();
+            updateTotal();
+
+            // 清空輸入框
+            nameInput.value = '';
+            amountInput.value = '';
+        }
+
+        // 刪除記帳
+        function deleteExpense(id) {
+            if(confirm('確定要刪除這筆紀錄嗎？')) {
+                expenses = expenses.filter(e => e.id !== id);
+                saveExpenses();
+                renderExpenses();
+                updateTotal();
+            }
+        }
+
+        // 儲存記帳資料
+        function saveExpenses() {
+            localStorage.setItem('jeju_expenses_v1', JSON.stringify(expenses));
+        }
+
+        // 渲染記帳列表
+        function renderExpenses() {
+            const listContainer = document.getElementById('expense-list');
+            
+            if (expenses.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-10 opacity-50">
+                        <div class="text-4xl mb-2">💸</div>
+                        <p class="text-sm">還沒有消費紀錄喔！</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+            // 對應圖示
+            const icons = {
+                food: '🍽️',
+                transport: '🚗',
+                hotel: '🏨',
+                shopping: '🛍️',
+                fun: '🎡',
+                other: '📦'
+            };
+
+            const colors = {
+                food: 'bg-rose-100 text-rose-600',
+                transport: 'bg-blue-100 text-blue-600',
+                hotel: 'bg-indigo-100 text-indigo-600',
+                shopping: 'bg-purple-100 text-purple-600',
+                fun: 'bg-green-100 text-green-600',
+                other: 'bg-gray-100 text-gray-600'
+            };
+
+            expenses.forEach(item => {
+                const twd = Math.round(item.amountKRW * currentRate);
+                const dateStr = new Date(item.date).toLocaleDateString();
+                
+                html += `
+                <div class="expense-item bg-white rounded-xl shadow-sm flex items-center justify-between p-4 relative group">
+                    <div class="flex items-center gap-3">
+                        <div class="category-icon w-10 h-10 rounded-full flex items-center justify-center text-lg ${colors[item.category]}">
+                            ${icons[item.category]}
+                        </div>
+                        <div>
+                            <p class="font-bold text-jeju-dark">${item.name}</p>
+                            <p class="text-xs text-gray-400">${dateStr}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-jeju-orange">₩ ${item.amountKRW.toLocaleString()}</p>
+                        <p class="text-xs text-gray-400">≈ NT$ ${twd.toLocaleString()}</p>
+                    </div>
+                    <button onclick="deleteExpense(${item.id})" class="absolute -right-2 -top-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md">✕</button>
+                </div>`;
+            });
+            
+            listContainer.innerHTML = html;
+        }
+
+        // 更新總計
+        function updateTotal() {
+            const totalKRW = expenses.reduce((sum, item) => sum + item.amountKRW, 0);
+            const totalTWD = Math.round(totalKRW * currentRate);
+            
+            document.getElementById('total-twd').textContent = `NT$ ${totalTWD.toLocaleString()}`;
+            // 可以在旁邊加個小字顯示韓幣總額
+            document.getElementById('total-twd').innerHTML += `<span class="block text-[10px] text-gray-400 font-normal">₩ ${totalKRW.toLocaleString()}</span>`;
         }
 
         function saveData() {
-            localStorage.setItem('jeju_schedule_data_v40', JSON.stringify(scheduleData));
+            localStorage.setItem('jeju_schedule_data_v34', JSON.stringify(scheduleData));
             switchDay(currentDay);
         }
 
@@ -1167,8 +1326,8 @@
         
         function resetData() {
             if(confirm('確定要重置所有資料嗎？')) {
-                localStorage.removeItem('jeju_schedule_data_v40');
-                localStorage.removeItem('jeju_expenses_v1'); // 一併重置記帳
+                localStorage.removeItem('jeju_schedule_data_v34');
+                localStorage.removeItem('jeju_expenses_v1');
                 initData();
                 switchDay(1);
             }
@@ -1329,8 +1488,9 @@
                         btnClass = 'btn-naver bg-orange-500 shadow-orange-200';
                         btnContent = `<span class="font-black text-xs">K</span> Klook`;
                     } else if (event.link.includes('map.naver.com')) {
-                        // Naver Map 導航
-                        btnContent = `<span class="font-black text-xs">N</span> 導航`;
+                        // Naver Map 導航 - 已整合到交通膠囊，這裡不需要再顯示
+                        // 但保留邏輯以防有其他類型的連結需要顯示
+                        btnContent = ''; 
                     } else if (event.link.includes('catchtable')) {
                         // Catch Table
                         btnClass = 'btn-naver bg-red-500 shadow-red-200';
@@ -1344,7 +1504,11 @@
                     // 特別處理按鈕
                     let extraBtn = '';
                     if (event.hasInfo) {
-                        extraBtn = `<button onclick="openInfo()" class="btn-edit ml-2 bg-yellow-100 text-yellow-600 hover:bg-yellow-200" title="查看指引">ℹ️</button>`;
+                        // Audrant Bakery 的 hasInfo 已設為 false，這裡會自動跳過
+                         // 南苑貴賓室的 hasInfo 仍為 true，這裡會顯示
+                        if (event.title === '南苑貴賓室') {
+                           extraBtn = `<button onclick="openInfo()" class="btn-edit ml-2 bg-yellow-100 text-yellow-600 hover:bg-yellow-200" title="查看指引">ℹ️</button>`;
+                        }
                     }
                     if (event.hasPickup) {
                          extraBtn = `<button onclick="openPickup()" class="btn-edit ml-2 bg-blue-100 text-blue-600 hover:bg-blue-200" title="取車指引">ℹ️</button>`;
