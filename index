@@ -890,8 +890,8 @@
                 // ↓↓↓ 請將這裡的連結替換為您 GitHub 上的圖片網址 ↓↓↓
                 // 例如: 'https://raw.githubusercontent.com/您的帳號/repo/main/images/Klook_voucher.jpg'
                 voucherImages: [
-                    'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+1+(Replace+with+GitHub+Link)',
-                    'https://placehold.co/600x800/e0f7fa/00838f?text=Aqua+Planet+Ticket+2+(Replace+with+GitHub+Link)'
+                    'https://github.com/asdfzxcv0911/-Jeju/blob/main/Aqua%20Planet%E6%86%91%E8%AD%891.png',
+                    'https://github.com/asdfzxcv0911/-Jeju/blob/main/Aqua%20Planet%E6%86%91%E8%AD%892.png'
                 ]
             },
             'WNF147844': {
