@@ -269,10 +269,10 @@
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background: white; width: 95%; max-width: 400px;
-            border-radius: 24px; padding: 20px;
+            background: white; width: 90%; max-width: 360px;
+            border-radius: 24px; padding: 24px;
             transform: translateY(20px); transition: transform 0.3s;
-            max-height: 85vh; overflow-y: auto;
+            max-height: 80vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         
@@ -676,7 +676,7 @@
                 
                 <div class="flex gap-1 w-full">
                     <button onclick="openVoucher('WNF147844')" class="flex-1 text-[10px] bg-gray-600 text-white rounded py-1 shadow-sm hover:bg-gray-700">
-                        📄 憑證圖片
+                        📱 報到 QR Code
                     </button>
                 </div>
             </div>
@@ -690,7 +690,7 @@
                 
                 <div class="flex gap-1 w-full">
                     <button onclick="openVoucher('HRG192574')" class="flex-1 text-[10px] bg-cyan-500 text-white rounded py-1 shadow-sm hover:bg-cyan-600">
-                        📄 憑證圖片
+                        📱 報到 QR Code
                     </button>
                 </div>
             </div>
@@ -855,7 +855,7 @@
                 title: '租車- 現代 Staria 或同級',
                  // ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
                 voucherImages: [
-                     'https://placehold.co/600x800/f3f4f6/333333?text=Car+Rental+Voucher+(Replace+with+GitHub+Link)'
+                     'Lotte_Rental_Voucher.png'
                 ]
             }
         };
@@ -871,7 +871,7 @@
             if (data.voucherImages && data.voucherImages.length > 0) {
                 customImagesContainer.classList.remove('hidden');
                 customImagesContainer.innerHTML = data.voucherImages.map(url => 
-                    `<img src="${url}" class="w-full rounded-lg mb-4 border border-gray-200 shadow-sm" alt="Voucher Image">`
+                    `<img src="./${url}" class="w-full rounded-lg mb-4 border border-gray-200 shadow-sm" alt="Voucher Image">`
                 ).join('');
             } else {
                 customImagesContainer.innerHTML = '<p class="text-center text-gray-500 py-4">暫無圖片</p>';
@@ -1294,7 +1294,7 @@
             
             const activeNav = document.getElementById('nav-' + viewId);
             activeNav.classList.add('active');
-            activeNav.classList.replace('text-gray-400', 'text-jeju-dark');
+            activeNav.classList.replace('text-jeju-dark', 'text-gray-400');
             window.scrollTo({top: 0, behavior: 'smooth'});
 
             // 強制重繪行程頁面以避免空白
@@ -1426,8 +1426,9 @@
                         btnClass = 'btn-naver bg-orange-500 shadow-orange-200';
                         btnContent = `<span class="font-black text-xs">K</span> Klook`;
                     } else if (event.link.includes('map.naver.com')) {
-                        // Naver Map 導航
-                        btnContent = `<span class="font-black text-xs">N</span> 導航`;
+                        // Naver Map 導航 - 已整合到交通膠囊，這裡不需要再顯示
+                        // 但保留邏輯以防有其他類型的連結需要顯示
+                        btnContent = ''; 
                     } else if (event.link.includes('catchtable')) {
                         // Catch Table
                         btnClass = 'btn-naver bg-red-500 shadow-red-200';
