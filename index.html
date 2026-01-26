@@ -42,7 +42,7 @@
     <style>
         body {
             font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
-            background-color: #FDFBF7; /* 更溫暖的背景色 */
+            background-color: #F3F4F6;
             -webkit-font-smoothing: antialiased;
             padding-bottom: 100px;
             scroll-behavior: smooth;
@@ -55,14 +55,14 @@
         /* 卡片效果 */
         .chic-card {
             background: white;
-            border-radius: 24px; /* 更圓潤 */
+            border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 2px solid transparent; /* 預留邊框位置 */
+            border: 1px solid rgba(0,0,0,0.02);
             transition: transform 0.2s;
             overflow: hidden;
         }
         .chic-card:active {
-            transform: scale(0.98);
+            transform: scale(0.99);
         }
 
         /* 登機證樣式 */
@@ -88,7 +88,7 @@
         .ticket-notch {
             width: 24px;
             height: 24px;
-            background-color: #FDFBF7; /* 配合背景色 */
+            background-color: #F3F4F6;
             border-radius: 50%;
             position: absolute;
             z-index: 10;
@@ -132,7 +132,7 @@
             background-color: #03C75A;
             color: white;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(3, 199, 90, 0.2);
             transition: all 0.1s;
             display: inline-flex;
@@ -145,7 +145,7 @@
         .btn-naver:active { transform: translateY(1px); box-shadow: none; }
 
         .btn-edit {
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
             color: #6B7280;
             border-radius: 50%;
@@ -156,6 +156,7 @@
             justify-content: center;
             font-size: 0.8rem;
             transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .btn-edit:hover { background-color: white; color: #FF8A3D; }
 
@@ -695,7 +696,7 @@
                 
                 <div class="flex gap-1 w-full">
                     <button onclick="openVoucher('WNF147844')" class="flex-1 text-[10px] bg-gray-600 text-white rounded py-1 shadow-sm hover:bg-gray-700">
-                        📄 憑證圖片
+                        📱 報到 QR Code
                     </button>
                 </div>
             </div>
@@ -709,7 +710,7 @@
                 
                 <div class="flex gap-1 w-full">
                     <button onclick="openVoucher('HRG192574')" class="flex-1 text-[10px] bg-cyan-500 text-white rounded py-1 shadow-sm hover:bg-cyan-600">
-                        📄 憑證圖片
+                        📱 報到 QR Code
                     </button>
                 </div>
             </div>
@@ -863,17 +864,10 @@
         const voucherData = {
             'HRG192574': {
                 title: 'Aqua Planet 水族館門票',
-                // ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
+                // ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
                 voucherImages: [
-                    'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Aqua%20Planet1.png',
-                    'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Aqua%20Planet2.png'
-                ]
-            },
-            'WNF147844': {
-                title: '租車- 現代 Staria 或同級',
-                 // ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
-                voucherImages: [
-                     'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Lotte_Rental_Voucher.png'
+                    'Aqua Planet1.png',
+                    'Aqua Planet2.png'
                 ]
             },
             'WNF147844': {
@@ -1130,8 +1124,8 @@
 
         // 初始化
         function initData() {
-            // 行程資料 (v45) - 升級版本號以載入新設定
-            const storedSchedule = localStorage.getItem('jeju_schedule_data_v45');
+            // 行程資料 (v42)
+            const storedSchedule = localStorage.getItem('jeju_schedule_data_v42');
             try {
                 if (storedSchedule) {
                     scheduleData = JSON.parse(storedSchedule);
@@ -1300,7 +1294,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('jeju_schedule_data_v45', JSON.stringify(scheduleData));
+            localStorage.setItem('jeju_schedule_data_v42', JSON.stringify(scheduleData));
             switchDay(currentDay);
         }
 
@@ -1315,7 +1309,7 @@
         
         function resetData() {
             if(confirm('確定要重置所有資料嗎？')) {
-                localStorage.removeItem('jeju_schedule_data_v45');
+                localStorage.removeItem('jeju_schedule_data_v42');
                 localStorage.removeItem('jeju_expenses_v1');
                 initData();
                 switchDay(1);
