@@ -880,7 +880,7 @@
              // 飯店憑證資料
             'Maison_Glad': {
                 title: '濟州Glad Maison飯店',
-                voucherImages: ['Maison_Glad_Voucher_1.png', 'Maison_Glad_Voucher_2.png']
+                voucherImages: ['Maison_Glad_Voucher.png']
             },
             'Coop_City': {
                 title: '城山貝斯特飯店',
@@ -1339,7 +1339,7 @@
             
             const activeNav = document.getElementById('nav-' + viewId);
             activeNav.classList.add('active');
-            activeNav.classList.replace('text-gray-400', 'text-jeju-dark');
+            activeNav.classList.replace('text-jeju-dark', 'text-gray-400');
             window.scrollTo({top: 0, behavior: 'smooth'});
 
             // 強制重繪行程頁面以避免空白
