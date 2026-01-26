@@ -1,908 +1,908 @@
-!DOCTYPE html
-html lang=zh-TW
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no
-    title濟州島8天7夜親子行 🍊title
-    script src=httpscdn.tailwindcss.comscript
-    script src=httpsunpkg.comlucide@latestscript
-    !-- 引入圓潤可愛的字體 --
-    link href=httpsfonts.googleapis.comcss2family=Zen+Maru+Gothicwght@400;500;700&family=Noto+Sans+TCwght@400;500;700&display=swap rel=stylesheet
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>濟州島8天7夜親子行 🍊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 引入圓潤可愛的字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
-    script
+    <script>
         tailwind.config = {
-            theme {
-                extend {
-                    colors {
-                        jeju {
-                            orange '#FF8A3D',     
-                            orangeLight '#FFF0E0',
-                            green '#74B16D',      
-                            greenLight '#E8F5E9',
-                            blue '#4DA8DA',       
-                            blueLight '#E0F7FA',
-                            dark '#2D3436',
-                            gray '#F5F5F7',
-                            naver '#03C75A',
-                            tiger '#FFCC00'  虎航黃 
+            theme: {
+                extend: {
+                    colors: {
+                        jeju: {
+                            orange: '#FF8A3D',     
+                            orangeLight: '#FFF0E0',
+                            green: '#74B16D',      
+                            greenLight: '#E8F5E9',
+                            blue: '#4DA8DA',       
+                            blueLight: '#E0F7FA',
+                            dark: '#2D3436',
+                            gray: '#F5F5F7',
+                            naver: '#03C75A',
+                            tiger: '#FFCC00' /* 虎航黃 */
                         }
                     },
-                    fontFamily {
-                        cute ['Zen Maru Gothic', 'sans-serif'],
-                        sans ['Noto Sans TC', 'sans-serif'],
+                    fontFamily: {
+                        cute: ['"Zen Maru Gothic"', 'sans-serif'],
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
                     },
-                    boxShadow {
-                        'chic' '0 4px 20px rgba(0,0,0,0.05)', 
-                        'card' '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                    boxShadow: {
+                        'chic': '0 4px 20px rgba(0,0,0,0.05)', 
+                        'card': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
                     }
                 }
             }
         }
-    script
-    style
+    </script>
+    <style>
         body {
-            font-family 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
-            background-color #FDFBF7;  更溫暖的背景色 
-            -webkit-font-smoothing antialiased;
-            padding-bottom 100px;
-            scroll-behavior smooth;
+            font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF7; /* 更溫暖的背景色 */
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 100px;
+            scroll-behavior: smooth;
         }
 
-         隱藏捲軸 
-        .no-scrollbar-webkit-scrollbar { display none; }
-        .no-scrollbar { -ms-overflow-style none; scrollbar-width none; }
+        /* 隱藏捲軸 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-         卡片效果 
+        /* 卡片效果 */
         .chic-card {
-            background white;
-            border-radius 24px;  更圓潤 
-            box-shadow 0 4px 15px rgba(0,0,0,0.03);
-            border 2px solid transparent;  預留邊框位置 
-            transition transform 0.2s;
-            overflow hidden;
+            background: white;
+            border-radius: 24px; /* 更圓潤 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 2px solid transparent; /* 預留邊框位置 */
+            transition: transform 0.2s;
+            overflow: hidden;
         }
-        .chic-cardactive {
-            transform scale(0.98);
+        .chic-card:active {
+            transform: scale(0.98);
         }
 
-         登機證樣式 
+        /* 登機證樣式 */
         .boarding-pass {
-            background white;
-            border-radius 16px;
-            box-shadow 0 8px 25px rgba(0,0,0,0.08);
-            position relative;
-            overflow hidden;
-            transition all 0.3s ease;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
         .pass-header {
-            background-color #FFCC00;  Tigerair Yellow 
-            color #000;
-            padding 12px 20px;
-            border-bottom 2px dashed #000;
+            background-color: #FFCC00; /* Tigerair Yellow */
+            color: #000;
+            padding: 12px 20px;
+            border-bottom: 2px dashed #000;
         }
         .pass-barcode {
-            height 40px;
-            background-image repeating-linear-gradient(90deg, #333 0, #333 2px, transparent 2px, transparent 4px, #333 4px, #333 5px, transparent 5px, transparent 7px);
-            opacity 0.8;
+            height: 40px;
+            background-image: repeating-linear-gradient(90deg, #333 0, #333 2px, transparent 2px, transparent 4px, #333 4px, #333 5px, transparent 5px, transparent 7px);
+            opacity: 0.8;
         }
         .ticket-notch {
-            width 24px;
-            height 24px;
-            background-color #FDFBF7;  配合背景色 
-            border-radius 50%;
-            position absolute;
-            z-index 10;
-            box-shadow inset 0 2px 4px rgba(0,0,0,0.05);
+            width: 24px;
+            height: 24px;
+            background-color: #FDFBF7; /* 配合背景色 */
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
-         展開動畫 
+        /* 展開動畫 */
         .passenger-details {
-            max-height 0;
-            overflow hidden;
-            transition max-height 0.4s ease-out, opacity 0.3s ease;
-            opacity 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease;
+            opacity: 0;
         }
         .passenger-details.open {
-            max-height 500px;
-            opacity 1;
+            max-height: 500px;
+            opacity: 1;
         }
         .expand-hint {
-            transition transform 0.3s;
+            transition: transform 0.3s;
         }
         .expand-hint.open {
-            transform rotate(180deg);
+            transform: rotate(180deg);
         }
 
-         時間軸線條 
-        .timeline-linebefore {
-            content '';
-            position absolute;
-            left 24px;
-            top 20px;
-            bottom 20px;
-            width 2px;
-            background #E5E7EB;
-            z-index 0;
-            border-left 2px dashed #D1D5DB;
-            background transparent;
+        /* 時間軸線條 */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: #E5E7EB;
+            z-index: 0;
+            border-left: 2px dashed #D1D5DB;
+            background: transparent;
         }
 
-         按鈕與標籤 
+        /* 按鈕與標籤 */
         .btn-naver {
-            background-color #03C75A;
-            color white;
-            font-weight bold;
-            border-radius 12px;
-            box-shadow 0 2px 5px rgba(3, 199, 90, 0.2);
-            transition all 0.1s;
-            display inline-flex;
-            align-items center;
-            gap 4px;
-            padding 6px 12px;
-            font-size 0.75rem;
-            text-decoration none;
+            background-color: #03C75A;
+            color: white;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(3, 199, 90, 0.2);
+            transition: all 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            text-decoration: none;
         }
-        .btn-naveractive { transform translateY(1px); box-shadow none; }
+        .btn-naver:active { transform: translateY(1px); box-shadow: none; }
 
         .btn-edit {
-            background-color rgba(255, 255, 255, 0.6);
-            backdrop-filter blur(4px);
-            color #6B7280;
-            border-radius 50%;
-            width 28px;
-            height 28px;
-            display inline-flex;
-            align-items center;
-            justify-content center;
-            font-size 0.8rem;
-            transition all 0.2s;
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            color: #6B7280;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.2s;
         }
-        .btn-edithover { background-color white; color #FF8A3D; }
+        .btn-edit:hover { background-color: white; color: #FF8A3D; }
 
-         新版交通膠囊樣式 (融合 Naver Map 風格) 
+        /* 新版交通膠囊樣式 (融合 Naver Map 風格) */
         .transport-pill {
-            background-color #03C75A;  Naver Green 
-            color white;
-            border-radius 99px;
-            padding 6px 16px;
-            font-size 0.8rem;
-            font-weight bold;
-            display inline-flex;
-            align-items center;
-            gap 6px;
-            margin-bottom 12px;
-            margin-top 4px;
-            box-shadow 0 2px 6px rgba(3, 199, 90, 0.3);
-            text-decoration none;
-            transition all 0.2s;
-            position relative;
-            z-index 10;
+            background-color: #03C75A; /* Naver Green */
+            color: white;
+            border-radius: 99px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            margin-top: 4px;
+            box-shadow: 0 2px 6px rgba(3, 199, 90, 0.3);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 10;
         }
-        .transport-pillhover {
-            background-color #02b350;
-            transform translateY(-2px);
-            box-shadow 0 4px 12px rgba(3, 199, 90, 0.4);
+        .transport-pill:hover {
+            background-color: #02b350;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(3, 199, 90, 0.4);
         }
-         無連結的純資訊膠囊樣式 
+        /* 無連結的純資訊膠囊樣式 */
         .transport-pill.no-link {
-            background-color white;
-            color #6B7280;
-            border 1px solid #E5E7EB;
-            box-shadow 0 1px 3px rgba(0,0,0,0.05);
-            cursor default;
+            background-color: white;
+            color: #6B7280;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            cursor: default;
         }
-        .transport-pill.no-linkhover {
-            background-color white;
-            transform none;
-            box-shadow 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-         導航按鈕動畫 
-        .nav-item { position relative; transition all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .nav-item.active { color #FF8A3D; }
-        .nav-item.activeafter {
-            content ''; position absolute; top -10px; left 50%; transform translateX(-50%);
-            width 40px; height 4px; background #FF8A3D; border-radius 0 0 4px 4px;
+        .transport-pill.no-link:hover {
+            background-color: white;
+            transform: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-         航班切換按鈕 
+        /* 導航按鈕動畫 */
+        .nav-item { position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-item.active { color: #FF8A3D; }
+        .nav-item.active::after {
+            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 4px; background: #FF8A3D; border-radius: 0 0 4px 4px;
+        }
+
+        /* 航班切換按鈕 */
         .flight-tab-btn {
-            flex 1;
-            padding 12px;
-            text-align center;
-            border-radius 12px;
-            font-weight bold;
-            color #9CA3AF;
-            transition all 0.3s;
-            border 2px solid transparent;
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: bold;
+            color: #9CA3AF;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
         .flight-tab-btn.active {
-            background white;
-            color #000;
-            box-shadow 0 4px 10px rgba(0,0,0,0.05);
-            border-color #FFCC00;
+            background: white;
+            color: #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-color: #FFCC00;
         }
 
-         行程總覽連結 
+        /* 行程總覽連結 */
         .overview-link {
-            display block;
-            padding 8px 12px;
-            border-radius 8px;
-            margin-bottom 4px;
-            font-size 0.85rem;
-            color #4B5563;
-            background #F9FAFB;
-            transition all 0.2s;
-            text-decoration none;
-            border-left 3px solid transparent;
-            cursor pointer;  Ensure pointer cursor 
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            color: #4B5563;
+            background: #F9FAFB;
+            transition: all 0.2s;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            cursor: pointer; /* Ensure pointer cursor */
         }
-        .overview-linkhover {
-            background #FFF7ED;  orange-50 
-            color #EA580C;
-            border-left-color #EA580C;
-            transform translateX(2px);
+        .overview-link:hover {
+            background: #FFF7ED; /* orange-50 */
+            color: #EA580C;
+            border-left-color: #EA580C;
+            transform: translateX(2px);
         }
 
-         App Link Badges 
+        /* App Link Badges */
         .app-badge {
-            display inline-flex;
-            align-items center;
-            gap 4px;
-            font-size 0.65rem;
-            font-weight bold;
-            padding 2px 8px;
-            border-radius 99px;
-            text-transform uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 99px;
+            text-transform: uppercase;
         }
-        .app-agoda { background #e5f4ff; color #2a83c6; }
-        .app-klook { background #fff0e5; color #ff5b00; }
-        .app-catch { background #ffebeb; color #ff3b30; }
+        .app-agoda { background: #e5f4ff; color: #2a83c6; }
+        .app-klook { background: #fff0e5; color: #ff5b00; }
+        .app-catch { background: #ffebeb; color: #ff3b30; }
 
-         Modal Styles 
+        /* Modal Styles */
         .modal-overlay {
-            position fixed; top 0; left 0; width 100%; height 100%;
-            background rgba(0, 0, 0, 0.5); backdrop-filter blur(4px);
-            z-index 100; display flex; align-items center; justify-content center;
-            opacity 0; pointer-events none; transition opacity 0.3s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
-        .modal-overlay.active { opacity 1; pointer-events auto; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background white; width 90%; max-width 360px;
-            border-radius 24px; padding 24px;
-            transform translateY(20px); transition transform 0.3s;
-            max-height 80vh; overflow-y auto;
+            background: white; width: 90%; max-width: 360px;
+            border-radius: 24px; padding: 24px;
+            transform: translateY(20px); transition: transform 0.3s;
+            max-height: 80vh; overflow-y: auto;
         }
-        .modal-overlay.active .modal-content { transform translateY(0); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
         
-         Expense Item 
+        /* Expense Item */
         .expense-item {
-            display flex; align-items center; justify-content space-between;
-            padding 12px; border-bottom 1px solid #f3f4f6;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px; border-bottom: 1px solid #f3f4f6;
         }
         .category-icon {
-            width 40px; height 40px; border-radius 12px;
-            display flex; align-items center; justify-content center;
-            font-size 1.2rem; margin-right 12px;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-right: 12px;
         }
-    style
-head
-body class=text-jeju-dark
+    </style>
+</head>
+<body class="text-jeju-dark">
 
-    !-- 頂部標題區 --
-    header class=sticky top-0 z-40 bg-white95 backdrop-blur-md px-6 py-4 shadow-sm mb-6 flex justify-between items-center
-        div
-            h1 id=page-title class=text-2xl font-bold text-jeju-dark tracking-wide濟州島8天7夜親子行 🍊h1
-            p id=page-subtitle class=text-xs text-gray-400 font-sans font-medium tracking-widerFAMILY TRIP 2026p
-        div
-        div onclick=resetData() class=w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-xl cursor-pointer hoverbg-gray-200 transition title=重置行程資料
+    <!-- 頂部標題區 -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-6 py-4 shadow-sm mb-6 flex justify-between items-center">
+        <div>
+            <h1 id="page-title" class="text-2xl font-bold text-jeju-dark tracking-wide">濟州島8天7夜親子行 🍊</h1>
+            <p id="page-subtitle" class="text-xs text-gray-400 font-sans font-medium tracking-wider">FAMILY TRIP 2026</p>
+        </div>
+        <div onclick="resetData()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-xl cursor-pointer hover:bg-gray-200 transition" title="重置行程資料">
             🗿
-        div
-    header
+        </div>
+    </header>
 
-    !-- 1. 航班與行李區 (Flight) - 現在是首頁 --
-    section id=view-flight class=view-section px-4
+    <!-- 1. 航班與行李區 (Flight) - 現在是首頁 -->
+    <section id="view-flight" class="view-section px-4">
         
-        !-- 航班切換 Tab --
-        div class=bg-gray-100 p-1 rounded-2xl flex gap-1 mb-6
-            button onclick=switchFlightTab('outbound') id=tab-outbound class=flight-tab-btn active去程 (KHH➝CJU)button
-            button onclick=switchFlightTab('inbound') id=tab-inbound class=flight-tab-btn回程 (CJU➝KHH)button
-        div
+        <!-- 航班切換 Tab -->
+        <div class="bg-gray-100 p-1 rounded-2xl flex gap-1 mb-6">
+            <button onclick="switchFlightTab('outbound')" id="tab-outbound" class="flight-tab-btn active">去程 (KHH➝CJU)</button>
+            <button onclick="switchFlightTab('inbound')" id="tab-inbound" class="flight-tab-btn">回程 (CJU➝KHH)</button>
+        </div>
 
-        !-- 去程卡片 --
-        div id=flight-outbound class=flight-content
-            div class=boarding-pass onclick=togglePassengerDetails('outbound-details', 'outbound-arrow')
-                div class=pass-header flex justify-between items-center
-                    div class=text-2xl font-black italic tracking-tightertigerairdiv
-                    div class=text-xs font-bold border border-black px-2 py-0.5 roundedBOARDING PASSdiv
-                div
+        <!-- 去程卡片 -->
+        <div id="flight-outbound" class="flight-content">
+            <div class="boarding-pass" onclick="togglePassengerDetails('outbound-details', 'outbound-arrow')">
+                <div class="pass-header flex justify-between items-center">
+                    <div class="text-2xl font-black italic tracking-tighter">tigerair</div>
+                    <div class="text-xs font-bold border border-black px-2 py-0.5 rounded">BOARDING PASS</div>
+                </div>
                 
-                div class=p-6 pb-2
-                    !-- Route --
-                    div class=flex justify-between items-center mb-6
-                        div class=text-center
-                            div class=text-4xl font-black text-slate-900 tracking-tightKHHdiv
-                            div class=text-[10px] font-bold text-slate-500 mt-1 uppercase高雄小港機場div
-                            div class=text-xl font-black text-slate-800 mt-11600div
-                        div
+                <div class="p-6 pb-2">
+                    <!-- Route -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-slate-900 tracking-tight">KHH</div>
+                            <div class="text-[10px] font-bold text-slate-500 mt-1 uppercase">高雄小港機場</div>
+                            <div class="text-xl font-black text-slate-800 mt-1">16:00</div>
+                        </div>
                         
-                        !-- Middle Cute Plane Icon --
-                        div class=flex-1 px-4 flex flex-col items-center
-                            div class=relative w-full flex items-center justify-center
-                                div class=absolute w-full border-t-2 border-dashed border-slate-300 top-12 -translate-y-12div
-                                div class=relative bg-white px-2
-                                    i data-lucide=plane class=w-6 h-6 text-tiger fill-current transform -rotate-45 drop-shadow-smi
-                                div
-                            div
-                            span class=text-[10px] text-slate-400 font-bold mt-1 bg-gray-100 px-2 rounded-full2h 25mspan
-                        div
+                        <!-- Middle Cute Plane Icon -->
+                        <div class="flex-1 px-4 flex flex-col items-center">
+                            <div class="relative w-full flex items-center justify-center">
+                                <div class="absolute w-full border-t-2 border-dashed border-slate-300 top-1/2 -translate-y-1/2"></div>
+                                <div class="relative bg-white px-2">
+                                    <i data-lucide="plane" class="w-6 h-6 text-tiger fill-current transform -rotate-45 drop-shadow-sm"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-bold mt-1 bg-gray-100 px-2 rounded-full">2h 25m</span>
+                        </div>
 
-                        div class=text-center
-                            div class=text-4xl font-black text-slate-900 tracking-tightCJUdiv
-                            div class=text-[10px] font-bold text-slate-500 mt-1 uppercase濟州國際機場div
-                            div class=text-xl font-black text-slate-800 mt-11925div
-                        div
-                    div
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-slate-900 tracking-tight">CJU</div>
+                            <div class="text-[10px] font-bold text-slate-500 mt-1 uppercase">濟州國際機場</div>
+                            <div class="text-xl font-black text-slate-800 mt-1">19:25</div>
+                        </div>
+                    </div>
 
-                    !-- Info Grid --
-                    div class=grid grid-cols-3 gap-2 mb-6 text-center
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseDatediv
-                            div class=text-sm font-black text-slate-8000130div
-                            div class=text-xs text-blue-500 font-bold mt-1🌤️ 6°Cdiv
-                        div
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseTimediv
-                            div class=text-sm font-black text-slate-8001600div
-                        div
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseFlightdiv
-                            div class=text-sm font-black text-slate-800IT670div
-                        div
-                    div
-                div
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-3 gap-2 mb-6 text-center">
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Date</div>
+                            <div class="text-sm font-black text-slate-800">01/30</div>
+                            <div class="text-xs text-blue-500 font-bold mt-1">🌤️ 6°C</div>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Time</div>
+                            <div class="text-sm font-black text-slate-800">16:00</div>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Flight</div>
+                            <div class="text-sm font-black text-slate-800">IT670</div>
+                        </div>
+                    </div>
+                </div>
 
-                !-- Cut Line & Toggle Hint --
-                div class=relative flex items-center justify-between px-2 cursor-pointer group
-                    div class=ticket-notch -left-4div
-                    div class=w-full border-t-2 border-dashed border-gray-300 flex justify-center
-                        div class=bg-white px-3 text-xs text-gray-400 font-bold flex items-center gap-1 group-hovertext-jeju-orange transition
-                            查看乘客資訊 i id=outbound-arrow data-lucide=chevron-down class=w-3 h-3 expand-hint transition-transformi
-                        div
-                    div
-                    div class=ticket-notch -right-4div
-                div
+                <!-- Cut Line & Toggle Hint -->
+                <div class="relative flex items-center justify-between px-2 cursor-pointer group">
+                    <div class="ticket-notch -left-4"></div>
+                    <div class="w-full border-t-2 border-dashed border-gray-300 flex justify-center">
+                        <div class="bg-white px-3 text-xs text-gray-400 font-bold flex items-center gap-1 group-hover:text-jeju-orange transition">
+                            查看乘客資訊 <i id="outbound-arrow" data-lucide="chevron-down" class="w-3 h-3 expand-hint transition-transform"></i>
+                        </div>
+                    </div>
+                    <div class="ticket-notch -right-4"></div>
+                </div>
 
-                !-- Passenger Details (Collapsible) --
-                div id=outbound-details class=passenger-details bg-white
-                    div class=p-6 pt-4 space-y-4
-                        div class=flex justify-between items-center border-b border-dashed border-gray-200 pb-3
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold1span
-                                span class=font-bold text-slate-700宜昆span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Aspan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded15KGspan
-                            div
-                        div
-                        div class=flex justify-between items-center border-b border-dashed border-gray-200 pb-3
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold2span
-                                span class=font-bold text-slate-700映羽span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Cspan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded15KGspan
-                            div
-                        div
-                        div class=flex justify-between items-center
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold3span
-                                span class=font-bold text-slate-700之齊span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Bspan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded15KGspan
-                            div
-                        div
+                <!-- Passenger Details (Collapsible) -->
+                <div id="outbound-details" class="passenger-details bg-white">
+                    <div class="p-6 pt-4 space-y-4">
+                        <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-3">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="font-bold text-slate-700">宜昆</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2A</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">15KG</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-3">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                <span class="font-bold text-slate-700">映羽</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2C</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">15KG</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                <span class="font-bold text-slate-700">之齊</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2B</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">15KG</span>
+                            </div>
+                        </div>
                         
-                        !-- Barcode --
-                        div class=mt-4 pt-4 border-t-2 border-black
-                            div class=pass-barcodediv
-                            div class=text-center text-[10px] font-mono mt-1 tracking-widest text-gray-400IT670-KHH-CJU-JAN30div
-                        div
-                    div
-                div
-                !-- Bottom spacer if collapsed --
-                div class=h-4 bg-whitediv
-            div
-        div
+                        <!-- Barcode -->
+                        <div class="mt-4 pt-4 border-t-2 border-black">
+                            <div class="pass-barcode"></div>
+                            <div class="text-center text-[10px] font-mono mt-1 tracking-widest text-gray-400">IT670-KHH-CJU-JAN30</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bottom spacer if collapsed -->
+                <div class="h-4 bg-white"></div>
+            </div>
+        </div>
 
-        !-- 回程卡片 --
-        div id=flight-inbound class=flight-content hidden
-            div class=boarding-pass onclick=togglePassengerDetails('inbound-details', 'inbound-arrow')
-                div class=pass-header flex justify-between items-center
-                    div class=text-2xl font-black italic tracking-tightertigerairdiv
-                    div class=text-xs font-bold border border-black px-2 py-0.5 roundedBOARDING PASSdiv
-                div
+        <!-- 回程卡片 -->
+        <div id="flight-inbound" class="flight-content hidden">
+            <div class="boarding-pass" onclick="togglePassengerDetails('inbound-details', 'inbound-arrow')">
+                <div class="pass-header flex justify-between items-center">
+                    <div class="text-2xl font-black italic tracking-tighter">tigerair</div>
+                    <div class="text-xs font-bold border border-black px-2 py-0.5 rounded">BOARDING PASS</div>
+                </div>
                 
-                div class=p-6 pb-2
-                    !-- Route --
-                    div class=flex justify-between items-center mb-6
-                        div class=text-center
-                            div class=text-4xl font-black text-slate-900 tracking-tightCJUdiv
-                            div class=text-[10px] font-bold text-slate-500 mt-1 uppercase濟州國際機場div
-                            div class=text-xl font-black text-slate-800 mt-12015div
-                        div
+                <div class="p-6 pb-2">
+                    <!-- Route -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-slate-900 tracking-tight">CJU</div>
+                            <div class="text-[10px] font-bold text-slate-500 mt-1 uppercase">濟州國際機場</div>
+                            <div class="text-xl font-black text-slate-800 mt-1">20:15</div>
+                        </div>
                         
-                        !-- Middle Cute Plane Icon --
-                        div class=flex-1 px-4 flex flex-col items-center
-                            div class=relative w-full flex items-center justify-center
-                                div class=absolute w-full border-t-2 border-dashed border-slate-300 top-12 -translate-y-12div
-                                div class=relative bg-white px-2
-                                    i data-lucide=plane class=w-6 h-6 text-tiger fill-current transform -rotate-45 drop-shadow-smi
-                                div
-                            div
-                            span class=text-[10px] text-slate-400 font-bold mt-1 bg-gray-100 px-2 rounded-full2h 35mspan
-                        div
+                        <!-- Middle Cute Plane Icon -->
+                        <div class="flex-1 px-4 flex flex-col items-center">
+                            <div class="relative w-full flex items-center justify-center">
+                                <div class="absolute w-full border-t-2 border-dashed border-slate-300 top-1/2 -translate-y-1/2"></div>
+                                <div class="relative bg-white px-2">
+                                    <i data-lucide="plane" class="w-6 h-6 text-tiger fill-current transform -rotate-45 drop-shadow-sm"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-bold mt-1 bg-gray-100 px-2 rounded-full">2h 35m</span>
+                        </div>
 
-                        div class=text-center
-                            div class=text-4xl font-black text-slate-900 tracking-tightKHHdiv
-                            div class=text-[10px] font-bold text-slate-500 mt-1 uppercase高雄小港機場div
-                            div class=text-xl font-black text-slate-800 mt-12150div
-                        div
-                    div
+                        <div class="text-center">
+                            <div class="text-4xl font-black text-slate-900 tracking-tight">KHH</div>
+                            <div class="text-[10px] font-bold text-slate-500 mt-1 uppercase">高雄小港機場</div>
+                            <div class="text-xl font-black text-slate-800 mt-1">21:50</div>
+                        </div>
+                    </div>
 
-                    !-- Info Grid --
-                    div class=grid grid-cols-3 gap-2 mb-6 text-center
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseDatediv
-                            div class=text-sm font-black text-slate-8000206div
-                            div class=text-xs text-blue-500 font-bold mt-1🌙 4°Cdiv
-                        div
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseTimediv
-                            div class=text-sm font-black text-slate-8002015div
-                        div
-                        div class=bg-gray-50 p-2 rounded-lg border border-gray-100
-                            div class=text-[10px] text-gray-400 font-bold uppercaseFlightdiv
-                            div class=text-sm font-black text-slate-800IT671div
-                        div
-                    div
-                div
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-3 gap-2 mb-6 text-center">
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Date</div>
+                            <div class="text-sm font-black text-slate-800">02/06</div>
+                            <div class="text-xs text-blue-500 font-bold mt-1">🌙 4°C</div>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Time</div>
+                            <div class="text-sm font-black text-slate-800">20:15</div>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-lg border border-gray-100">
+                            <div class="text-[10px] text-gray-400 font-bold uppercase">Flight</div>
+                            <div class="text-sm font-black text-slate-800">IT671</div>
+                        </div>
+                    </div>
+                </div>
 
-                !-- Cut Line & Toggle Hint --
-                div class=relative flex items-center justify-between px-2 cursor-pointer group
-                    div class=ticket-notch -left-4div
-                    div class=w-full border-t-2 border-dashed border-gray-300 flex justify-center
-                        div class=bg-white px-3 text-xs text-gray-400 font-bold flex items-center gap-1 group-hovertext-jeju-orange transition
-                            查看乘客資訊 i id=inbound-arrow data-lucide=chevron-down class=w-3 h-3 expand-hint transition-transformi
-                        div
-                    div
-                    div class=ticket-notch -right-4div
-                div
+                <!-- Cut Line & Toggle Hint -->
+                <div class="relative flex items-center justify-between px-2 cursor-pointer group">
+                    <div class="ticket-notch -left-4"></div>
+                    <div class="w-full border-t-2 border-dashed border-gray-300 flex justify-center">
+                        <div class="bg-white px-3 text-xs text-gray-400 font-bold flex items-center gap-1 group-hover:text-jeju-orange transition">
+                            查看乘客資訊 <i id="inbound-arrow" data-lucide="chevron-down" class="w-3 h-3 expand-hint transition-transform"></i>
+                        </div>
+                    </div>
+                    <div class="ticket-notch -right-4"></div>
+                </div>
 
-                !-- Passenger Details (Collapsible) --
-                div id=inbound-details class=passenger-details bg-white
-                    div class=p-6 pt-4 space-y-4
-                        div class=flex justify-between items-center border-b border-dashed border-gray-200 pb-3
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold1span
-                                span class=font-bold text-slate-700宜昆span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Fspan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded25KGspan
-                            div
-                        div
-                        div class=flex justify-between items-center border-b border-dashed border-gray-200 pb-3
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold2span
-                                span class=font-bold text-slate-700映羽span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Dspan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded25KGspan
-                            div
-                        div
-                        div class=flex justify-between items-center
-                            div class=flex items-center gap-3
-                                span class=bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold3span
-                                span class=font-bold text-slate-700之齊span
-                            div
-                            div class=flex gap-3 text-xs font-bold font-mono
-                                span class=bg-yellow-100 text-yellow-800 px-2 py-1 rounded2Espan
-                                span class=bg-gray-100 text-gray-600 px-2 py-1 rounded20KGspan
-                            div
-                        div
+                <!-- Passenger Details (Collapsible) -->
+                <div id="inbound-details" class="passenger-details bg-white">
+                    <div class="p-6 pt-4 space-y-4">
+                        <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-3">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                <span class="font-bold text-slate-700">宜昆</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2F</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">25KG</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-3">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                <span class="font-bold text-slate-700">映羽</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2D</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">25KG</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                <span class="font-bold text-slate-700">之齊</span>
+                            </div>
+                            <div class="flex gap-3 text-xs font-bold font-mono">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">2E</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">20KG</span>
+                            </div>
+                        </div>
                         
-                        !-- Barcode --
-                        div class=mt-4 pt-4 border-t-2 border-black
-                            div class=pass-barcodediv
-                            div class=text-center text-[10px] font-mono mt-1 tracking-widest text-gray-400IT671-CJU-KHH-FEB06div
-                        div
-                    div
-                div
-                div class=h-4 bg-whitediv
-            div
-        div
-    section
+                        <!-- Barcode -->
+                        <div class="mt-4 pt-4 border-t-2 border-black">
+                            <div class="pass-barcode"></div>
+                            <div class="text-center text-[10px] font-mono mt-1 tracking-widest text-gray-400">IT671-CJU-KHH-FEB06</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-4 bg-white"></div>
+            </div>
+        </div>
+    </section>
 
-    !-- 2. 行程區 (Schedule) --
-    section id=view-schedule class=view-section px-4 hidden
-        !-- 日期選擇器 --
-        div class=flex gap-3 overflow-x-auto no-scrollbar mb-6 pb-2 pl-2 id=day-selector
-            !-- JS 生成 --
-        div
+    <!-- 2. 行程區 (Schedule) -->
+    <section id="view-schedule" class="view-section px-4 hidden">
+        <!-- 日期選擇器 -->
+        <div class="flex gap-3 overflow-x-auto no-scrollbar mb-6 pb-2 pl-2" id="day-selector">
+            <!-- JS 生成 -->
+        </div>
 
-        !-- 每日內容容器 --
-        div id=day-content-container class=space-y-2 relative timeline-line min-h-[50vh] pb-10
-            !-- JS 將會動態注入這裡的內容 --
-        div
-    section
+        <!-- 每日內容容器 -->
+        <div id="day-content-container" class="space-y-2 relative timeline-line min-h-[50vh] pb-10">
+            <!-- JS 將會動態注入這裡的內容 -->
+        </div>
+    </section>
 
-    !-- 3. 記帳與匯率區 (Money) --
-    section id=view-money class=view-section px-4 hidden
-        !-- 匯率換算器 --
-        div class=chic-card p-6 mb-6 bg-gradient-to-br from-jeju-blue to-blue-400 text-white border-none shadow-blue-200
-            div class=flex justify-between items-center mb-4
-                h3 class=font-bold text-lg flex items-center gap-2
-                    i data-lucide=arrow-left-right class=w-5 h-5i 匯率換算
-                h3
-                span id=rate-display onclick=updateRate() class=text-xs bg-white20 px-2 py-1 rounded-lg cursor-pointer hoverbg-white30 transition更新中...span
-            div
+    <!-- 3. 記帳與匯率區 (Money) -->
+    <section id="view-money" class="view-section px-4 hidden">
+        <!-- 匯率換算器 -->
+        <div class="chic-card p-6 mb-6 bg-gradient-to-br from-jeju-blue to-blue-400 text-white border-none shadow-blue-200">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i data-lucide="arrow-left-right" class="w-5 h-5"></i> 匯率換算
+                </h3>
+                <span id="rate-display" onclick="updateRate()" class="text-xs bg-white/20 px-2 py-1 rounded-lg cursor-pointer hover:bg-white/30 transition">更新中...</span>
+            </div>
             
-            div class=flex gap-4 items-center
-                div class=flex-1
-                    label class=text-xs text-blue-100 mb-1 blockKRW (韓元)label
-                    input type=number id=input-krw class=w-full bg-white20 border border-white30 rounded-xl px-3 py-2 text-white placeholder-white50 text-xl font-bold focusoutline-none focusbg-white30 placeholder=0
-                div
-                div class=text-2xl font-bold text-white50 mt-4=div
-                div class=flex-1
-                    label class=text-xs text-blue-100 mb-1 blockTWD (台幣)label
-                    input type=number id=input-twd class=w-full bg-white text-jeju-blue border-none rounded-xl px-3 py-2 text-xl font-bold focusoutline-none shadow-sm placeholder=0
-                div
-            div
-            p class=text-[10px] text-blue-100 mt-3 text-center opacity-80 cursor-pointer onclick=manualRateUpdate() 點此手動設定匯率p
-        div
+            <div class="flex gap-4 items-center">
+                <div class="flex-1">
+                    <label class="text-xs text-blue-100 mb-1 block">KRW (韓元)</label>
+                    <input type="number" id="input-krw" class="w-full bg-white/20 border border-white/30 rounded-xl px-3 py-2 text-white placeholder-white/50 text-xl font-bold focus:outline-none focus:bg-white/30" placeholder="0">
+                </div>
+                <div class="text-2xl font-bold text-white/50 mt-4">=</div>
+                <div class="flex-1">
+                    <label class="text-xs text-blue-100 mb-1 block">TWD (台幣)</label>
+                    <input type="number" id="input-twd" class="w-full bg-white text-jeju-blue border-none rounded-xl px-3 py-2 text-xl font-bold focus:outline-none shadow-sm" placeholder="0">
+                </div>
+            </div>
+            <p class="text-[10px] text-blue-100 mt-3 text-center opacity-80 cursor-pointer" onclick="manualRateUpdate()">* 點此手動設定匯率</p>
+        </div>
         
-        !-- 新增記帳表單 --
-        div class=chic-card p-5 mb-6
-            h3 class=font-bold text-jeju-dark mb-4 flex items-center gap-2
-                i data-lucide=pencil class=w-4 h-4 text-jeju-orangei 新增支出
-            h3
-            div class=space-y-3
-                div class=grid grid-cols-2 gap-3
-                    input type=text id=expense-name placeholder=項目名稱 (如 晚餐) class=w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focusoutline-none focusborder-jeju-orange
-                    select id=expense-category class=w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focusoutline-none focusborder-jeju-orange
-                        option value=food🍽️ 飲食option
-                        option value=transport🚗 交通option
-                        option value=hotel🏨 住宿option
-                        option value=shopping🛍️ 購物option
-                        option value=fun🎡 娛樂option
-                        option value=other📦 其他option
-                    select
-                div
-                div class=flex gap-2
-                    input type=number id=expense-amount placeholder=金額 (KRW) class=flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focusoutline-none focusborder-jeju-orange
-                    button onclick=addExpense() class=bg-jeju-orange text-white px-6 py-2 rounded-xl font-bold hoverbg-orange-600 transition shadow-sm
+        <!-- 新增記帳表單 -->
+        <div class="chic-card p-5 mb-6">
+            <h3 class="font-bold text-jeju-dark mb-4 flex items-center gap-2">
+                <i data-lucide="pencil" class="w-4 h-4 text-jeju-orange"></i> 新增支出
+            </h3>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="expense-name" placeholder="項目名稱 (如: 晚餐)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-jeju-orange">
+                    <select id="expense-category" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-jeju-orange">
+                        <option value="food">🍽️ 飲食</option>
+                        <option value="transport">🚗 交通</option>
+                        <option value="hotel">🏨 住宿</option>
+                        <option value="shopping">🛍️ 購物</option>
+                        <option value="fun">🎡 娛樂</option>
+                        <option value="other">📦 其他</option>
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-jeju-orange">
+                    <button onclick="addExpense()" class="bg-jeju-orange text-white px-6 py-2 rounded-xl font-bold hover:bg-orange-600 transition shadow-sm">
                         新增
-                    button
-                div
-            div
-        div
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        !-- 記帳列表與統計 --
-        div class=space-y-4
-            div class=flex justify-between items-center px-2
-                h3 class=font-bold text-jeju-dark消費紀錄h3
-                div class=text-right
-                    p class=text-[10px] text-gray-400總計約p
-                    p class=text-sm font-bold text-jeju-dark id=total-twdNT$ 0p
-                div
-            div
+        <!-- 記帳列表與統計 -->
+        <div class="space-y-4">
+            <div class="flex justify-between items-center px-2">
+                <h3 class="font-bold text-jeju-dark">消費紀錄</h3>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-400">總計約</p>
+                    <p class="text-sm font-bold text-jeju-dark" id="total-twd">NT$ 0</p>
+                </div>
+            </div>
             
-            div id=expense-list class=space-y-2 pb-20
-                !-- JS 生成 --
-                div class=text-center py-10 opacity-50
-                    div class=text-4xl mb-2💸div
-                    p class=text-sm還沒有消費紀錄喔！p
-                div
-            div
-        div
-    section
+            <div id="expense-list" class="space-y-2 pb-20">
+                <!-- JS 生成 -->
+                <div class="text-center py-10 opacity-50">
+                    <div class="text-4xl mb-2">💸</div>
+                    <p class="text-sm">還沒有消費紀錄喔！</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    !-- 4. 訂位與住宿區 (Booking) --
-    section id=view-booking class=view-section px-4 hidden space-y-4
-        h3 class=font-bold text-jeju-dark px-2 mt-2 flex items-center justify-between
-            span住宿資訊span
-            span class=app-badge app-agodaAgoda Appspan
-        h3
-        !-- 住宿卡片保持不變 --
-        a href=httpswww.agoda.comzh-twtripssort=BookingStartDate&state=Upcoming&page=1 target=_blank class=chic-card p-0 overflow-hidden flex hovershadow-lg transition block
-            div class=w-2 bg-jeju-orangediv
-            div class=p-4 flex-1
-                div class=flex justify-between
-                    h4 class=font-bold text-jeju-dark濟州Glad Maison飯店h4
-                    span class=text-xs bg-gray-100 px-2 py-1 rounded text-gray-500D1span
-                div
-                p class=text-xs text-gray-400 mt-1Maison Glad Jejup
-                div class=mt-2 text-right
-                     button onclick=openVoucher('Maison_Glad') class=text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hoverbg-gray-200 transition
+    <!-- 4. 訂位與住宿區 (Booking) -->
+    <section id="view-booking" class="view-section px-4 hidden space-y-4">
+        <h3 class="font-bold text-jeju-dark px-2 mt-2 flex items-center justify-between">
+            <span>住宿資訊</span>
+            <span class="app-badge app-agoda">Agoda App</span>
+        </h3>
+        <!-- 住宿卡片保持不變 -->
+        <a href="https://www.agoda.com/zh-tw/trips?sort=BookingStartDate&state=Upcoming&page=1" target="_blank" class="chic-card p-0 overflow-hidden flex hover:shadow-lg transition block">
+            <div class="w-2 bg-jeju-orange"></div>
+            <div class="p-4 flex-1">
+                <div class="flex justify-between">
+                    <h4 class="font-bold text-jeju-dark">濟州Glad Maison飯店</h4>
+                    <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">D1</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Maison Glad Jeju</p>
+                <div class="mt-2 text-right">
+                     <button onclick="openVoucher('Maison_Glad')" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hover:bg-gray-200 transition">
                         📱 報到 QR Code
-                    button
-                div
-            div
-        a
-        a href=httpswww.agoda.comzh-twtripssort=BookingStartDate&state=Upcoming&page=1 target=_blank class=chic-card p-0 overflow-hidden flex hovershadow-lg transition block
-            div class=w-2 bg-jeju-bluediv
-            div class=p-4 flex-1
-                div class=flex justify-between
-                    h4 class=font-bold text-jeju-dark城山貝斯特飯店h4
-                    span class=text-xs bg-gray-100 px-2 py-1 rounded text-gray-500D2-D3span
-                div
-                p class=text-xs text-gray-400 mt-1Coop City Hotel Seongsanp
-                 div class=mt-2 text-right
-                     button onclick=openVoucher('Coop_City') class=text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hoverbg-gray-200 transition
+                    </button>
+                </div>
+            </div>
+        </a>
+        <a href="https://www.agoda.com/zh-tw/trips?sort=BookingStartDate&state=Upcoming&page=1" target="_blank" class="chic-card p-0 overflow-hidden flex hover:shadow-lg transition block">
+            <div class="w-2 bg-jeju-blue"></div>
+            <div class="p-4 flex-1">
+                <div class="flex justify-between">
+                    <h4 class="font-bold text-jeju-dark">城山貝斯特飯店</h4>
+                    <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">D2-D3</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Coop City Hotel Seongsan</p>
+                 <div class="mt-2 text-right">
+                     <button onclick="openVoucher('Coop_City')" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hover:bg-gray-200 transition">
                         📱 報到 QR Code
-                    button
-                div
-            div
-        a
-        a href=httpswww.agoda.comzh-twtripssort=BookingStartDate&state=Upcoming&page=1 target=_blank class=chic-card p-0 overflow-hidden flex hovershadow-lg transition block
-            div class=w-2 bg-jeju-greendiv
-            div class=p-4 flex-1
-                div class=flex justify-between
-                    h4 class=font-bold text-jeju-dark神話世界-藍鼎h4
-                    span class=text-xs bg-gray-100 px-2 py-1 rounded text-gray-500D4-D5span
-                div
-                p class=text-xs text-gray-400 mt-1Shinhwa World Landingp
-                 div class=mt-2 text-right
-                     button onclick=openVoucher('Shinhwa_Landing') class=text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hoverbg-gray-200 transition
+                    </button>
+                </div>
+            </div>
+        </a>
+        <a href="https://www.agoda.com/zh-tw/trips?sort=BookingStartDate&state=Upcoming&page=1" target="_blank" class="chic-card p-0 overflow-hidden flex hover:shadow-lg transition block">
+            <div class="w-2 bg-jeju-green"></div>
+            <div class="p-4 flex-1">
+                <div class="flex justify-between">
+                    <h4 class="font-bold text-jeju-dark">神話世界-藍鼎</h4>
+                    <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">D4-D5</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Shinhwa World Landing</p>
+                 <div class="mt-2 text-right">
+                     <button onclick="openVoucher('Shinhwa_Landing')" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hover:bg-gray-200 transition">
                         📱 報到 QR Code
-                    button
-                div
-            div
-        a
-        a href=httpswww.agoda.comzh-twtripssort=BookingStartDate&state=Upcoming&page=1 target=_blank class=chic-card p-0 overflow-hidden flex hovershadow-lg transition block
-            div class=w-2 bg-purple-400div
-            div class=p-4 flex-1
-                div class=flex justify-between
-                    h4 class=font-bold text-jeju-dark利奧飯店h4
-                    span class=text-xs bg-gray-100 px-2 py-1 rounded text-gray-500D6-D7span
-                div
-                p class=text-xs text-gray-400 mt-1Hotel Leop
-                 div class=mt-2 text-right
-                     button onclick=openVoucher('Hotel_Leo') class=text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hoverbg-gray-200 transition
+                    </button>
+                </div>
+            </div>
+        </a>
+        <a href="https://www.agoda.com/zh-tw/trips?sort=BookingStartDate&state=Upcoming&page=1" target="_blank" class="chic-card p-0 overflow-hidden flex hover:shadow-lg transition block">
+            <div class="w-2 bg-purple-400"></div>
+            <div class="p-4 flex-1">
+                <div class="flex justify-between">
+                    <h4 class="font-bold text-jeju-dark">利奧飯店</h4>
+                    <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">D6-D7</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Hotel Leo</p>
+                 <div class="mt-2 text-right">
+                     <button onclick="openVoucher('Hotel_Leo')" class="text-[10px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-bold hover:bg-gray-200 transition">
                         📱 報到 QR Code
-                    button
-                div
-            div
-        a
+                    </button>
+                </div>
+            </div>
+        </a>
 
-        h3 class=font-bold text-jeju-dark px-2 mt-6 flex items-center justify-between
-            span交通與票券span
-            span class=app-badge app-klookKlookspan
-        h3
-        div class=grid grid-cols-2 gap-3
-            !-- Lotte Rental Card --
-            div class=chic-card p-4 flex flex-col items-center text-center
-                div class=w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2
-                    i data-lucide=car class=w-5 h-5 text-gray-600i
-                div
-                h4 class=font-bold text-sm text-jeju-dark mb-2樂天租車h4
+        <h3 class="font-bold text-jeju-dark px-2 mt-6 flex items-center justify-between">
+            <span>交通與票券</span>
+            <span class="app-badge app-klook">Klook</span>
+        </h3>
+        <div class="grid grid-cols-2 gap-3">
+            <!-- Lotte Rental Card -->
+            <div class="chic-card p-4 flex flex-col items-center text-center">
+                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-2">
+                    <i data-lucide="car" class="w-5 h-5 text-gray-600"></i>
+                </div>
+                <h4 class="font-bold text-sm text-jeju-dark mb-2">樂天租車</h4>
                 
-                div class=flex gap-1 w-full
-                    button onclick=openVoucher('WNF147844') class=flex-1 text-[10px] bg-gray-600 text-white rounded py-1 shadow-sm hoverbg-gray-700
+                <div class="flex gap-1 w-full">
+                    <button onclick="openVoucher('WNF147844')" class="flex-1 text-[10px] bg-gray-600 text-white rounded py-1 shadow-sm hover:bg-gray-700">
                         📄 憑證圖片
-                    button
-                div
-            div
+                    </button>
+                </div>
+            </div>
             
-            !-- Aqua Planet Card --
-            div class=chic-card p-4 flex flex-col items-center text-center
-                div class=w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center mb-2
-                    i data-lucide=fish class=w-5 h-5 text-cyan-500i
-                div
-                h4 class=font-bold text-sm text-jeju-dark mb-2Aqua Planeth4
+            <!-- Aqua Planet Card -->
+            <div class="chic-card p-4 flex flex-col items-center text-center">
+                <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center mb-2">
+                    <i data-lucide="fish" class="w-5 h-5 text-cyan-500"></i>
+                </div>
+                <h4 class="font-bold text-sm text-jeju-dark mb-2">Aqua Planet</h4>
                 
-                div class=flex gap-1 w-full
-                    button onclick=openVoucher('HRG192574') class=flex-1 text-[10px] bg-cyan-500 text-white rounded py-1 shadow-sm hoverbg-cyan-600
+                <div class="flex gap-1 w-full">
+                    <button onclick="openVoucher('HRG192574')" class="flex-1 text-[10px] bg-cyan-500 text-white rounded py-1 shadow-sm hover:bg-cyan-600">
                         📄 憑證圖片
-                    button
-                div
-            div
-        div
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        h3 class=font-bold text-jeju-dark px-2 mt-6 flex items-center justify-between
-            span餐廳訂位span
-            span class=app-badge app-catchCatch Tablespan
-        h3
-        a href=httpsapp.catchtable.co.krctshoplondonbagel_jeju target=_blank class=chic-card p-4 flex items-center gap-3 hovershadow-lg transition block
-            div class=w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-lg🥯div
-            div class=flex-1
-                h4 class=font-bold text-jeju-dark倫敦貝果博物館h4
-                p class=text-xs text-jeju-orangeLondon Bagel Museump
-            div
-            div class=text-xs bg-red-50 text-red-500 px-3 py-1 rounded-full font-boldAppdiv
-        a
-        a href=httpswww.catchtable.netzh-TWshopsuksungdo_jeju target=_blank class=chic-card p-4 flex items-center gap-3 hovershadow-lg transition block
-            div class=w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-lg🥩div
-            div class=flex-1
-                h4 class=font-bold text-jeju-dark熟成到 燒肉h4
-                p class=text-xs text-rose-500Sukseongdop
-            div
-            div class=text-xs bg-red-50 text-red-500 px-3 py-1 rounded-full font-boldAppdiv
-        a
-    section
+        <h3 class="font-bold text-jeju-dark px-2 mt-6 flex items-center justify-between">
+            <span>餐廳訂位</span>
+            <span class="app-badge app-catch">Catch Table</span>
+        </h3>
+        <a href="https://app.catchtable.co.kr/ct/shop/londonbagel_jeju" target="_blank" class="chic-card p-4 flex items-center gap-3 hover:shadow-lg transition block">
+            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-lg">🥯</div>
+            <div class="flex-1">
+                <h4 class="font-bold text-jeju-dark">倫敦貝果博物館</h4>
+                <p class="text-xs text-jeju-orange">London Bagel Museum</p>
+            </div>
+            <div class="text-xs bg-red-50 text-red-500 px-3 py-1 rounded-full font-bold">App</div>
+        </a>
+        <a href="https://www.catchtable.net/zh-TW/shop/suksungdo_jeju" target="_blank" class="chic-card p-4 flex items-center gap-3 hover:shadow-lg transition block">
+            <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-lg">🥩</div>
+            <div class="flex-1">
+                <h4 class="font-bold text-jeju-dark">熟成到 燒肉</h4>
+                <p class="text-xs text-rose-500">Sukseongdo</p>
+            </div>
+            <div class="text-xs bg-red-50 text-red-500 px-3 py-1 rounded-full font-bold">App</div>
+        </a>
+    </section>
 
-    !-- Voucher Modal (Dynamic) --
-    div id=voucher-modal class=modal-overlay
-        div class=modal-content relative bg-white max-h-[90vh] overflow-y-auto
-            button onclick=closeVoucher() class=absolute top-4 right-4 text-gray-600 hovertext-gray-900 z-10 bg-white50 rounded-full p-1
-                i data-lucide=x class=w-6 h-6i
-            button
+    <!-- Voucher Modal (Dynamic) -->
+    <div id="voucher-modal" class="modal-overlay">
+        <div class="modal-content relative bg-white max-h-[90vh] overflow-y-auto">
+            <button onclick="closeVoucher()" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10 bg-white/50 rounded-full p-1">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
             
-            div class=text-center mb-6
-                h3 id=v-title class=text-lg font-bold text-jeju-dark mt-2h3
-            div
+            <div class="text-center mb-6">
+                <h3 id="v-title" class="text-lg font-bold text-jeju-dark mt-2"></h3>
+            </div>
 
-            !-- Images Container --
-            div id=v-custom-images class=grid gap-4div
-        div
-    div
+            <!-- Images Container -->
+            <div id="v-custom-images" class="grid gap-4"></div>
+        </div>
+    </div>
 
-    !-- Info Modal (Lounge) --
-    div id=info-modal class=modal-overlay
-        div class=modal-content relative bg-white
-            button onclick=closeInfo() class=absolute top-4 right-4 text-gray-400 hovertext-gray-600
-                i data-lucide=x class=w-6 h-6i
-            button
+    <!-- Info Modal (Lounge) -->
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal-content relative bg-white">
+            <button onclick="closeInfo()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
             
-            div class=text-center mb-4
-                h3 class=text-lg font-bold text-jeju-dark flex items-center justify-center gap-2
-                    i data-lucide=map-pin class=w-5 h-5 text-jeju-orangei 南苑貴賓室指引
-                h3
-            div
+            <div class="text-center mb-4">
+                <h3 class="text-lg font-bold text-jeju-dark flex items-center justify-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-jeju-orange"></i> 南苑貴賓室指引
+                </h3>
+            </div>
 
-            div class=space-y-4 text-sm text-gray-600 leading-relaxed
-                div class=bg-orange-50 p-3 rounded-lg border border-orange-100
-                    p class=font-bold text-jeju-dark mb-1📍 地點p
-                    p高雄小港機場 國際航廈 3F (出境管制區內)p
-                div
+            <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                    <p class="font-bold text-jeju-dark mb-1">📍 地點</p>
+                    <p>高雄小港機場 國際航廈 3F (出境管制區內)</p>
+                </div>
 
-                div
-                    p class=font-bold text-jeju-dark mb-2🚶‍♂️ 如何前往p
-                    ul class=list-disc pl-5 space-y-1
-                        li通過證照查驗櫃檯進入免稅店區。li
-                        li直接span class=text-jeju-orange font-bold「向左轉」span(往 21-26 登機門方向)。li
-                        li沿著長廊直走到底。li
-                        li位於 span class=font-bold text-jeju-dark22 號登機門span 附近。li
-                    ul
-                div
+                <div>
+                    <p class="font-bold text-jeju-dark mb-2">🚶‍♂️ 如何前往</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>通過證照查驗櫃檯進入免稅店區。</li>
+                        <li>直接<span class="text-jeju-orange font-bold">「向左轉」</span>(往 21-26 登機門方向)。</li>
+                        <li>沿著長廊直走到底。</li>
+                        <li>位於 <span class="font-bold text-jeju-dark">22 號登機門</span> 附近。</li>
+                    </ul>
+                </div>
 
-                div
-                    p class=font-bold text-jeju-dark mb-1👀 辨識特徵p
-                    p外觀為復古紅磚牆與圓形拱門設計，呈現「蘇州庭園」風格。p
-                div
-            div
+                <div>
+                    <p class="font-bold text-jeju-dark mb-1">👀 辨識特徵</p>
+                    <p>外觀為復古紅磚牆與圓形拱門設計，呈現「蘇州庭園」風格。</p>
+                </div>
+            </div>
             
-            div class=mt-6
-                 button onclick=closeInfo() class=w-full bg-jeju-dark text-white py-3 rounded-xl font-bold text-sm shadow-lg activescale-95 transition知道了button
-            div
-        div
-    div
+            <div class="mt-6">
+                 <button onclick="closeInfo()" class="w-full bg-jeju-dark text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+            </div>
+        </div>
+    </div>
 
-    !-- Pickup Info Modal (Car) --
-    div id=pickup-modal class=modal-overlay
-        div class=modal-content relative bg-white
-            button onclick=closePickup() class=absolute top-4 right-4 text-gray-400 hovertext-gray-600
-                i data-lucide=x class=w-6 h-6i
-            button
+    <!-- Pickup Info Modal (Car) -->
+    <div id="pickup-modal" class="modal-overlay">
+        <div class="modal-content relative bg-white">
+            <button onclick="closePickup()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
             
-            div class=text-center mb-4
-                h3 class=text-lg font-bold text-jeju-dark flex items-center justify-center gap-2
-                    i data-lucide=car class=w-5 h-5 text-jeju-orangei 樂天租車取車指引
-                h3
-            div
+            <div class="text-center mb-4">
+                <h3 class="text-lg font-bold text-jeju-dark flex items-center justify-center gap-2">
+                    <i data-lucide="car" class="w-5 h-5 text-jeju-orange"></i> 樂天租車取車指引
+                </h3>
+            </div>
 
-            div class=space-y-4 text-sm text-gray-600 leading-relaxed
-                div class=bg-blue-50 p-3 rounded-lg border border-blue-100
-                    p class=font-bold text-jeju-dark mb-1📍 接駁地點p
-                    p濟州國際機場 GATE 5 出口外p
-                div
+            <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
+                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                    <p class="font-bold text-jeju-dark mb-1">📍 接駁地點</p>
+                    <p>濟州國際機場 GATE 5 出口外</p>
+                </div>
 
-                div
-                    p class=font-bold text-jeju-dark mb-2🚶‍♂️ 如何前往接駁車p
-                    ul class=list-disc pl-5 space-y-1
-                        li領取行李後，請往 strongGATE 2strong 方向尋找樂天租車櫃檯(可確認預約)。li
-                        li從 strongGATE 5strong 出口離開航廈。li
-                        li過斑馬線到對面的租車接駁區。li
-                        li尋找 strongLotte Rent-a-Car (타요 Bus)strong 接駁車。li
-                        li接駁車每 8-15 分鐘一班。li
-                    ul
-                div
+                <div>
+                    <p class="font-bold text-jeju-dark mb-2">🚶‍♂️ 如何前往接駁車</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>領取行李後，請往 <strong>GATE 2</strong> 方向尋找樂天租車櫃檯(可確認預約)。</li>
+                        <li>從 <strong>GATE 5</strong> 出口離開航廈。</li>
+                        <li>過斑馬線到對面的租車接駁區。</li>
+                        <li>尋找 <strong>Lotte Rent-a-Car (타요 Bus)</strong> 接駁車。</li>
+                        <li>接駁車每 8-15 分鐘一班。</li>
+                    </ul>
+                </div>
 
-                div
-                    p class=font-bold text-jeju-dark mb-1🚌 接駁車特徵p
-                    p通常是有「Tayo 小巴士」圖案的可愛公車，非常顯眼！p
-                div
-            div
+                <div>
+                    <p class="font-bold text-jeju-dark mb-1">🚌 接駁車特徵</p>
+                    <p>通常是有「Tayo 小巴士」圖案的可愛公車，非常顯眼！</p>
+                </div>
+            </div>
             
-            div class=mt-6
-                 button onclick=closePickup() class=w-full bg-jeju-dark text-white py-3 rounded-xl font-bold text-sm shadow-lg activescale-95 transition知道了button
-            div
-        div
-    div
+            <div class="mt-6">
+                 <button onclick="closePickup()" class="w-full bg-jeju-dark text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+            </div>
+        </div>
+    </div>
 
-    !-- 底部導航列 --
-    nav class=fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-gray-100 flex justify-around items-center px-2 z-50 pb-2
-        button onclick=switchView('flight') id=nav-flight class=nav-item active flex flex-col items-center justify-center w-16 h-full text-jeju-dark
-            i data-lucide=plane class=w-6 h-6 mb-1i
-            span class=text-[10px] font-bold航班span
-        button
-        button onclick=switchView('schedule') id=nav-schedule class=nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hovertext-jeju-dark
-            i data-lucide=calendar-days class=w-6 h-6 mb-1i
-            span class=text-[10px] font-bold行程span
-        button
-        button onclick=switchView('money') id=nav-money class=nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hovertext-jeju-dark
-            i data-lucide=wallet class=w-6 h-6 mb-1i
-            span class=text-[10px] font-bold記帳span
-        button
-        button onclick=switchView('booking') id=nav-booking class=nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hovertext-jeju-dark
-            i data-lucide=ticket class=w-6 h-6 mb-1i
-            span class=text-[10px] font-bold訂位span
-        button
-    nav
+    <!-- 底部導航列 -->
+    <nav class="fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-gray-100 flex justify-around items-center px-2 z-50 pb-2">
+        <button onclick="switchView('flight')" id="nav-flight" class="nav-item active flex flex-col items-center justify-center w-16 h-full text-jeju-dark">
+            <i data-lucide="plane" class="w-6 h-6 mb-1"></i>
+            <span class="text-[10px] font-bold">航班</span>
+        </button>
+        <button onclick="switchView('schedule')" id="nav-schedule" class="nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hover:text-jeju-dark">
+            <i data-lucide="calendar-days" class="w-6 h-6 mb-1"></i>
+            <span class="text-[10px] font-bold">行程</span>
+        </button>
+        <button onclick="switchView('money')" id="nav-money" class="nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hover:text-jeju-dark">
+            <i data-lucide="wallet" class="w-6 h-6 mb-1"></i>
+            <span class="text-[10px] font-bold">記帳</span>
+        </button>
+        <button onclick="switchView('booking')" id="nav-booking" class="nav-item flex flex-col items-center justify-center w-16 h-full text-gray-400 hover:text-jeju-dark">
+            <i data-lucide="ticket" class="w-6 h-6 mb-1"></i>
+            <span class="text-[10px] font-bold">訂位</span>
+        </button>
+    </nav>
 
-    script
+    <script>
         lucide.createIcons();
 
-         Voucher Data
+        // Voucher Data
         const voucherData = {
-            'HRG192574' {
-                title 'Aqua Planet 水族館門票',
-                 ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
-                voucherImages [
-                    'httpsraw.githubusercontent.com您的帳號jeju-trip-imagesmainAqua%20Planet1.png',
-                    'httpsraw.githubusercontent.com您的帳號jeju-trip-imagesmainAqua%20Planet2.png'
+            'HRG192574': {
+                title: 'Aqua Planet 水族館門票',
+                // ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
+                voucherImages: [
+                    'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Aqua%20Planet1.png',
+                    'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Aqua%20Planet2.png'
                 ]
             },
-            'WNF147844' {
-                title '租車- 現代 Staria 或同級',
-                  ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
-                voucherImages [
-                     'httpsraw.githubusercontent.com您的帳號jeju-trip-imagesmainLotte_Rental_Voucher.png'
+            'WNF147844': {
+                title: '租車- 現代 Staria 或同級',
+                 // ↓↓↓ 請將下方的連結替換為您 GitHub 上的 Raw 圖片連結 ↓↓↓
+                voucherImages: [
+                     'https://raw.githubusercontent.com/您的帳號/jeju-trip-images/main/Lotte_Rental_Voucher.png'
                 ]
             },
-            'WNF147844' {
-                title '租車- 現代 Staria 或同級',
-                  ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
-                voucherImages [
+            'WNF147844': {
+                title: '租車- 現代 Staria 或同級',
+                 // ↓↓↓ 請在這裡替換成您的 GitHub 圖片連結 ↓↓↓
+                voucherImages: [
                      'Lotte_Rental_Voucher.png'
                 ]
             },
-              飯店憑證資料
-            'Maison_Glad' {
-                title '濟州Glad Maison飯店',
-                voucherImages ['Maison_Glad_Voucher.png']
+             // 飯店憑證資料
+            'Maison_Glad': {
+                title: '濟州Glad Maison飯店',
+                voucherImages: ['Maison_Glad_Voucher.png']
             },
-            'Coop_City' {
-                title '城山貝斯特飯店',
-                voucherImages ['Coop_City_Voucher.png']
+            'Coop_City': {
+                title: '城山貝斯特飯店',
+                voucherImages: ['Coop_City_Voucher.png']
             },
-            'Shinhwa_Landing' {
-                title '神話世界-藍鼎',
-                voucherImages ['Shinhwa_Landing_Voucher.png']
+            'Shinhwa_Landing': {
+                title: '神話世界-藍鼎',
+                voucherImages: ['Shinhwa_Landing_Voucher.png']
             },
-            'Hotel_Leo' {
-                title '利奧飯店',
-                voucherImages ['Hotel_Leo_Voucher.png']
+            'Hotel_Leo': {
+                title: '利奧飯店',
+                voucherImages: ['Hotel_Leo_Voucher.png']
             }
         };
 
-         Modal Logic
+        // Modal Logic
         function openVoucher(id) {
             const data = voucherData[id];
             if (!data) return;
@@ -910,13 +910,13 @@ body class=text-jeju-dark
             document.getElementById('v-title').textContent = data.title;
             const customImagesContainer = document.getElementById('v-custom-images');
             
-            if (data.voucherImages && data.voucherImages.length  0) {
+            if (data.voucherImages && data.voucherImages.length > 0) {
                 customImagesContainer.classList.remove('hidden');
-                customImagesContainer.innerHTML = data.voucherImages.map(url = 
-                    `img src=.${url} class=w-full rounded-lg mb-4 border border-gray-200 shadow-sm alt=Voucher Image onerror=this.onerror=null; this.src='httpsplacehold.co600x800f3f4f6333333text=請上傳+${url}';`
+                customImagesContainer.innerHTML = data.voucherImages.map(url => 
+                    `<img src="./${url}" class="w-full rounded-lg mb-4 border border-gray-200 shadow-sm" alt="Voucher Image" onerror="this.onerror=null; this.src='https://placehold.co/600x800/f3f4f6/333333?text=請上傳+${url}';">`
                 ).join('');
             } else {
-                customImagesContainer.innerHTML = 'p class=text-center text-gray-500 py-4暫無圖片p';
+                customImagesContainer.innerHTML = '<p class="text-center text-gray-500 py-4">暫無圖片</p>';
             }
 
             document.getElementById('voucher-modal').classList.add('active');
@@ -926,15 +926,15 @@ body class=text-jeju-dark
             document.getElementById('voucher-modal').classList.remove('active');
         }
 
-         阻止事件冒泡 (避免點擊按鈕時觸發外層連結)
-        document.querySelectorAll('button[onclick^=openVoucher]').forEach(btn = {
+        // 阻止事件冒泡 (避免點擊按鈕時觸發外層連結)
+        document.querySelectorAll('button[onclick^="openVoucher"]').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
             });
         });
 
-         Info Modal Logic
+        // Info Modal Logic
         function openInfo() {
             document.getElementById('info-modal').classList.add('active');
         }
@@ -942,7 +942,7 @@ body class=text-jeju-dark
             document.getElementById('info-modal').classList.remove('active');
         }
 
-         Pickup Info Modal Logic
+        // Pickup Info Modal Logic
         function openPickup() {
             document.getElementById('pickup-modal').classList.add('active');
         }
@@ -950,7 +950,7 @@ body class=text-jeju-dark
             document.getElementById('pickup-modal').classList.remove('active');
         }
 
-         航班切換
+        // 航班切換
         function switchFlightTab(type) {
             document.getElementById('flight-outbound').classList.add('hidden');
             document.getElementById('flight-inbound').classList.add('hidden');
@@ -961,7 +961,7 @@ body class=text-jeju-dark
             document.getElementById('tab-' + type).classList.add('active');
         }
 
-         乘客資訊折疊
+        // 乘客資訊折疊
         function togglePassengerDetails(id, arrowId) {
             const details = document.getElementById(id);
             const arrow = document.getElementById(arrowId);
@@ -969,168 +969,168 @@ body class=text-jeju-dark
             arrow.classList.toggle('open');
         }
 
-         行程資料捲動
+        // 行程資料捲動
         function scrollToEvent(day, index) {
-             切換到行程分頁
+            // 切換到行程分頁
             switchView('schedule');
             
-             如果不在當天，先切換日期
+            // 如果不在當天，先切換日期
             if (currentDay !== day) {
                 switchDay(day);
             }
 
-             等待渲染完成後捲動
-            setTimeout(() = {
+            // 等待渲染完成後捲動
+            setTimeout(() => {
                 const element = document.getElementById(`event-${day}-${index}`);
                 if (element) {
-                    element.scrollIntoView({ behavior 'smooth', block 'center' });
-                     添加高亮動畫效果
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // 添加高亮動畫效果
                     element.classList.add('ring-2', 'ring-jeju-orange', 'ring-offset-2', 'rounded-xl');
-                    setTimeout(() = {
+                    setTimeout(() => {
                         element.classList.remove('ring-2', 'ring-jeju-orange', 'ring-offset-2', 'rounded-xl');
                     }, 2000);
                 }
             }, 100);
         }
 
-         日期設定
+        // 日期設定
         const dayConfig = [
-            { day 1, date '130', week '週五' },
-            { day 2, date '131', week '週六', isWeekend true },
-            { day 3, date '21', week '週日', isWeekend true },
-            { day 4, date '22', week '週一' },
-            { day 5, date '23', week '週二' },
-            { day 6, date '24', week '週三' },
-            { day 7, date '25', week '週四' },
-            { day 8, date '26', week '週五' }
+            { day: 1, date: '1/30', week: '週五' },
+            { day: 2, date: '1/31', week: '週六', isWeekend: true },
+            { day: 3, date: '2/1', week: '週日', isWeekend: true },
+            { day: 4, date: '2/2', week: '週一' },
+            { day: 5, date: '2/3', week: '週二' },
+            { day: 6, date: '2/4', week: '週三' },
+            { day: 7, date: '2/5', week: '週四' },
+            { day: 8, date: '2/6', week: '週五' }
         ];
 
-         預設資料
+        // 預設資料
         const defaultScheduleData = {
-            1 [
-                { time '1330', title '南苑貴賓室', desc '機場出境左轉 (點我看指引)', type 'food', link 'httpsorange.udn.comorangestory1214179179081', image '', hasInfo true },
-                { transport '✈️ 飛行 2hr 25m' },
-                { time '1600', title '快樂起飛 IT670', desc '前往濟州島 ✈️', type 'transport', link '', image '', weather '🌤️ 6°C' },
-                { transport '🚗 接駁車 10m (GATE 5 出口外)', link 'httpsmap.naver.compsearch롯데렌터카%20제주오토하우스' },
-                { time '2030', title '樂天租車取車', desc 'GATE 5 搭接駁車 (點我看指引)', type 'car', link 'httpswww.klook.comzh-TWbookingsspm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7', hasPickup true },
-                { transport '🚗 開車 10m', link 'httpsmap.naver.compdirections-14149023.7538965,3960305.2109673,Maison%20Glad%20Jeju,11566418' }, 
-                { time '2100', title '濟州Glad Maison飯店', desc 'Check-in 休息', type 'hotel', link 'httpsmap.naver.compsearch메종글래드제주' }
+            1: [
+                { time: '13:30', title: '南苑貴賓室', desc: '機場出境左轉 (點我看指引)', type: 'food', link: 'https://orange.udn.com/orange/story/121417/9179081', image: '', hasInfo: true },
+                { transport: '✈️ 飛行 2hr 25m' },
+                { time: '16:00', title: '快樂起飛 IT670', desc: '前往濟州島 ✈️', type: 'transport', link: '', image: '', weather: '🌤️ 6°C' },
+                { transport: '🚗 接駁車 10m (GATE 5 出口外)', link: 'https://map.naver.com/p/search/롯데렌터카%20제주오토하우스' },
+                { time: '20:30', title: '樂天租車取車', desc: 'GATE 5 搭接駁車 (點我看指引)', type: 'car', link: 'https://www.klook.com/zh-TW/bookings/?spm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7', hasPickup: true },
+                { transport: '🚗 開車 10m', link: 'https://map.naver.com/p/directions/-/14149023.7538965,3960305.2109673,Maison%20Glad%20Jeju,11566418' }, 
+                { time: '21:00', title: '濟州Glad Maison飯店', desc: 'Check-in 休息', type: 'hotel', link: 'https://map.naver.com/p/search/메종글래드제주' }
             ],
-            2 [
-                 { time '0900', title '濟州Glad Maison飯店', desc '早安！準備前往東部', type 'hotel', link 'httpsmap.naver.compsearch메종글래드제주', weather '☀️ 7°C' },
-                 { transport '🚗 開車 52m', link 'httpsmap.naver.compsearch런던베이글뮤지엄%20제주' },
-                 { time '1010', title '倫敦貝果博物館', desc 'Catch Table 先候位', type 'food', link 'httpswww.catchtable.netzh-TWshoplondon_bagel_museum_jeju' },
-                 { transport '🚗 開車 7m', link 'httpsmap.naver.compsearch제주%20해녀김밥%20본점' },
-                 { time '1100', title '海女飯捲', desc '外帶去野餐', type 'food', link 'httpsmap.naver.compsearch제주%20해녀김밥%20본점' },
-                 { transport '🚗 開車 18m', link 'httpsmap.naver.compsearch돌담당근' },
-                 { time '1150', title '三達里小村 & Doldam Carrot', desc '韓劇踩點、紅蘿蔔蛋糕', type 'fun', link 'httpsmap.naver.compsearch돌담당근' },
-                 { transport '🚗 開車 25m', link 'httpsmap.naver.compsearch오드랑베이커리' },
-                 { time '1330', title 'Audrant Bakery & 咸德海灘', desc '大蒜麵包、踩水', type 'food', link 'httpsdpm2bb.com2025-62', hasInfo false },
-                 { transport '🚗 開車 28m', link 'httpsmap.naver.compsearch제주레일바이크' },
-                 { time '1500', title '濟州鐵道自行車', desc '龍臥岳與月朗峰', type 'fun', link 'httpsmap.naver.compsearch제주레일바이크' },
-                 { transport '🚗 開車 18m', link 'httpsmap.naver.compsearch에코랜드' },
-                 { time '1600', title 'ECOLAND 森林小火車', desc '搭乘末班前火車', type 'fun', link 'httpsmap.naver.compsearch에코랜드' },
-                 { transport '🚗 開車 38m', link 'httpsmap.naver.compsearch코업시티호텔%20성산' },
-                 { time '1810', title '濟州城山貝斯特飯店', desc 'Check-in', type 'hotel', link 'httpsmap.naver.compsearch코업시티호텔%20성산' },
-                 { transport '🚶 步行 3m', link 'httpsmap.naver.compsearch부촌식당' },
-                 { time '1900', title '晚餐-富村食堂', desc '白帶魚鯖魚料理', type 'food', link 'httpsmap.naver.compsearch부촌식당' }
+            2: [
+                 { time: '09:00', title: '濟州Glad Maison飯店', desc: '早安！準備前往東部', type: 'hotel', link: 'https://map.naver.com/p/search/메종글래드제주', weather: '☀️ 7°C' },
+                 { transport: '🚗 開車 52m', link: 'https://map.naver.com/p/search/런던베이글뮤지엄%20제주' },
+                 { time: '10:10', title: '倫敦貝果博物館', desc: 'Catch Table 先候位', type: 'food', link: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju' },
+                 { transport: '🚗 開車 7m', link: 'https://map.naver.com/p/search/제주%20해녀김밥%20본점' },
+                 { time: '11:00', title: '海女飯捲', desc: '外帶去野餐', type: 'food', link: 'https://map.naver.com/p/search/제주%20해녀김밥%20본점' },
+                 { transport: '🚗 開車 18m', link: 'https://map.naver.com/p/search/돌담당근' },
+                 { time: '11:50', title: '三達里小村 & Doldam Carrot', desc: '韓劇踩點、紅蘿蔔蛋糕', type: 'fun', link: 'https://map.naver.com/p/search/돌담당근' },
+                 { transport: '🚗 開車 25m', link: 'https://map.naver.com/p/search/오드랑베이커리' },
+                 { time: '13:30', title: 'Audrant Bakery & 咸德海灘', desc: '大蒜麵包、踩水', type: 'food', link: 'https://dpm2bb.com/2025-62/', hasInfo: false },
+                 { transport: '🚗 開車 28m', link: 'https://map.naver.com/p/search/제주레일바이크' },
+                 { time: '15:00', title: '濟州鐵道自行車', desc: '龍臥岳與月朗峰', type: 'fun', link: 'https://map.naver.com/p/search/제주레일바이크' },
+                 { transport: '🚗 開車 18m', link: 'https://map.naver.com/p/search/에코랜드' },
+                 { time: '16:00', title: 'ECOLAND 森林小火車', desc: '搭乘末班前火車', type: 'fun', link: 'https://map.naver.com/p/search/에코랜드' },
+                 { transport: '🚗 開車 38m', link: 'https://map.naver.com/p/search/코업시티호텔%20성산' },
+                 { time: '18:10', title: '濟州城山貝斯特飯店', desc: 'Check-in', type: 'hotel', link: 'https://map.naver.com/p/search/코업시티호텔%20성산' },
+                 { transport: '🚶 步行 3m', link: 'https://map.naver.com/p/search/부촌식당' },
+                 { time: '19:00', title: '晚餐-富村食堂', desc: '白帶魚/鯖魚料理', type: 'food', link: 'https://map.naver.com/p/search/부촌식당' }
             ],
-            3 [
-                 { time '0800', title '城山貝斯特飯店', desc '前往港口搭船', type 'hotel', link 'httpsmap.naver.compsearch코업시티호텔%20성산', weather '⛅ 8°C' },
-                 { transport '🚗 開車 7m', link 'httpsmap.naver.compsearch성산포항종합여객터미널' },
-                 { time '0830', title '城山港 (搭船)', desc '填寫乘船單，車輛上船', type 'ship', link 'httpsmap.naver.compsearch성산포항종합여객터미널' },
-                 { transport '🚢 渡輪 15m', link '' },
-                 { time '0900', title '牛島 (Udo)', desc '抵達天津港或下牛木洞港', type 'fun', link 'httpsmap.naver.compsearch우도' },
-                 { transport '🚗 環島 15m', link 'httpsmap.naver.compsearch우도봉' },
-                 { time '0930', title '牛島峰 & 東岸鯨窟', desc '壯觀海蝕洞與山景', type 'fun', link 'httpsmap.naver.compsearch우도봉' },
-                 { transport '🚗 環島 10m', link 'httpsmap.naver.compsearch하고수동해수욕장' },
-                 { time '1030', title '下高水洞海水浴場', desc 'Tiffany藍海灘、網美咖啡', type 'fun', link 'httpsmap.naver.compsearch하고수동해수욕장' },
-                 { transport '🚗 環島 5m', link 'httpsmap.naver.compsearch지미스' },
-                 { time '1130', title 'Jimmys 花生冰淇淋', desc '牛島必吃名產', type 'food', link 'httpsmap.naver.compsearch지미스' },
-                 { transport '🚗 環島 10m', link 'httpsmap.naver.compsearch서빈백사' },
-                 { time '1200', title '西濱白沙 (珊瑚沙)', desc '韓國唯一珊瑚沙灘', type 'fun', link 'httpsmap.naver.compsearch서빈백사' },
-                 { transport '🚢 渡輪 15m', link '' },
-                 { time '1300', title '返回城山港', desc '搭船離開牛島', type 'ship', link 'httpsmap.naver.compsearch성산포항종합여객터미널' },
-                 { transport '🚗 開車 10m', link 'httpsmap.naver.compsearch아쿠아플라넷%20제주' },
-                 { time '1400', title 'Aqua Planet', desc '水族館', type 'fun', link 'httpswww.klook.comzh-TWbookingsspm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7' },
-                 { transport '🚗 開車 6m', link 'httpsmap.naver.compsearch금돗%20성산%20흑돼지' },
-                 { time '1730', title '黑毛豬晚餐', desc '금돗 성산', type 'food', link 'httpsmap.naver.compsearch금돗%20성산%20흑돼지' },
-                 { transport '🚗 開車 8m', link 'httpsmap.naver.compsearch코업시티호텔%20성산' },
-                 { time '1930', title '城山貝斯特飯店', desc '休息', type 'hotel', link 'httpsmap.naver.compsearch코업시티호텔%20성산' }
+            3: [
+                 { time: '08:00', title: '城山貝斯特飯店', desc: '前往港口搭船', type: 'hotel', link: 'https://map.naver.com/p/search/코업시티호텔%20성산', weather: '⛅ 8°C' },
+                 { transport: '🚗 開車 7m', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
+                 { time: '08:30', title: '城山港 (搭船)', desc: '填寫乘船單，車輛上船', type: 'ship', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
+                 { transport: '🚢 渡輪 15m', link: '' },
+                 { time: '09:00', title: '牛島 (Udo)', desc: '抵達天津港或下牛木洞港', type: 'fun', link: 'https://map.naver.com/p/search/우도' },
+                 { transport: '🚗 環島 15m', link: 'https://map.naver.com/p/search/우도봉' },
+                 { time: '09:30', title: '牛島峰 & 東岸鯨窟', desc: '壯觀海蝕洞與山景', type: 'fun', link: 'https://map.naver.com/p/search/우도봉' },
+                 { transport: '🚗 環島 10m', link: 'https://map.naver.com/p/search/하고수동해수욕장' },
+                 { time: '10:30', title: '下高水洞海水浴場', desc: 'Tiffany藍海灘、網美咖啡', type: 'fun', link: 'https://map.naver.com/p/search/하고수동해수욕장' },
+                 { transport: '🚗 環島 5m', link: 'https://map.naver.com/p/search/지미스' },
+                 { time: '11:30', title: 'Jimmys 花生冰淇淋', desc: '牛島必吃名產', type: 'food', link: 'https://map.naver.com/p/search/지미스' },
+                 { transport: '🚗 環島 10m', link: 'https://map.naver.com/p/search/서빈백사' },
+                 { time: '12:00', title: '西濱白沙 (珊瑚沙)', desc: '韓國唯一珊瑚沙灘', type: 'fun', link: 'https://map.naver.com/p/search/서빈백사' },
+                 { transport: '🚢 渡輪 15m', link: '' },
+                 { time: '13:00', title: '返回城山港', desc: '搭船離開牛島', type: 'ship', link: 'https://map.naver.com/p/search/성산포항종합여객터미널' },
+                 { transport: '🚗 開車 10m', link: 'https://map.naver.com/p/search/아쿠아플라넷%20제주' },
+                 { time: '14:00', title: 'Aqua Planet', desc: '水族館', type: 'fun', link: 'https://www.klook.com/zh-TW/bookings/?spm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7' },
+                 { transport: '🚗 開車 6m', link: 'https://map.naver.com/p/search/금돗%20성산%20흑돼지' },
+                 { time: '17:30', title: '黑毛豬晚餐', desc: '금돗 성산', type: 'food', link: 'https://map.naver.com/p/search/금돗%20성산%20흑돼지' },
+                 { transport: '🚗 開車 8m', link: 'https://map.naver.com/p/search/코업시티호텔%20성산' },
+                 { time: '19:30', title: '城山貝斯特飯店', desc: '休息', type: 'hotel', link: 'https://map.naver.com/p/search/코업시티호텔%20성산' }
             ],
-            4 [
-                 { time '0930', title '城山貝斯特飯店', desc '退房，前往西歸浦', type 'hotel', link 'httpsmap.naver.compsearch코업시티호텔%20성산', weather '☁️ 9°C' },
-                 { transport '🚗 開車 60m', link 'httpsmap.naver.compsearch정방폭포' },
-                 { time '1030', title '正房瀑布', desc '直入大海', type 'fun', link 'httpsmap.naver.compsearch정방폭포' },
-                 { transport '🚗 開車 5m', link 'httpsmap.naver.compsearch서귀포%20매일%20올레시장' },
-                 { time '1120', title '偶來市場', desc '午餐伴手禮', type 'food', link 'httpsmap.naver.compsearch서귀포%20매일%20올레시장' },
-                 { transport '🚗 開車 35m', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' },
-                 { time '1500', title '神話世界-藍鼎', desc 'Check-in', type 'hotel', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' },
-                 { time '1800', title '藍鼎自助晚餐', desc '豪華Buffet', type 'food', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관%20디너' },
-                 { transport '🚶 步行返回', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' },
-                 { time '2000', title '神話世界-藍鼎', desc '休息', type 'hotel', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' }
+            4: [
+                 { time: '09:30', title: '城山貝斯特飯店', desc: '退房，前往西歸浦', type: 'hotel', link: 'https://map.naver.com/p/search/코업시티호텔%20성산', weather: '☁️ 9°C' },
+                 { transport: '🚗 開車 60m', link: 'https://map.naver.com/p/search/정방폭포' },
+                 { time: '10:30', title: '正房瀑布', desc: '直入大海', type: 'fun', link: 'https://map.naver.com/p/search/정방폭포' },
+                 { transport: '🚗 開車 5m', link: 'https://map.naver.com/p/search/서귀포%20매일%20올레시장' },
+                 { time: '11:20', title: '偶來市場', desc: '午餐/伴手禮', type: 'food', link: 'https://map.naver.com/p/search/서귀포%20매일%20올레시장' },
+                 { transport: '🚗 開車 35m', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' },
+                 { time: '15:00', title: '神話世界-藍鼎', desc: 'Check-in', type: 'hotel', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' },
+                 { time: '18:00', title: '藍鼎自助晚餐', desc: '豪華Buffet', type: 'food', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관%20디너' },
+                 { transport: '🚶 步行返回', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' },
+                 { time: '20:00', title: '神話世界-藍鼎', desc: '休息', type: 'hotel', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' }
             ],
-            5 [
-                 { time '0930', title '神話世界-藍鼎', desc '在渡假村內遊玩', type 'hotel', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관', weather '🌤️ 8°C' },
-                 { transport '🚶 步行前往', link 'httpsmap.naver.compsearch신화테마파크' },
-                 { time '1000', title '神話主題公園', desc 'Big3 券使用', type 'fun', link 'httpsmap.naver.compsearch신화테마파크' },
-                 { transport '🚗 開車 6m', link 'httpsmap.naver.compsearch오설록%20티뮤지엄' },
-                 { time 'PM', title 'Osulloc 綠茶園', desc '自由行程', type 'fun', link 'httpsmap.naver.compsearch오설록%20티뮤지엄' },
-                 { transport '🚗 開車 6m', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' },
-                 { time '1800', title '神話世界-藍鼎', desc '休息', type 'hotel', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관' }
+            5: [
+                 { time: '09:30', title: '神話世界-藍鼎', desc: '在渡假村內遊玩', type: 'hotel', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관', weather: '🌤️ 8°C' },
+                 { transport: '🚶 步行前往', link: 'https://map.naver.com/p/search/신화테마파크' },
+                 { time: '10:00', title: '神話主題公園', desc: 'Big3 券使用', type: 'fun', link: 'https://map.naver.com/p/search/신화테마파크' },
+                 { transport: '🚗 開車 6m', link: 'https://map.naver.com/p/search/오설록%20티뮤지엄' },
+                 { time: 'PM', title: 'Osulloc 綠茶園', desc: '自由行程', type: 'fun', link: 'https://map.naver.com/p/search/오설록%20티뮤지엄' },
+                 { transport: '🚗 開車 6m', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' },
+                 { time: '18:00', title: '神話世界-藍鼎', desc: '休息', type: 'hotel', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관' }
             ],
-            6 [
-                 { time '0930', title '神話世界-藍鼎', desc '退房，前往市區', type 'hotel', link 'httpsmap.naver.compsearch제주신화월드%20랜딩관', weather '☀️ 7°C' },
-                 { transport '🚗 開車 12m', link 'httpsmap.naver.compsearch뽀로로앤타요%20테마파크%20제주' },
-                 { time '1000', title 'Pororo 樂園', desc '室內遊樂場', type 'fun', link 'httpsmap.naver.compsearch뽀로로앤타요%20테마파크%20제주' },
-                 { transport '🚗 開車 38m', link 'httpsmap.naver.compsearch도두동%20무지개%20해안도로' },
-                 { time '1630', title '彩虹海岸公路', desc '拍照打卡', type 'fun', link 'httpsmap.naver.compsearch도두동%20무지개%20해안도로' },
-                 { transport '🚗 開車 12m', link 'httpsmap.naver.compsearch숙성도%20제주' },
-                 { time '1830', title '熟成到', desc '必吃燒肉', type 'food', link 'httpswww.catchtable.netzh-TWshopsuksungdo_jeju' },
-                 { transport '🚗 開車 8m', link 'httpsmap.naver.compsearch호텔%20레오' },
-                 { time '2000', title '利奧飯店', desc 'Check-in', type 'hotel', link 'httpsmap.naver.compsearch호텔%20레오' }
+            6: [
+                 { time: '09:30', title: '神話世界-藍鼎', desc: '退房，前往市區', type: 'hotel', link: 'https://map.naver.com/p/search/제주신화월드%20랜딩관', weather: '☀️ 7°C' },
+                 { transport: '🚗 開車 12m', link: 'https://map.naver.com/p/search/뽀로로앤타요%20테마파크%20제주' },
+                 { time: '10:00', title: 'Pororo 樂園', desc: '室內遊樂場', type: 'fun', link: 'https://map.naver.com/p/search/뽀로로앤타요%20테마파크%20제주' },
+                 { transport: '🚗 開車 38m', link: 'https://map.naver.com/p/search/도두동%20무지개%20해안도로' },
+                 { time: '16:30', title: '彩虹海岸公路', desc: '拍照打卡', type: 'fun', link: 'https://map.naver.com/p/search/도두동%20무지개%20해안도로' },
+                 { transport: '🚗 開車 12m', link: 'https://map.naver.com/p/search/숙성도%20제주' },
+                 { time: '18:30', title: '熟成到', desc: '必吃燒肉', type: 'food', link: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju' },
+                 { transport: '🚗 開車 8m', link: 'https://map.naver.com/p/search/호텔%20레오' },
+                 { time: '20:00', title: '利奧飯店', desc: 'Check-in', type: 'hotel', link: 'https://map.naver.com/p/search/호텔%20레오' }
             ],
-            7 [
-                 { time '0930', title '利奧飯店', desc '出發市區採買', type 'hotel', link 'httpsmap.naver.compsearch호텔%20레오', weather '☁️ 6°C' },
-                 { transport '🚗 開車 14m', link 'httpsmap.naver.compsearch제주%20동문시장' },
-                 { time '1000', title '濟州東門市場', desc '採買橘子果乾、伴手禮', type 'food', link 'httpsmap.naver.compsearch제주%20동문시장' },
-                 { transport '🚗 開車 8m', link 'httpsmap.naver.compsearch자매국수' },
-                 { time '1230', title '午餐-姊妹麵條', desc '必吃豬肉湯麵', type 'food', link 'httpsmap.naver.compsearch자매국수' },
-                 { transport '🚗 開車 12m', link 'httpsmap.naver.compsearch브릭캠퍼스%20제주' },
-                 { time '1400', title 'Brick Campus', desc '樂高積木校園', type 'fun', link 'httpsmap.naver.compsearch브릭캠퍼스%20제주' },
-                 { transport '🚗 開車 10m', link 'httpsmap.naver.compsearch롯데마트%20제주점' },
-                 { time '1630', title '蓮洞商圈  樂天超市', desc '逛街、超市補貨', type 'food', link 'httpsmap.naver.compsearch롯데마트%20제주점' },
-                 { transport '🚶 步行前往', link 'httpsmap.naver.compsearch교촌치킨%20연동점' },
-                 { time '1830', title '晚餐-橋村炸雞', desc '蜂蜜炸雞 (蓮洞店)', type 'food', link 'httpsmap.naver.compsearch교촌치킨%20연동점' },
-                 { transport '🚶 步行返回', link 'httpsmap.naver.compsearch호텔%20레오' },
-                 { time '2000', title '利奧飯店', desc '休息', type 'hotel', link 'httpsmap.naver.compsearch호텔%20레오' }
+            7: [
+                 { time: '09:30', title: '利奧飯店', desc: '出發市區採買', type: 'hotel', link: 'https://map.naver.com/p/search/호텔%20레오', weather: '☁️ 6°C' },
+                 { transport: '🚗 開車 14m', link: 'https://map.naver.com/p/search/제주%20동문시장' },
+                 { time: '10:00', title: '濟州東門市場', desc: '採買橘子果乾、伴手禮', type: 'food', link: 'https://map.naver.com/p/search/제주%20동문시장' },
+                 { transport: '🚗 開車 8m', link: 'https://map.naver.com/p/search/자매국수' },
+                 { time: '12:30', title: '午餐-姊妹麵條', desc: '必吃豬肉湯麵', type: 'food', link: 'https://map.naver.com/p/search/자매국수' },
+                 { transport: '🚗 開車 12m', link: 'https://map.naver.com/p/search/브릭캠퍼스%20제주' },
+                 { time: '14:00', title: 'Brick Campus', desc: '樂高積木校園', type: 'fun', link: 'https://map.naver.com/p/search/브릭캠퍼스%20제주' },
+                 { transport: '🚗 開車 10m', link: 'https://map.naver.com/p/search/롯데마트%20제주점' },
+                 { time: '16:30', title: '蓮洞商圈 / 樂天超市', desc: '逛街、超市補貨', type: 'food', link: 'https://map.naver.com/p/search/롯데마트%20제주점' },
+                 { transport: '🚶 步行前往', link: 'https://map.naver.com/p/search/교촌치킨%20연동점' },
+                 { time: '18:30', title: '晚餐-橋村炸雞', desc: '蜂蜜炸雞 (蓮洞店)', type: 'food', link: 'https://map.naver.com/p/search/교촌치킨%20연동점' },
+                 { transport: '🚶 步行返回', link: 'https://map.naver.com/p/search/호텔%20레오' },
+                 { time: '20:00', title: '利奧飯店', desc: '休息', type: 'hotel', link: 'https://map.naver.com/p/search/호텔%20레오' }
             ],
-            8 [
-                 { time '1000', title '利奧飯店', desc '退房，最後採買', type 'hotel', link 'httpsmap.naver.compsearch호텔%20레오', weather '⛅ 4°C' },
-                 { transport '🚗 開車 12m', link 'httpsmap.naver.compsearch이호테우%20말등대' },
-                 { time '1030', title '梨湖小馬燈塔', desc '最後合影', type 'fun', link 'httpsmap.naver.compsearch이호테우%20말등대' },
-                 { transport '🚗 開車 18m', link 'httpsmap.naver.compsearch애월카페거리' },
-                 { time '1230', title '愛月邑咖啡街', desc '海景咖啡、午餐輕食', type 'food', link 'httpsmap.naver.compsearch애월카페거리' },
-                 { transport '🚗 開車 15m', link 'httpsmap.naver.compsearch아르떼뮤지엄%20제주' },
-                 { time '1500', title 'Arte Museum', desc '光影藝術館 (或9.81賽車)', type 'fun', link 'httpsmap.naver.compsearch아르떼뮤지엄%20제주' },
-                 { transport '🚗 開車 30m', link 'httpsmap.naver.compsearch롯데렌터카%20제주오토하우스' },
-                 { time '1700', title '還車 (樂天租車)', desc '預留塞車時間', type 'car', link 'httpswww.klook.comzh-TWbookingsspm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7' },
-                 { transport '🚌 接駁車 10m', link '' },
-                 { time '1815', title '濟州機場報到', desc '準備搭機', type 'transport', link '' },
-                 { time '2015', title '起飛 IT671', desc 'Bye Jeju!', type 'transport', link '', weather '🌙 4°C' }
+            8: [
+                 { time: '10:00', title: '利奧飯店', desc: '退房，最後採買', type: 'hotel', link: 'https://map.naver.com/p/search/호텔%20레오', weather: '⛅ 4°C' },
+                 { transport: '🚗 開車 12m', link: 'https://map.naver.com/p/search/이호테우%20말등대' },
+                 { time: '10:30', title: '梨湖小馬燈塔', desc: '最後合影', type: 'fun', link: 'https://map.naver.com/p/search/이호테우%20말등대' },
+                 { transport: '🚗 開車 18m', link: 'https://map.naver.com/p/search/애월카페거리' },
+                 { time: '12:30', title: '愛月邑咖啡街', desc: '海景咖啡、午餐輕食', type: 'food', link: 'https://map.naver.com/p/search/애월카페거리' },
+                 { transport: '🚗 開車 15m', link: 'https://map.naver.com/p/search/아르떼뮤지엄%20제주' },
+                 { time: '15:00', title: 'Arte Museum', desc: '光影藝術館 (或9.81賽車)', type: 'fun', link: 'https://map.naver.com/p/search/아르떼뮤지엄%20제주' },
+                 { transport: '🚗 開車 30m', link: 'https://map.naver.com/p/search/롯데렌터카%20제주오토하우스' },
+                 { time: '17:00', title: '還車 (樂天租車)', desc: '預留塞車時間', type: 'car', link: 'https://www.klook.com/zh-TW/bookings/?spm=SearchResult.TopNavigation.Booking&clickId=0e3d45c0b7' },
+                 { transport: '🚌 接駁車 10m', link: '' },
+                 { time: '18:15', title: '濟州機場報到', desc: '準備搭機', type: 'transport', link: '' },
+                 { time: '20:15', title: '起飛 IT671', desc: 'Bye Jeju!', type: 'transport', link: '', weather: '🌙 4°C' }
             ]
         };
 
         let scheduleData = {};
         let currentDay = 1;
 
-         記帳資料
+        // 記帳資料
         let expenses = [];
         let expenseIdCounter = 0;
 
-         初始化
+        // 初始化
         function initData() {
-             行程資料 (v45) - 升級版本號以載入新設定
+            // 行程資料 (v45) - 升級版本號以載入新設定
             const storedSchedule = localStorage.getItem('jeju_schedule_data_v45');
             try {
                 if (storedSchedule) {
@@ -1139,21 +1139,21 @@ body class=text-jeju-dark
                     scheduleData = JSON.parse(JSON.stringify(defaultScheduleData));
                 }
             } catch (e) {
-                console.error(Data parse error, e);
+                console.error("Data parse error", e);
                 scheduleData = JSON.parse(JSON.stringify(defaultScheduleData));
             }
 
-             記帳資料 (expenses_v1)
+            // 記帳資料 (expenses_v1)
             const storedExpenses = localStorage.getItem('jeju_expenses_v1');
             if (storedExpenses) {
                 try {
                     expenses = JSON.parse(storedExpenses);
-                     找出最大的 ID 以延續計數
-                    if(expenses.length  0) {
-                        expenseIdCounter = Math.max(...expenses.map(e = e.id)) + 1;
+                    // 找出最大的 ID 以延續計數
+                    if(expenses.length > 0) {
+                        expenseIdCounter = Math.max(...expenses.map(e => e.id)) + 1;
                     }
                 } catch(e) {
-                    console.error(Expenses parse error, e);
+                    console.error("Expenses parse error", e);
                     expenses = [];
                 }
             }
@@ -1162,27 +1162,27 @@ body class=text-jeju-dark
             updateTotal();
         }
 
-         手動設定匯率
+        // 手動設定匯率
         function manualRateUpdate() {
-            const newRate = prompt(請輸入自訂匯率 (1 KRW =  TWD), currentRate);
+            const newRate = prompt("請輸入自訂匯率 (1 KRW = ? TWD)", currentRate);
             if (newRate && !isNaN(newRate)) {
                 currentRate = parseFloat(newRate);
                 updateRateDisplay();
-                alert(`匯率已更新為 ${currentRate}`);
+                alert(`匯率已更新為: ${currentRate}`);
             }
         }
 
         function updateRateDisplay() {
             const rateDisplay = document.getElementById('rate-display');
             rateDisplay.textContent = `1 KRW ≈ ${currentRate.toFixed(4)} TWD`;
-             重新計算換算器
+            // 重新計算換算器
             calcTWD();
-             重新渲染列表以更新台幣金額
+            // 重新渲染列表以更新台幣金額
             renderExpenses();
             updateTotal();
         }
 
-         新增記帳
+        // 新增記帳
         function addExpense() {
             const nameInput = document.getElementById('expense-name');
             const categorySelect = document.getElementById('expense-category');
@@ -1192,111 +1192,111 @@ body class=text-jeju-dark
             const category = categorySelect.value;
             const amount = parseFloat(amountInput.value);
 
-            if (!name  isNaN(amount)) {
-                alert(請輸入項目名稱與金額！);
+            if (!name || isNaN(amount)) {
+                alert("請輸入項目名稱與金額！");
                 return;
             }
 
             const newExpense = {
-                id expenseIdCounter++,
-                date new Date().toISOString(),  紀錄當下時間
-                name name,
-                category category,
-                amountKRW amount
+                id: expenseIdCounter++,
+                date: new Date().toISOString(), // 紀錄當下時間
+                name: name,
+                category: category,
+                amountKRW: amount
             };
 
-            expenses.unshift(newExpense);  加到最前面
+            expenses.unshift(newExpense); // 加到最前面
             saveExpenses();
             renderExpenses();
             updateTotal();
 
-             清空輸入框
+            // 清空輸入框
             nameInput.value = '';
             amountInput.value = '';
         }
 
-         刪除記帳
+        // 刪除記帳
         function deleteExpense(id) {
             if(confirm('確定要刪除這筆紀錄嗎？')) {
-                expenses = expenses.filter(e = e.id !== id);
+                expenses = expenses.filter(e => e.id !== id);
                 saveExpenses();
                 renderExpenses();
                 updateTotal();
             }
         }
 
-         儲存記帳資料
+        // 儲存記帳資料
         function saveExpenses() {
             localStorage.setItem('jeju_expenses_v1', JSON.stringify(expenses));
         }
 
-         渲染記帳列表
+        // 渲染記帳列表
         function renderExpenses() {
             const listContainer = document.getElementById('expense-list');
             
             if (expenses.length === 0) {
                 listContainer.innerHTML = `
-                    div class=text-center py-10 opacity-50
-                        div class=text-4xl mb-2💸div
-                        p class=text-sm還沒有消費紀錄喔！p
-                    div`;
+                    <div class="text-center py-10 opacity-50">
+                        <div class="text-4xl mb-2">💸</div>
+                        <p class="text-sm">還沒有消費紀錄喔！</p>
+                    </div>`;
                 return;
             }
 
             let html = '';
-             對應圖示
+            // 對應圖示
             const icons = {
-                food '🍽️',
-                transport '🚗',
-                hotel '🏨',
-                shopping '🛍️',
-                fun '🎡',
-                other '📦'
+                food: '🍽️',
+                transport: '🚗',
+                hotel: '🏨',
+                shopping: '🛍️',
+                fun: '🎡',
+                other: '📦'
             };
 
             const colors = {
-                food 'bg-rose-100 text-rose-600',
-                transport 'bg-blue-100 text-blue-600',
-                hotel 'bg-indigo-100 text-indigo-600',
-                shopping 'bg-purple-100 text-purple-600',
-                fun 'bg-green-100 text-green-600',
-                other 'bg-gray-100 text-gray-600'
+                food: 'bg-rose-100 text-rose-600',
+                transport: 'bg-blue-100 text-blue-600',
+                hotel: 'bg-indigo-100 text-indigo-600',
+                shopping: 'bg-purple-100 text-purple-600',
+                fun: 'bg-green-100 text-green-600',
+                other: 'bg-gray-100 text-gray-600'
             };
 
-            expenses.forEach(item = {
-                const twd = Math.round(item.amountKRW  currentRate);
+            expenses.forEach(item => {
+                const twd = Math.round(item.amountKRW * currentRate);
                 const dateStr = new Date(item.date).toLocaleDateString();
                 
                 html += `
-                div class=expense-item bg-white rounded-xl shadow-sm flex items-center justify-between p-4 relative group
-                    div class=flex items-center gap-3
-                        div class=category-icon w-10 h-10 rounded-full flex items-center justify-center text-lg ${colors[item.category]}
+                <div class="expense-item bg-white rounded-xl shadow-sm flex items-center justify-between p-4 relative group">
+                    <div class="flex items-center gap-3">
+                        <div class="category-icon w-10 h-10 rounded-full flex items-center justify-center text-lg ${colors[item.category]}">
                             ${icons[item.category]}
-                        div
-                        div
-                            p class=font-bold text-jeju-dark${item.name}p
-                            p class=text-xs text-gray-400${dateStr}p
-                        div
-                    div
-                    div class=text-right
-                        p class=font-bold text-jeju-orange₩ ${item.amountKRW.toLocaleString()}p
-                        p class=text-xs text-gray-400≈ NT$ ${twd.toLocaleString()}p
-                    div
-                    button onclick=deleteExpense(${item.id}) class=absolute -right-2 -top-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hoveropacity-100 transition shadow-md✕button
-                div`;
+                        </div>
+                        <div>
+                            <p class="font-bold text-jeju-dark">${item.name}</p>
+                            <p class="text-xs text-gray-400">${dateStr}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-jeju-orange">₩ ${item.amountKRW.toLocaleString()}</p>
+                        <p class="text-xs text-gray-400">≈ NT$ ${twd.toLocaleString()}</p>
+                    </div>
+                    <button onclick="deleteExpense(${item.id})" class="absolute -right-2 -top-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition shadow-md">✕</button>
+                </div>`;
             });
             
             listContainer.innerHTML = html;
         }
 
-         更新總計
+        // 更新總計
         function updateTotal() {
-            const totalKRW = expenses.reduce((sum, item) = sum + item.amountKRW, 0);
-            const totalTWD = Math.round(totalKRW  currentRate);
+            const totalKRW = expenses.reduce((sum, item) => sum + item.amountKRW, 0);
+            const totalTWD = Math.round(totalKRW * currentRate);
             
             document.getElementById('total-twd').textContent = `NT$ ${totalTWD.toLocaleString()}`;
-             可以在旁邊加個小字顯示韓幣總額
-            document.getElementById('total-twd').innerHTML += `span class=block text-[10px] text-gray-400 font-normal₩ ${totalKRW.toLocaleString()}span`;
+            // 可以在旁邊加個小字顯示韓幣總額
+            document.getElementById('total-twd').innerHTML += `<span class="block text-[10px] text-gray-400 font-normal">₩ ${totalKRW.toLocaleString()}</span>`;
         }
 
         function saveData() {
@@ -1306,7 +1306,7 @@ body class=text-jeju-dark
 
         function editLink(day, index) {
             const event = scheduleData[day][index];
-            const newLink = prompt('請輸入 Naver Map 網址 (留空則移除)', event.link  '');
+            const newLink = prompt('請輸入 Naver Map 網址 (留空則移除):', event.link || '');
             if (newLink !== null) {
                 event.link = newLink.trim();
                 saveData();
@@ -1325,30 +1325,30 @@ body class=text-jeju-dark
         function renderDaySelector() {
             const container = document.getElementById('day-selector');
             let html = '';
-            dayConfig.forEach(d = {
-                const baseClass = d.isWeekend  'bg-rose-50 border-transparent text-rose-500'  'bg-white border-transparent text-gray-400';
+            dayConfig.forEach(d => {
+                const baseClass = d.isWeekend ? 'bg-rose-50 border-transparent text-rose-500' : 'bg-white border-transparent text-gray-400';
                 html += `
-                button onclick=switchDay(${d.day}) class=day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-gray-100 transition-all shadow-sm ${baseClass} data-day=${d.day} data-weekend=${d.isWeekend  false}
-                    span class=text-[10px] font-sans opacity-80${d.date} ${d.week}span
-                    span class=text-xl font-bold font-cuteD${d.day}span
-                button`;
+                <button onclick="switchDay(${d.day})" class="day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-gray-100 transition-all shadow-sm ${baseClass}" data-day="${d.day}" data-weekend="${d.isWeekend || false}">
+                    <span class="text-[10px] font-sans opacity-80">${d.date} ${d.week}</span>
+                    <span class="text-xl font-bold font-cute">D${d.day}</span>
+                </button>`;
             });
             container.innerHTML = html;
         }
 
         function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(el = el.classList.add('hidden'));
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById('view-' + viewId).classList.remove('hidden');
             
-            document.querySelectorAll('.nav-item').forEach(el = el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el = el.classList.replace('text-jeju-dark', 'text-gray-400'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.replace('text-jeju-dark', 'text-gray-400'));
             
             const activeNav = document.getElementById('nav-' + viewId);
             activeNav.classList.add('active');
             activeNav.classList.replace('text-jeju-dark', 'text-gray-400');
-            window.scrollTo({top 0, behavior 'smooth'});
+            window.scrollTo({top: 0, behavior: 'smooth'});
 
-             強制重繪行程頁面以避免空白
+            // 強制重繪行程頁面以避免空白
             if (viewId === 'schedule') {
                 switchDay(currentDay);
             }
@@ -1357,20 +1357,20 @@ body class=text-jeju-dark
         function switchDay(day) {
             currentDay = day;
             
-             安全檢查：若資料尚未載入則重新初始化
-            if (!scheduleData  !scheduleData[day]) {
+            // 安全檢查：若資料尚未載入則重新初始化
+            if (!scheduleData || !scheduleData[day]) {
                 console.warn(`Schedule data for day ${day} missing, re-initializing...`);
                 scheduleData = JSON.parse(JSON.stringify(defaultScheduleData));
             }
 
-            document.querySelectorAll('.day-btn').forEach(btn = {
+            document.querySelectorAll('.day-btn').forEach(btn => {
                 const isWeekend = btn.dataset.weekend === 'true';
                 btn.classList.remove('ring-2', 'ring-jeju-orange', 'ring-rose-400', 'bg-white', 'text-jeju-dark');
                 
                 if(isWeekend) {
-                    btn.className = day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-transparent transition-all shadow-sm bg-rose-50 text-rose-400;
+                    btn.className = "day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-transparent transition-all shadow-sm bg-rose-50 text-rose-400";
                 } else {
-                    btn.className = day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-transparent transition-all shadow-sm bg-white text-gray-400;
+                    btn.className = "day-btn flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center gap-1 border border-transparent transition-all shadow-sm bg-white text-gray-400";
                 }
 
                 if(parseInt(btn.dataset.day) === day) {
@@ -1380,15 +1380,15 @@ body class=text-jeju-dark
             });
 
             const container = document.getElementById('day-content-container');
-            const events = scheduleData[day]  [];
+            const events = scheduleData[day] || [];
             
-             生成行程速覽 (橫向流動式) + 圖示化
-            let overviewHtml = `div class=bg-white rounded-xl p-4 mb-6 shadow-sm border border-gray-100 relative overflow-hidden
-                    div class=absolute top-0 left-0 w-1 h-full bg-jeju-orangediv
-                    div class=flex flex-wrap items-center gap-y-2 text-xs leading-relaxed pl-1`;
+            // 生成行程速覽 (橫向流動式) + 圖示化
+            let overviewHtml = `<div class="bg-white rounded-xl p-4 mb-6 shadow-sm border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-jeju-orange"></div>
+                    <div class="flex flex-wrap items-center gap-y-2 text-xs leading-relaxed pl-1">`;
                 
-            const meaningfulEvents = events.filter(e = !e.transport);
-            meaningfulEvents.forEach((event, i) = {
+            const meaningfulEvents = events.filter(e => !e.transport);
+            meaningfulEvents.forEach((event, i) => {
                 const originalIndex = events.indexOf(event);
                 
                 let iconName = 'circle';
@@ -1401,51 +1401,51 @@ body class=text-jeju-dark
                 if(event.type === 'ship') { iconName = 'ship'; iconColorClass = 'text-cyan-500'; }
 
                 overviewHtml += `
-                    a onclick=scrollToEvent(${day}, ${originalIndex}) class=group flex items-center font-bold text-gray-600 hovertext-jeju-orange transition-colors overview-link cursor-pointer
-                        i data-lucide=${iconName} class=w-3 h-3 mr-1 ${iconColorClass}i
-                        span class=border-b-2 border-transparent group-hoverborder-jeju-orange pb-0.5${event.title}span
-                    a
+                    <a onclick="scrollToEvent(${day}, ${originalIndex})" class="group flex items-center font-bold text-gray-600 hover:text-jeju-orange transition-colors overview-link cursor-pointer">
+                        <i data-lucide="${iconName}" class="w-3 h-3 mr-1 ${iconColorClass}"></i>
+                        <span class="border-b-2 border-transparent group-hover:border-jeju-orange pb-0.5">${event.title}</span>
+                    </a>
                 `;
                 
-                if (i  meaningfulEvents.length - 1) {
+                if (i < meaningfulEvents.length - 1) {
                     overviewHtml += `
-                        span class=mx-2 text-gray-300 flex items-center
-                            i data-lucide=chevron-right class=w-3 h-3i
-                        span
+                        <span class="mx-2 text-gray-300 flex items-center">
+                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                        </span>
                     `;
                 }
             });
-            overviewHtml += `divdiv`;
+            overviewHtml += `</div></div>`;
 
             let detailHtml = '';
-            events.forEach((event, index) = {
+            events.forEach((event, index) => {
                 if (event.transport) {
-                     使用資料中的 link，若無則不顯示超連結
-                    let hasLink = event.link  true  false;
-                    let nextEventLink = event.link  '#';
+                    // 使用資料中的 link，若無則不顯示超連結
+                    let hasLink = event.link ? true : false;
+                    let nextEventLink = event.link || '#';
 
-                    const linkClass = hasLink  'has-link'  'no-link';
-                     如果沒有 link，就不要用 a 標籤，改用 div
+                    const linkClass = hasLink ? 'has-link' : 'no-link';
+                    // 如果沒有 link，就不要用 <a> 標籤，改用 <div>
                     const wrapper = hasLink 
-                         `a href=${nextEventLink} target=_blank class=transport-pill ${linkClass}` 
-                         `div class=transport-pill ${linkClass}`;
-                    const wrapperEnd = hasLink  `a`  `div`;
+                        ? `<a href="${nextEventLink}" target="_blank" class="transport-pill ${linkClass}">` 
+                        : `<div class="transport-pill ${linkClass}">`;
+                    const wrapperEnd = hasLink ? `</a>` : `</div>`;
 
-                     Icon Logic for transport
+                    // Icon Logic for transport
                     let transIcon = '';
-                    if (event.transport.includes('開車')) transIcon = 'i data-lucide=car class=w-3 h-3i';
-                    else if (event.transport.includes('步行')) transIcon = 'i data-lucide=footprints class=w-3 h-3i';
-                    else if (event.transport.includes('飛行')) transIcon = 'i data-lucide=plane class=w-3 h-3i';
-                    else if (event.transport.includes('渡輪')) transIcon = 'i data-lucide=ship class=w-3 h-3i';
-                    else if (event.transport.includes('接駁')) transIcon = 'i data-lucide=bus class=w-3 h-3i';
+                    if (event.transport.includes('開車')) transIcon = '<i data-lucide="car" class="w-3 h-3"></i>';
+                    else if (event.transport.includes('步行')) transIcon = '<i data-lucide="footprints" class="w-3 h-3"></i>';
+                    else if (event.transport.includes('飛行')) transIcon = '<i data-lucide="plane" class="w-3 h-3"></i>';
+                    else if (event.transport.includes('渡輪')) transIcon = '<i data-lucide="ship" class="w-3 h-3"></i>';
+                    else if (event.transport.includes('接駁')) transIcon = '<i data-lucide="bus" class="w-3 h-3"></i>';
 
                     detailHtml += `
-                        div class=relative pl-12 id=event-${day}-${index}
+                        <div class="relative pl-12" id="event-${day}-${index}">
                             ${wrapper}
                                 ${transIcon}
                                 ${event.transport}
                             ${wrapperEnd}
-                        div
+                        </div>
                     `;
                     return;
                 }
@@ -1462,88 +1462,88 @@ body class=text-jeju-dark
                 if(event.type === 'ship') { icon = 'ship'; bgColor='bg-cyan-500'; }
 
                 let navBtn = '';
-                let linkEditBtn = `button onclick=editLink(${day}, ${index}) class=btn-edit ml-2 title=編輯連結✎button`;
+                let linkEditBtn = `<button onclick="editLink(${day}, ${index})" class="btn-edit ml-2" title="編輯連結">✎</button>`;
                 
                 if(event.link) {
                     let btnContent = '';
-                    let btnClass = 'btn-naver';  預設樣式
+                    let btnClass = 'btn-naver'; // 預設樣式
 
                     if (event.link.includes('klook')) {
-                         Klook 連結
+                        // Klook 連結
                         btnClass = 'btn-naver bg-orange-500 shadow-orange-200';
-                        btnContent = `span class=font-black text-xsKspan Klook`;
+                        btnContent = `<span class="font-black text-xs">K</span> Klook`;
                     } else if (event.link.includes('map.naver.com')) {
-                         Naver Map 導航
-                        btnContent = `span class=font-black text-xsNspan 導航`;
+                        // Naver Map 導航
+                        btnContent = `<span class="font-black text-xs">N</span> 導航`;
                     } else if (event.link.includes('catchtable')) {
-                         Catch Table
+                        // Catch Table
                         btnClass = 'btn-naver bg-red-500 shadow-red-200';
-                        btnContent = `span class=font-black text-xsCspan CatchTable`;
+                        btnContent = `<span class="font-black text-xs">C</span> CatchTable`;
                     } else {
-                         其他網頁連結
+                        // 其他網頁連結
                         btnClass = 'btn-naver bg-sky-500 shadow-sky-200';
-                        btnContent = `i data-lucide=globe class=w-3 h-3i 介紹`;
+                        btnContent = `<i data-lucide="globe" class="w-3 h-3"></i> 介紹`;
                     }
                     
-                     特別處理按鈕
+                    // 特別處理按鈕
                     let extraBtn = '';
                     if (event.hasInfo) {
-                         Audrant Bakery 的 hasInfo 已設為 false，這裡會自動跳過
-                          南苑貴賓室的 hasInfo 仍為 true，這裡會顯示
+                        // Audrant Bakery 的 hasInfo 已設為 false，這裡會自動跳過
+                         // 南苑貴賓室的 hasInfo 仍為 true，這裡會顯示
                         if (event.title === '南苑貴賓室') {
-                           extraBtn = `button onclick=openInfo() class=btn-edit ml-2 bg-yellow-100 text-yellow-600 hoverbg-yellow-200 title=查看指引ℹ️button`;
+                           extraBtn = `<button onclick="openInfo()" class="btn-edit ml-2 bg-yellow-100 text-yellow-600 hover:bg-yellow-200" title="查看指引">ℹ️</button>`;
                         }
                     }
                     if (event.hasPickup) {
-                         extraBtn = `button onclick=openPickup() class=btn-edit ml-2 bg-blue-100 text-blue-600 hoverbg-blue-200 title=取車指引ℹ️button`;
+                         extraBtn = `<button onclick="openPickup()" class="btn-edit ml-2 bg-blue-100 text-blue-600 hover:bg-blue-200" title="取車指引">ℹ️</button>`;
                     }
 
-                     只有在 btnContent 不為空時才顯示主按鈕
-                    let mainBtnHtml = btnContent  `a href=${event.link} target=_blank class=${btnClass}${btnContent}a`  '';
+                    // 只有在 btnContent 不為空時才顯示主按鈕
+                    let mainBtnHtml = btnContent ? `<a href="${event.link}" target="_blank" class="${btnClass}">${btnContent}</a>` : '';
 
                     navBtn = `
-                    div class=flex items-center gap-1
+                    <div class="flex items-center gap-1">
                         ${mainBtnHtml}
                         ${extraBtn}
                         ${linkEditBtn}
-                    div`;
+                    </div>`;
                 } else {
                     navBtn = `
-                    button onclick=editLink(${day}, ${index}) class=text-[10px] text-gray-400 border border-gray-200 px-2 py-1 rounded-full hoverbg-gray-100 transition
+                    <button onclick="editLink(${day}, ${index})" class="text-[10px] text-gray-400 border border-gray-200 px-2 py-1 rounded-full hover:bg-gray-100 transition">
                         + 連結
-                    button`;
+                    </button>`;
                 }
 
-                 氣溫標籤
+                // 氣溫標籤
                 let weatherTag = '';
                 if (event.weather) {
-                    weatherTag = `span class=text-xs bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full ml-2${event.weather}span`;
+                    weatherTag = `<span class="text-xs bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full ml-2">${event.weather}</span>`;
                 }
 
                 detailHtml += `
-                div class=relative pl-12 fade-in scroll-mt-24 id=event-${day}-${index}
-                    div class=absolute left-0 top-0 flex flex-col items-center z-10
-                        div class=w-10 h-10 rounded-full ${bgColor} shadow-md flex items-center justify-center ${iconColor} border-2 border-white
-                            i data-lucide=${icon} class=w-5 h-5i
-                        div
-                    div
+                <div class="relative pl-12 fade-in scroll-mt-24" id="event-${day}-${index}">
+                    <div class="absolute left-0 top-0 flex flex-col items-center z-10">
+                        <div class="w-10 h-10 rounded-full ${bgColor} shadow-md flex items-center justify-center ${iconColor} border-2 border-white">
+                            <i data-lucide="${icon}" class="w-5 h-5"></i>
+                        </div>
+                    </div>
                     
-                    div class=chic-card p-5 mb-2
-                        div class=flex items-center justify-between mb-2
-                            div class=flex items-center
-                                span class=text-sm font-bold text-gray-500 font-mono${event.time}span
+                    <div class="chic-card p-5 mb-2">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <span class="text-sm font-bold text-gray-500 font-mono">${event.time}</span>
                                 ${weatherTag}
-                            div
+                            </div>
                             ${navBtn}
-                        div
-                        h3 class=text-lg font-bold text-jeju-dark tracking-tight${event.title}h3
-                        p class=text-sm text-gray-400 mt-1${event.desc}p
-                    div
-                div
+                        </div>
+                        <h3 class="text-lg font-bold text-jeju-dark tracking-tight">${event.title}</h3>
+                        <p class="text-sm text-gray-400 mt-1">${event.desc}</p>
+                    </div>
+                </div>
                 `;
             });
 
-            container.innerHTML = overviewHtml + detailHtml  'div class=text-center py-10 text-gray-400本日無行程div';
+            container.innerHTML = overviewHtml + detailHtml || '<div class="text-center py-10 text-gray-400">本日無行程</div>';
             lucide.createIcons();
         }
 
@@ -1554,41 +1554,41 @@ body class=text-jeju-dark
 
         async function fetchRate() {
             try {
-                const res = await fetch('httpsapi.exchangerate-api.comv4latestKRW');
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/KRW');
                 const data = await res.json();
                 if(data.rates.TWD) {
                     currentRate = data.rates.TWD;
                     rateDisplay.textContent = `1 KRW ≈ ${currentRate.toFixed(4)} TWD`;
-                    rateDisplay.classList.replace('bg-white20', 'bg-green-40030');
+                    rateDisplay.classList.replace('bg-white/20', 'bg-green-400/30');
                 }
             } catch (e) {
-                console.log(Rate fetch failed);
+                console.log("Rate fetch failed");
             }
         }
 
         function calcTWD() {
             const krw = parseFloat(inputKrw.value);
-            if(!isNaN(krw)) inputTwd.value = (krw  currentRate).toFixed(0);
+            if(!isNaN(krw)) inputTwd.value = (krw * currentRate).toFixed(0);
             else inputTwd.value = '';
         }
 
         function calcKRW() {
             const twd = parseFloat(inputTwd.value);
-            if(!isNaN(twd)) inputKrw.value = (twd  currentRate).toFixed(0);
+            if(!isNaN(twd)) inputKrw.value = (twd / currentRate).toFixed(0);
             else inputKrw.value = '';
         }
 
         inputKrw.addEventListener('input', calcTWD);
         inputTwd.addEventListener('input', calcKRW);
 
-         確保在DOM加載後初始化
-        window.addEventListener('DOMContentLoaded', (event) = {
+        // 確保在DOM加載後初始化
+        window.addEventListener('DOMContentLoaded', (event) => {
             initData();
             renderDaySelector();
-            switchView('flight');  預設顯示航班頁面
+            switchView('flight'); // 預設顯示航班頁面
             fetchRate();
         });
 
-    script
-body
-html
+    </script>
+</body>
+</html>
