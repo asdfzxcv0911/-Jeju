@@ -181,6 +181,11 @@
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
+        
+        .boat-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 0.85rem; }
+        .boat-table th { background: #f1f5f9; padding: 8px; text-align: center; border: 1px solid #e2e8f0; font-weight: bold; color: #475569; }
+        .boat-table td { padding: 8px; text-align: center; border: 1px solid #e2e8f0; color: #334155; }
+        .boat-table tr:nth-child(even) { background: #f8fafc; }
     </style>
 </head>
 <body class="min-h-screen pb-10 overflow-x-hidden text-slate-800">
@@ -292,14 +297,14 @@
                 type: 'spot', time: 'auto', duration: 120, travelTime: 25, travelMode: 'car', 
                 title: 'ECOLAND 森林小火車', desc: '搭火車遊森林，輕鬆愜意',
                 icon: 'fa-train', bg: 'bg-green-100', note: '冬季營業: 08:30 - 16:30 (最後入場)',
-                btnText: '票價資訊', btnAction: 'showEcoLandPrice', // 新增按鈕
+                btnText: '票價資訊', btnAction: 'showEcoLandPrice',
                 navQuery: '제주레일바이크' 
             },
             {
                 type: 'activity', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', 
                 title: '濟州鐵道自行車', desc: 'Jeju Rail Bike (自動行駛)',
                 icon: 'fa-bicycle', bg: 'bg-pink-100', note: '營業時間: 09:00 - 17:30 (每整點出發)',
-                btnText: '票價資訊', btnAction: 'showRailBikePrice', // 新增按鈕
+                btnText: '票價資訊', btnAction: 'showRailBikePrice',
                 navQuery: '삼달리' 
             },
             {
@@ -316,6 +321,54 @@
             {
                 type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, 
                 title: '濟州城山貝斯特飯店', desc: 'Coop City Hotel Seongsan',
+                icon: 'fa-bed', bg: 'bg-purple-100', navQuery: ''
+            }
+        ];
+
+        // Day 3 Data
+        const day3Events = [
+            {
+                type: 'start', time: '09:00', duration: 0, travelTime: 15, travelMode: 'car', 
+                title: '飯店出發', desc: '睡飽出發前往港口',
+                icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '성산포항종합여객터미널'
+            },
+            {
+                type: 'ship', time: 'auto', duration: 30, travelTime: 0, travelMode: null, 
+                title: '城山港 (搭船)', desc: 'Seongsan Port (前往牛島)',
+                icon: 'fa-ship', bg: 'bg-blue-100', 
+                note: '需填寫乘船申報單(2份) + 護照',
+                btnText: '船班與票價', btnAction: 'showFerryInfo',
+                navQuery: '' 
+            },
+            {
+                type: 'spot', time: 'auto', duration: 180, travelTime: 30, travelMode: 'ship',
+                title: '牛島 (Udo) 環島', desc: '必吃花生冰淇淋、炸醬麵',
+                icon: 'fa-island-tropical', bg: 'bg-green-100',
+                note: '推薦租電動車或搭環島巴士',
+                customButtons: [{ text: '行程規劃', link: 'javascript:showUdoPlan()', icon: 'fa-map', color: 'orange' }],
+                navQuery: ''
+            },
+            {
+                type: 'arrive', time: 'auto', duration: 0, travelTime: 10, travelMode: 'car',
+                title: '返回城山港', desc: '搭船返回本島',
+                icon: 'fa-anchor', bg: 'bg-gray-100', navQuery: '아쿠아플라넷 제주'
+            },
+            {
+                type: 'spot', time: 'auto', duration: 180, travelTime: 15, travelMode: 'car', 
+                title: 'Aqua Planet Jeju', desc: '亞洲最大水族館之一',
+                icon: 'fa-fish', bg: 'bg-blue-200', 
+                note: '營業: 09:30-19:00 / 表演: 13:00, 15:00, 16:50',
+                navQuery: '금돗 성산흑돼지'
+            },
+            {
+                type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'car', 
+                title: '黑毛豬晚餐 - 금돗 성산', desc: 'Geumdot Seongsan Black Pork',
+                icon: 'fa-utensils', bg: 'bg-orange-100', note: '營業時間: 11:00 - 23:00',
+                navQuery: '코업시티호텔 성산'
+            },
+            {
+                type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, 
+                title: '濟州城山貝斯特飯店', desc: '休息',
                 icon: 'fa-bed', bg: 'bg-purple-100', navQuery: ''
             }
         ];
@@ -471,6 +524,8 @@
                     let travelEmoji = '🚶'; 
                     if (event.travelMode === 'car') travelEmoji = '🚗';
                     if (event.travelMode === 'plane') travelEmoji = '✈️';
+                    if (event.travelMode === 'ship') travelEmoji = '⛴️';
+
                     let navButtonHtml = '';
                     if (event.navQuery && event.navQuery.length > 0) {
                         const navUrl = `https://map.naver.com/p/search/${encodeURIComponent(event.navQuery)}`;
@@ -495,13 +550,123 @@
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
-        // Add Price Modal Functions
         window.showEcoLandPrice = function() {
             document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-200 pb-2">ECOLAND 票價資訊</h3><div class="space-y-3 font-hand text-lg"><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>成人 (19歲以上)</span><span class="font-bold">₩16,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>青少年 (13-18歲)</span><span class="font-bold">₩13,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>兒童 (3-12歲)</span><span class="font-bold">₩11,000</span></div></div><div class="mt-4 bg-green-50 p-3 rounded-lg text-xs text-green-700">💡 建議預留 2-3 小時遊玩時間，小火車每 7-12 分鐘一班。</div></div>`;
             document.getElementById('info-modal').classList.remove('hidden');
         }
         window.showRailBikePrice = function() {
             document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-pink-200 pb-2">濟州鐵道自行車 票價</h3><div class="space-y-3 font-hand text-lg"><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>2人座</span><span class="font-bold">₩30,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>3人座</span><span class="font-bold">₩40,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>4人座</span><span class="font-bold">₩48,000</span></div></div><div class="mt-4 bg-pink-50 p-3 rounded-lg text-xs text-pink-700">💡 請提前 20 分鐘抵達售票處換票。車輛為自動駕駛，不用費力踩！</div></div>`;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+        window.showFerryInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-2 -right-2 text-4xl opacity-20 rotate-12">⛴️</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-dashed border-slate-200 pb-3 font-hand tracking-wide">
+                        牛島渡輪 船班 & 票價
+                    </h3>
+                    <div class="mb-4">
+                        <h4 class="font-bold text-slate-700 mb-2 text-sm"><i class="fas fa-clock text-blue-500 mr-1"></i> 船班時刻表 (每30分鐘一班)</h4>
+                        <div class="bg-blue-50 rounded-lg p-3 text-xs leading-relaxed text-slate-600">
+                            <p class="font-bold mb-1">去程 (城山出發)</p>
+                            <p>08:00, 08:30, 09:00 ... 17:00 (末班)</p>
+                            <p class="font-bold mt-2 mb-1">回程 (牛島出發)</p>
+                            <p>07:30, 08:00 ... 17:00 (末班)</p>
+                            <p class="text-[10px] text-gray-500 mt-2">* 實際時間依當日天氣與季節可能調整，請提早抵達。</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-bold text-slate-700 mb-2 text-sm"><i class="fas fa-ticket-alt text-green-500 mr-1"></i> 往返票價 (含門票+船費)</h4>
+                        <table class="boat-table w-full text-sm text-slate-600">
+                            <thead class="bg-slate-100"><tr><th class="p-2 text-left">對象</th><th class="p-2 text-right">往返費用</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr><td class="p-2">成人 (19歲+)</td><td class="p-2 text-right font-bold">10,500 韓元</td></tr>
+                                <tr><td class="p-2">中學生 (13-18歲)</td><td class="p-2 text-right font-bold">10,100 韓元</td></tr>
+                                <tr><td class="p-2">小學生 (6-12歲)</td><td class="p-2 text-right font-bold">3,800 韓元</td></tr>
+                                <tr><td class="p-2">兒童 (2-5歲)</td><td class="p-2 text-right font-bold">3,000 韓元</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="mb-4">
+                        <h4 class="font-bold text-slate-700 mb-2 text-sm"><i class="fas fa-car text-orange-500 mr-1"></i> 車輛運費 (往返)</h4>
+                        <table class="boat-table w-full text-sm text-slate-600">
+                            <thead class="bg-slate-100"><tr><th class="p-2 text-left">車型</th><th class="p-2 text-right">往返費用</th></tr></thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr><td class="p-2">輕型車 (Morning等)</td><td class="p-2 text-right font-bold">21,600 韓元</td></tr>
+                                <tr><td class="p-2">中型車 (Avante, Sonata)</td><td class="p-2 text-right font-bold">26,000 韓元</td></tr>
+                                <tr><td class="p-2">大型車 (Grandeur, K7)</td><td class="p-2 text-right font-bold">30,400 韓元</td></tr>
+                                 <tr><td class="p-2">休旅車 (Carnival, Starex)</td><td class="p-2 text-right font-bold">37,000 韓元</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="text-[10px] text-red-500 mt-2">* 租賃車上島需符合特定條件 (如孕婦、65歲以上長者、6歲以下兒童隨行)，請務必先確認。</p>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-100 text-xs">
+                        <p class="font-bold text-yellow-800 mb-1">⚠️ 搭船必備</p>
+                        <ul class="list-disc pl-4 space-y-1 text-yellow-700"><li>所有乘客的<strong>護照正本</strong>。</li><li>填寫<strong>乘船申報單</strong> (一式兩份，去回程各一張)。</li><li>建議提早 30 分鐘抵達售票處。</li></ul>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showUdoPlan = function() {
+            const udoSpots = [
+                { name: '西濱白沙 (Sanho Beach)', desc: '韓國唯一的紅藻團塊海灘，沙子像爆米花一樣白！', query: '우도 서빈백사', icon: 'fa-umbrella-beach' },
+                { name: '下古水洞海水浴場', desc: '海水超清澈，適合玩水。必去 Blanc Rocher 咖啡廳☕', query: '하고수동해수욕장', icon: 'fa-water' },
+                { name: '飛揚島 (Biyangdo)', desc: '退潮時可步行前往的小島，拍照打卡聖地📸', query: '비양도 연육교', icon: 'fa-camera' },
+                { name: '檢蠻沙 (黑沙灘)', desc: '🥜 必吃：Jimmy\'s 花生冰淇淋！可搭快艇看海蝕洞。', query: '검멀레해수욕장', icon: 'fa-ice-cream' },
+                { name: '牛島峰 (Udo Peak)', desc: '俯瞰全島壯麗景色，有體力可以爬上去看看。', query: '우도봉', icon: 'fa-mountain' }
+            ];
+
+            let html = `
+                <div class="text-left relative h-full">
+                    <div class="absolute top-0 right-0 text-4xl opacity-20">🥜</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-orange-200 pb-2 font-hand tracking-wide">
+                        牛島環島必去路線 (順時針)
+                    </h3>
+                    
+                    <div class="bg-orange-50 p-3 rounded-xl mb-4 text-xs text-orange-800 flex items-center border border-orange-100">
+                        <i class="fas fa-motorcycle text-xl mr-3"></i>
+                        <div>
+                            <strong>交通建議：</strong><br>
+                            下船後租「電動三輪車」或搭乘「海岸循環巴士」遊玩最方便。
+                        </div>
+                    </div>
+
+                    <div class="space-y-0 pl-2">
+            `;
+
+            udoSpots.forEach((spot, index) => {
+                const navUrl = `https://map.naver.com/p/search/${encodeURIComponent(spot.query)}`;
+                html += `
+                    <div class="relative pl-6 border-l-2 border-dashed border-slate-300 pb-6 last:border-0 last:pb-0">
+                        <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-400 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-orange-500 shadow-sm">${index + 1}</div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-100 -mt-1 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-slate-700 text-sm flex items-center">
+                                    <i class="fas ${spot.icon} text-orange-300 mr-2 w-4 text-center"></i>${spot.name}
+                                </h4>
+                                <a href="${navUrl}" target="_blank" class="text-jeju-blue hover:text-blue-700 text-[10px] bg-blue-50 px-2 py-1 rounded-full whitespace-nowrap ml-2 font-bold flex items-center">
+                                    <i class="fas fa-location-arrow mr-1"></i> 導航
+                                </a>
+                            </div>
+                            <p class="text-xs text-slate-500 leading-relaxed pl-6">${spot.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
+                            關閉 Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-content-area').innerHTML = html;
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
@@ -610,7 +775,7 @@
                 
                 case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
                 case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
-                case 'day3': return dayPlanner('3', '2/01(日)');
+                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
                 case 'day4': return dayPlanner('4', '2/02(一)');
                 case 'day5': return dayPlanner('5', '2/03(二)');
                 case 'day6': return dayPlanner('6', '2/04(三)');
