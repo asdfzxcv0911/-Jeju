@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>濟州島8天7夜親子遊</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
                     fontFamily: {
                         'hand': ['Gaegu', 'cursive'],
                         'sans': ['Noto Sans TC', 'sans-serif'],
-                        'kaiti': ['KaiTi', 'BiauKai', 'DFKai-SB', 'serif'], // 標楷體設定
+                        'kaiti': ['KaiTi', 'BiauKai', 'DFKai-SB', 'serif'],
                     },
                     colors: {
                         'jeju-orange': '#FF8C42',
@@ -40,6 +40,7 @@
             background-position: center;
             background-attachment: fixed;
             font-family: 'Noto Sans TC', sans-serif;
+            overflow-y: scroll; /* 保持捲動 */
         }
 
         .journal-shadow {
@@ -51,6 +52,7 @@
                 0 20px 1px -9px rgba(0,0,0,0.15);
         }
 
+        /* 隱藏捲軸但可滑動 */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -58,12 +60,11 @@
             transition: transform 0.2s, background-color 0.2s;
             clip-path: polygon(0 0, 100% 0, 100% 90%, 95% 100%, 5% 100%, 0 90%);
         }
-        .sticker-tab:hover { transform: translateY(-3px); }
+        .sticker-tab:active { transform: translateY(0); } /* Mobile touch feedback */
         
-        /* Active 狀態改為亮黃色 */
         .sticker-tab.active {
-            background-color: #FFD93D !important; /* jeju-yellow */
-            color: #374151 !important; /* slate-700 */
+            background-color: #FFD93D !important;
+            color: #374151 !important;
             transform: translateY(-5px);
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -94,27 +95,24 @@
 
         .hand-font { font-family: 'Gaegu', cursive; }
         
-        /* 標題動畫 */
         @keyframes float-title {
             0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(-3px) rotate(1deg); }
         }
         .live-title {
             animation: float-title 3s ease-in-out infinite;
         }
 
-        /* 展開動畫 */
         .details-expand {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         .details-expand.show {
-            max-height: 1000px; /* 足夠顯示內容的高度 */
+            max-height: 1000px;
             transition: max-height 0.5s ease-in;
         }
 
-        /* Checkbox Style - Hand Drawn feel */
         .custom-checkbox {
             appearance: none;
             background-color: #fff;
@@ -136,52 +134,38 @@
             height: 0.8em;
             transform: scale(0);
             transition: 120ms transform ease-in-out;
-            box-shadow: inset 1em 1em #FF8C42; /* Jeju Orange check */
+            box-shadow: inset 1em 1em #FF8C42;
             transform-origin: center;
             clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
         }
-        .custom-checkbox:checked::before {
-            transform: scale(1);
-        }
+        .custom-checkbox:checked::before { transform: scale(1); }
         .custom-checkbox:checked + span {
             text-decoration: line-through;
             color: #aaa;
             font-style: italic;
         }
 
-        /* Polaroid Effect */
         .polaroid-card {
             background: white;
-            padding: 12px 12px 50px 12px;
-            box-shadow: 3px 4px 10px rgba(0,0,0,0.1);
+            padding: 10px 10px 40px 10px;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.15);
             transition: transform 0.3s;
             position: relative;
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }
-        .polaroid-card:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-            z-index: 20;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
-        /* 圖片濾鏡 - 讓照片看起來像可愛的底片感 */
-        .polaroid-img {
-            filter: sepia(10%) contrast(105%) saturate(110%);
-        }
+        .polaroid-img { filter: sepia(10%) contrast(105%) saturate(110%); }
 
-        /* Masking Tape */
         .masking-tape {
             position: absolute;
-            height: 35px;
-            width: 90px;
-            top: -12px;
+            height: 30px;
+            width: 80px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%) rotate(-2deg);
             background-color: rgba(255, 255, 255, 0.4);
             border-left: 2px dashed rgba(0,0,0,0.05);
             border-right: 2px dashed rgba(0,0,0,0.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             opacity: 0.8;
             z-index: 25;
         }
@@ -191,37 +175,37 @@
         .masking-tape.tape-pink { background-color: rgba(255, 154, 158, 0.7); }
     </style>
 </head>
-<body class="min-h-screen pb-10 overflow-x-hidden">
+<body class="min-h-screen pb-10 overflow-x-hidden text-slate-800">
 
     <!-- 頂部標題與倒數 -->
-    <div class="pt-8 pb-4 text-center px-4 relative z-10">
-        <div class="inline-block bg-white/90 backdrop-blur px-8 py-4 rounded-3xl shadow-lg border-4 border-jeju-orange live-title">
-            <h1 class="text-3xl md:text-6xl font-black text-slate-800 tracking-wider font-kaiti">
-                <span class="text-jeju-orange">濟州島</span> 8天7夜親子遊 <i class="fas fa-plane-departure text-jeju-blue"></i>
+    <div class="max-w-md mx-auto pt-6 pb-2 text-center px-4 relative z-10">
+        <div class="inline-block bg-white/90 backdrop-blur px-6 py-3 rounded-2xl shadow-lg border-4 border-jeju-orange live-title w-full">
+            <h1 class="text-2xl font-black text-slate-800 tracking-wider font-kaiti">
+                <span class="text-jeju-orange">濟州島</span> 8天7夜 <i class="fas fa-plane-departure text-jeju-blue"></i>
             </h1>
-            <div class="mt-2 flex flex-col md:flex-row items-center justify-center gap-2 text-slate-600 font-medium">
+            <div class="mt-2 flex flex-col items-center justify-center gap-2 text-slate-600 font-medium">
                 <span class="bg-jeju-yellow px-3 py-1 rounded-full text-slate-800 border-2 border-slate-800 border-dashed font-hand text-lg font-bold">
                     <i class="fas fa-calendar-alt mr-1"></i> 2026.01.30 - 02.06
                 </span>
-                <span id="countdown" class="bg-jeju-blue text-white px-4 py-1 rounded-full font-hand text-xl tracking-widest shadow-sm">
+                <span id="countdown" class="bg-jeju-blue text-white px-4 py-1 rounded-full font-hand text-lg tracking-widest shadow-sm">
                     D-Day 計算中...
                 </span>
             </div>
         </div>
     </div>
 
-    <!-- 主容器 -->
-    <div class="max-w-5xl mx-auto px-2 md:px-4">
+    <!-- 主容器：限制為 max-w-md (手機大小) -->
+    <div class="max-w-md mx-auto px-2">
         
         <!-- 上方導航標籤 (可滑動) -->
-        <div class="flex overflow-x-auto hide-scrollbar gap-1 px-2 pb-2" id="tab-menu" style="margin-bottom: -10px; padding-top: 10px;">
+        <div class="flex overflow-x-auto hide-scrollbar gap-1 px-1 pb-1" id="tab-menu" style="margin-bottom: -10px; padding-top: 10px;">
             <!-- 選單由 JS 生成 -->
         </div>
 
         <!-- 內容紙張區域 -->
-        <main class="bg-paper rounded-3xl p-6 md:p-10 min-h-[600px] relative journal-shadow border-t-8 border-jeju-yellow">
-            <div class="absolute top-4 left-4 text-red-400 text-2xl drop-shadow-md z-20"><i class="fas fa-thumbtack"></i></div>
-            <div class="absolute top-4 right-4 text-jeju-blue text-2xl drop-shadow-md z-20"><i class="fas fa-paperclip"></i></div>
+        <main class="bg-paper rounded-2xl p-4 min-h-[70vh] relative journal-shadow border-t-8 border-jeju-yellow mb-10">
+            <div class="absolute top-3 left-3 text-red-400 text-xl drop-shadow-md z-20"><i class="fas fa-thumbtack"></i></div>
+            <div class="absolute top-3 right-3 text-jeju-blue text-xl drop-shadow-md z-20"><i class="fas fa-paperclip"></i></div>
 
             <div id="content-area" class="relative z-10">
                 <!-- 內容由 JS 動態替換 -->
@@ -232,15 +216,15 @@
     <script>
         // 設定
         const tripStartDate = "2026-01-30";
-        let currentExchangeRate = 0; // 儲存即時匯率
+        let currentExchangeRate = 0; 
 
         const tabs = [
             { id: 'flight', icon: 'fa-plane', label: '航班', color: 'bg-blue-100' },
             { id: 'rate', icon: 'fa-coins', label: '匯率', color: 'bg-yellow-100' },
             { id: 'weather', icon: 'fa-cloud-sun', label: '氣象', color: 'bg-sky-100' },
-            { id: 'intro', icon: 'fa-camera-retro', label: '必去景點', color: 'bg-orange-100' },
-            { id: 'prep', icon: 'fa-suitcase', label: '行前準備', color: 'bg-green-100' }, // 改名
-            { id: 'booking', icon: 'fa-ticket-alt', label: '訂位憑證', color: 'bg-purple-100' }, 
+            { id: 'intro', icon: 'fa-camera-retro', label: '景點', color: 'bg-orange-100' },
+            { id: 'prep', icon: 'fa-suitcase', label: '準備', color: 'bg-green-100' },
+            { id: 'booking', icon: 'fa-ticket-alt', label: '憑證', color: 'bg-purple-100' }, 
             { id: 'day1', icon: 'fa-1', label: 'D1', color: 'bg-red-50' },
             { id: 'day2', icon: 'fa-2', label: 'D2', color: 'bg-red-50' },
             { id: 'day3', icon: 'fa-3', label: 'D3', color: 'bg-red-50' },
@@ -285,10 +269,10 @@
             menu.innerHTML = tabs.map(tab => `
                 <button onclick="loadContent('${tab.id}')" 
                         id="btn-${tab.id}"
-                        class="sticker-tab flex-shrink-0 px-4 py-3 md:py-4 rounded-t-xl text-slate-600 ${tab.color} border-t border-x border-black/5 mx-0.5">
-                    <div class="flex flex-col items-center min-w-[30px]">
+                        class="sticker-tab flex-shrink-0 px-3 py-2 rounded-t-xl text-slate-600 ${tab.color} border-t border-x border-black/5 mx-0.5">
+                    <div class="flex flex-col items-center min-w-[40px]">
                         <i class="fas ${tab.icon} text-lg mb-1"></i>
-                        <span class="font-bold text-sm md:text-base font-hand whitespace-nowrap">${tab.label}</span>
+                        <span class="font-bold text-sm font-hand whitespace-nowrap">${tab.label}</span>
                     </div>
                 </button>
             `).join('');
@@ -302,9 +286,9 @@
             const cdEl = document.getElementById('countdown');
             
             if (distance < 0) {
-                cdEl.innerHTML = "Have Fun! 旅程中";
+                cdEl.innerHTML = "旅程中";
             } else {
-                cdEl.innerHTML = `還有 ${days + 1} 天出發!`;
+                cdEl.innerHTML = `${days + 1} Days Left`;
             }
         }
 
@@ -322,9 +306,11 @@
             
             if(tabId === 'rate') fetchRate();
             if(tabId === 'weather') fetchWeather();
+            
+            // Scroll to top of content
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // --- 功能：匯率計算 ---
         async function fetchRate() {
             const el = document.getElementById('rate-display');
             try {
@@ -365,14 +351,19 @@
             }
         }
 
-        // --- 功能：氣象 ---
         async function fetchWeather() {
+            // 安全檢查：如果氣象小工具不存在，就先跳過，避免報錯
             const el = document.getElementById('weather-widget');
             if(!el) return;
+
             try {
                 const url = "https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=8";
                 const res = await fetch(url);
                 const data = await res.json();
+                
+                // 二次檢查：資料抓完後，確認使用者還在氣象頁面嗎？
+                if(!document.getElementById('weather-widget')) return;
+
                 const current = data.current_weather;
                 const daily = data.daily;
                 
@@ -384,24 +375,37 @@
                     return { t: "陰雨", i: "fa-cloud-showers-heavy text-blue-700" };
                 };
                 const currW = getWeatherDesc(current.weathercode);
-                document.getElementById('curr-temp').innerText = `${current.temperature}°`;
-                document.getElementById('curr-desc').innerHTML = `<i class="fas ${currW.i} mr-2"></i>${currW.t}`;
+                
+                // 使用安全的方式設定 DOM，確保元素存在才設定
+                const tempEl = document.getElementById('curr-temp');
+                if(tempEl) tempEl.innerText = `${current.temperature}°`;
+                
+                const descEl = document.getElementById('curr-desc');
+                if(descEl) descEl.innerHTML = `<i class="fas ${currW.i} mr-2"></i>${currW.t}`;
                 
                 let forecastHtml = '';
+                // 橫式條列 Layout - 使用 flex-row
                 for(let i=0; i<7; i++) {
                     const w = getWeatherDesc(daily.weathercode[i]);
                     const date = moment(daily.time[i]).format('MM/DD');
                     forecastHtml += `
-                        <div class="flex flex-col items-center p-3 bg-white border-2 border-dashed border-slate-200 rounded-xl transform hover:scale-105 transition-transform">
-                            <span class="text-lg font-hand font-bold text-slate-600">${date}</span>
-                            <i class="fas ${w.i} text-2xl my-2"></i>
-                            <span class="text-sm font-bold text-slate-500">${daily.temperature_2m_min[i]}°~${daily.temperature_2m_max[i]}°</span>
+                        <div class="flex-shrink-0 w-20 flex flex-col items-center p-2 bg-white border-2 border-dashed border-slate-200 rounded-xl snap-center mx-1">
+                            <span class="text-sm font-hand font-bold text-slate-600">${date}</span>
+                            <i class="fas ${w.i} text-xl my-2"></i>
+                            <span class="text-[10px] font-bold text-slate-500">${daily.temperature_2m_min[i]}°~${daily.temperature_2m_max[i]}°</span>
                         </div>
                     `;
                 }
-                document.getElementById('forecast-container').innerHTML = forecastHtml;
-                document.getElementById('weather-loading').style.display = 'none';
-                document.getElementById('weather-content').classList.remove('hidden');
+                
+                const container = document.getElementById('forecast-container');
+                if(container) container.innerHTML = forecastHtml;
+                
+                const loading = document.getElementById('weather-loading');
+                if(loading) loading.style.display = 'none';
+                
+                const content = document.getElementById('weather-content');
+                if(content) content.classList.remove('hidden');
+
             } catch (e) { console.error(e); }
         }
 
@@ -417,37 +421,57 @@
             }
         }
 
+        // 新增功能：處理圖片上傳與更換
+        window.updateImage = function(id, input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgEl = document.querySelector(`#${id} img`);
+                    if(imgEl) imgEl.src = e.target.result;
+                    // 嘗試儲存到 LocalStorage (注意：圖片太大可能會失敗)
+                    try {
+                        localStorage.setItem('img-' + id, e.target.result);
+                    } catch(e) {
+                        console.log('Image too big for local storage, but display updated.');
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function renderPassengerTable(list) {
             return `
-                <table class="w-full text-sm text-left mt-2 border-collapse">
-                    <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b">
-                        <tr>
-                            <th class="px-3 py-2">姓名 Name</th>
-                            <th class="px-3 py-2 text-center">座位 Seat</th>
-                            <th class="px-3 py-2 text-right">行李 Baggage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${list.map(p => `
-                            <tr class="bg-white border-b hover:bg-yellow-50">
-                                <td class="px-3 py-2 font-medium text-slate-900">${p.name}</td>
-                                <td class="px-3 py-2 text-center font-hand font-bold text-lg text-jeju-blue">${p.seat}</td>
-                                <td class="px-3 py-2 text-right font-hand font-bold text-slate-600">${p.bag}</td>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left mt-2 border-collapse">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b">
+                            <tr>
+                                <th class="px-2 py-2 w-1/2">Name</th> <!-- 姓名寬度增加 -->
+                                <th class="px-1 py-2 text-center w-1/4">Seat</th> <!-- 縮小 -->
+                                <th class="px-1 py-2 text-right w-1/4">KG</th> <!-- 縮小 -->
                             </tr>
-                        `).join('')}
-                        <tr class="bg-slate-50 font-bold">
-                            <td class="px-3 py-2 text-right" colspan="2">Total:</td>
-                            <td class="px-3 py-2 text-right">${list.reduce((acc, curr) => acc + parseInt(curr.bag), 0)} KG</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            ${list.map(p => `
+                                <tr class="bg-white border-b hover:bg-yellow-50">
+                                    <td class="px-2 py-2 font-medium text-slate-900 text-xs break-all">${p.name}</td>
+                                    <td class="px-1 py-2 text-center font-hand font-bold text-lg text-jeju-blue">${p.seat}</td>
+                                    <td class="px-1 py-2 text-right font-hand font-bold text-slate-600">${p.bag}</td>
+                                </tr>
+                            `).join('')}
+                            <tr class="bg-slate-50 font-bold text-xs">
+                                <td class="px-2 py-2 text-right" colspan="2">Total:</td>
+                                <td class="px-1 py-2 text-right">${list.reduce((acc, curr) => acc + parseInt(curr.bag), 0)} KG</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             `;
         }
 
         function getContent(id) {
             const header = (text) => `
-                <div class="mb-8 text-center">
-                    <h2 class="washi-tape-title text-2xl md:text-4xl font-bold text-slate-700 font-hand tracking-wide">
+                <div class="mb-6 text-center">
+                    <h2 class="washi-tape-title text-xl font-bold text-slate-700 font-hand tracking-wide">
                         ${text}
                     </h2>
                 </div>
@@ -455,145 +479,150 @@
 
             const dayPlanner = (dayNum, dateStr) => `
                 ${header(`Day ${dayNum} : ${dateStr}`)}
-                <div class="bg-yellow-100 p-4 rounded-lg shadow-sm transform -rotate-1 mb-8 max-w-lg mx-auto border border-yellow-200 relative">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-4 bg-red-100 opacity-60 rounded-sm"></div>
-                    <h3 class="font-bold text-lg text-orange-800 text-center font-hand"><i class="fas fa-star mr-1"></i> Highlights</h3>
-                    <p class="text-slate-700 text-center mt-2 font-hand text-xl">點擊下方區塊開始編輯...</p>
+                <div class="bg-yellow-100 p-3 rounded-lg shadow-sm transform -rotate-1 mb-6 border border-yellow-200 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-red-100 opacity-60 rounded-sm"></div>
+                    <h3 class="font-bold text-base text-orange-800 text-center font-hand"><i class="fas fa-star mr-1"></i> Highlights</h3>
+                    <p class="text-slate-700 text-center mt-1 font-hand text-lg">Click to edit...</p>
                 </div>
-                <div class="relative pl-4 md:pl-8 space-y-8">
-                    <div class="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-slate-300 border-l-2 border-dashed border-slate-300"></div>
+                <div class="relative pl-2 space-y-6">
+                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-300 border-l-2 border-dashed border-slate-300"></div>
                     <div class="relative pl-8">
-                        <div class="absolute left-0 md:left-4 -translate-x-1/2 bg-blue-100 border-4 border-paper w-8 h-8 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-coffee text-xs text-blue-500"></i></div>
-                        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        <div class="absolute left-0 -translate-x-1/4 bg-blue-100 border-4 border-paper w-8 h-8 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-coffee text-xs text-blue-500"></i></div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                             <div class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mb-2 font-bold font-hand">09:00</div>
-                            <h4 class="font-bold text-xl text-slate-800">Morning</h4>
+                            <h4 class="font-bold text-lg text-slate-800">Morning</h4>
                         </div>
                     </div>
                 </div>
             `;
 
-            const bookingItem = (title, sub, imgId, iconClass, colorClass, placeholderImg) => `
-                <div class="bg-white rounded-xl shadow-sm border-4 border-slate-100 overflow-hidden cursor-pointer hover:border-${colorClass}-400 transition-all transform hover:-translate-y-1 mb-4 relative" onclick="toggleDetails('${imgId}')">
-                     <div class="absolute top-2 right-2 flex gap-1">
-                        <div class="w-2 h-2 rounded-full bg-${colorClass}-200"></div>
-                        <div class="w-2 h-2 rounded-full bg-${colorClass}-400"></div>
-                     </div>
-                    <div class="p-4 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-${colorClass}-100 text-${colorClass}-500 w-14 h-14 rounded-full flex items-center justify-center text-2xl border-2 border-white shadow-sm transform -rotate-6">
+            const bookingItem = (title, sub, imgId, iconClass, colorClass, placeholderImg) => {
+                // 檢查是否有儲存的圖片
+                const savedImg = localStorage.getItem('img-' + imgId);
+                const imgSrc = savedImg ? savedImg : placeholderImg;
+
+                return `
+                <div class="bg-white rounded-xl shadow-sm border-2 border-slate-100 overflow-hidden cursor-pointer hover:border-${colorClass}-400 transition-all mb-4 relative" onclick="toggleDetails('${imgId}')">
+                    <div class="p-3 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-${colorClass}-100 text-${colorClass}-500 w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center text-lg border-2 border-white shadow-sm">
                                 <i class="${iconClass}"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-2xl font-hand text-slate-700 tracking-wide">${title}</h3>
-                                <p class="text-sm text-slate-400 font-sans border-b-2 border-dotted border-${colorClass}-200 inline-block">${sub}</p>
+                                <h3 class="font-bold text-lg font-hand text-slate-700 tracking-wide leading-tight">${title}</h3>
+                                <p class="text-xs text-slate-400 font-sans border-b border-dotted border-${colorClass}-200 inline-block">${sub}</p>
                             </div>
                         </div>
                         <i id="${imgId}-icon" class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
                     </div>
                     <div id="${imgId}" class="details-expand bg-paper border-t-2 border-dashed border-slate-200">
-                        <div class="p-4 text-center">
-                            <div class="inline-block p-2 bg-white shadow-md transform rotate-1">
-                                <img src="${placeholderImg}" class="rounded mx-auto max-h-60 object-cover w-full md:w-auto polaroid-img" alt="Booking Image">
+                        <div class="p-3 text-center">
+                            <div class="inline-block p-1 bg-white shadow-md transform rotate-1 relative group">
+                                <img src="${imgSrc}" class="rounded mx-auto max-h-48 object-cover w-full polaroid-img" alt="Booking Image">
+                                <!-- 上傳按鈕 (點擊圖片也會觸發 toggleDetails，所以要阻止冒泡，但這裡簡化直接放下方) -->
                             </div>
-                            <p class="text-sm text-slate-400 mt-2 font-hand">Waiting for your image upload...</p>
+                            <!-- 隱藏的檔案輸入框 -->
+                            <input type="file" id="file-${imgId}" style="display: none;" accept="image/*" onchange="updateImage('${imgId}', this)">
+                            
+                            <div class="mt-2 flex justify-center gap-2">
+                                <button onclick="event.stopPropagation(); document.getElementById('file-${imgId}').click();" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-600 px-3 py-1 rounded-full transition-colors font-bold">
+                                    <i class="fas fa-camera mr-1"></i> 更換照片
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            `;
+                `;
+            };
 
             const prepGroup = (title, items, color) => `
-                <div class="mb-6 bg-white p-6 rounded-lg shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+                <div class="mb-4 bg-white p-4 rounded-lg shadow-sm relative overflow-hidden">
                     <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 24px;"></div>
                     
-                    <div class="relative inline-block bg-${color}-100 px-4 py-1 rounded mb-4 transform -rotate-2 shadow-sm border border-${color}-200">
-                        <span class="font-bold text-${color}-600 font-hand text-xl tracking-wider">${title}</span>
+                    <div class="relative inline-block bg-${color}-100 px-3 py-1 rounded mb-3 transform -rotate-1 shadow-sm border border-${color}-200">
+                        <span class="font-bold text-${color}-600 font-hand text-lg tracking-wider">${title}</span>
                     </div>
 
-                    <div class="relative space-y-3 pl-2">
+                    <div class="relative space-y-2 pl-1">
                         ${items.map(item => `
                             <label class="flex items-center cursor-pointer hover:bg-${color}-50 p-1 rounded transition-colors">
-                                <input type="checkbox" class="custom-checkbox text-${color}-500 mr-3">
-                                <span class="text-slate-600 font-hand text-lg pt-1">${item}</span>
+                                <input type="checkbox" class="custom-checkbox text-${color}-500 mr-2 flex-shrink-0">
+                                <span class="text-slate-600 font-hand text-base pt-1 leading-none">${item}</span>
                             </label>
                         `).join('')}
                     </div>
                 </div>
             `;
             
-            // 景點 Polaroid 產生器
             const attractionItem = (name, desc, img, tapeColor, rotation) => `
-                <div class="polaroid-card transform rotate-[${rotation}deg] mb-8 break-inside-avoid">
+                <div class="polaroid-card transform rotate-[${rotation}deg] mb-6 break-inside-avoid">
                     <div class="masking-tape ${tapeColor}"></div>
-                    <div class="aspect-video w-full overflow-hidden bg-gray-100 mb-3 rounded-sm border border-gray-200">
-                        <img src="${img}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700 polaroid-img" alt="${name}">
+                    <div class="aspect-video w-full overflow-hidden bg-gray-100 mb-2 rounded-sm border border-gray-200">
+                        <img src="${img}" class="w-full h-full object-cover polaroid-img" alt="${name}">
                     </div>
-                    <h3 class="font-hand font-bold text-2xl text-slate-700 text-center mb-1 tracking-tight">${name}</h3>
-                    <p class="font-sans text-xs text-slate-500 text-center leading-relaxed px-2 border-t border-dashed border-gray-200 pt-2 mt-2">${desc}</p>
+                    <h3 class="font-hand font-bold text-xl text-slate-700 text-center mb-1 tracking-tight">${name}</h3>
+                    <p class="font-sans text-xs text-slate-500 text-center leading-relaxed px-1 border-t border-dashed border-gray-200 pt-1 mt-1">${desc}</p>
                 </div>
             `;
 
             switch(id) {
                 case 'flight':
-                    // ... (保持不變) ...
                     return `
-                        ${header('Flight Info 航班資訊 (KHH-CJU)')}
-                        <div class="flex flex-col gap-6">
-                            <div class="bg-white rounded-2xl shadow-md border-2 border-slate-100 overflow-hidden group hover:border-jeju-orange transition-colors cursor-pointer" onclick="toggleDetails('outbound-details')">
-                                <div class="p-6 relative">
-                                    <div class="absolute right-0 top-0 bg-jeju-orange text-white px-4 py-1 rounded-bl-xl font-bold text-sm z-10">去程 Outbound</div>
-                                    <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
-                                        <div class="text-3xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH 高雄</span></div>
-                                        <div class="flex-1 px-4 w-full md:w-auto">
+                        ${header('Flight Info 航班資訊')}
+                        <div class="flex flex-col gap-4">
+                            <div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')">
+                                <div class="p-4 relative">
+                                    <div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div>
+                                    <div class="flex justify-between items-center text-center mt-2">
+                                        <div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div>
+                                        <div class="flex-1 px-2">
                                             <div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div>
-                                            <div class="flex justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
+                                            <div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase">
                                                 <span>Tigerair</span>
                                                 <span class="text-jeju-orange">IT 670</span>
-                                                <span>2h 25m</span>
                                             </div>
                                         </div>
-                                        <div class="text-3xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU 濟州</span></div>
+                                        <div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div>
                                     </div>
-                                    <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center text-slate-500 text-sm">
+                                    <div class="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center text-slate-500 text-xs">
                                         <span>2026/01/30 (五)</span>
                                         <div class="flex items-center text-jeju-orange font-bold animate-pulse">
-                                            <i class="fas fa-users mr-2"></i> 點擊查看 7 人座位
-                                            <i id="outbound-details-icon" class="fas fa-chevron-down ml-2 transition-transform duration-300"></i>
+                                            <i class="fas fa-users mr-1"></i> Check Seats
+                                            <i id="outbound-details-icon" class="fas fa-chevron-down ml-1"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="outbound-details" class="details-expand bg-orange-50 px-6">
-                                    <div class="pb-6 pt-2">
-                                        <h4 class="font-bold text-slate-700 mb-2 border-b border-orange-200 pb-1">乘客座位與行李 (Passenger Manifest)</h4>
+                                <div id="outbound-details" class="details-expand bg-orange-50 px-4">
+                                    <div class="pb-4 pt-2">
                                         ${renderPassengerTable(passengersOutbound)}
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-2xl shadow-md border-2 border-slate-100 overflow-hidden group hover:border-jeju-blue transition-colors cursor-pointer" onclick="toggleDetails('inbound-details')">
-                                <div class="p-6 relative">
-                                    <div class="absolute right-0 top-0 bg-jeju-blue text-white px-4 py-1 rounded-bl-xl font-bold text-sm z-10">回程 Inbound</div>
-                                    <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
-                                        <div class="text-3xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU 濟州</span></div>
-                                        <div class="flex-1 px-4 w-full md:w-auto">
+
+                            <div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')">
+                                <div class="p-4 relative">
+                                    <div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div>
+                                    <div class="flex justify-between items-center text-center mt-2">
+                                        <div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div>
+                                        <div class="flex-1 px-2">
                                             <div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div>
-                                            <div class="flex justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
+                                            <div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase">
                                                 <span>Tigerair</span>
                                                 <span class="text-jeju-blue">IT 671</span>
-                                                <span>2h 35m</span>
                                             </div>
                                         </div>
-                                        <div class="text-3xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH 高雄</span></div>
+                                        <div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div>
                                     </div>
-                                    <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center text-slate-500 text-sm">
+                                    <div class="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center text-slate-500 text-xs">
                                         <span>2026/02/06 (五)</span>
                                         <div class="flex items-center text-jeju-blue font-bold animate-pulse">
-                                            <i class="fas fa-users mr-2"></i> 點擊查看 7 人座位
-                                            <i id="inbound-details-icon" class="fas fa-chevron-down ml-2 transition-transform duration-300"></i>
+                                            <i class="fas fa-users mr-1"></i> Check Seats
+                                            <i id="inbound-details-icon" class="fas fa-chevron-down ml-1"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="inbound-details" class="details-expand bg-blue-50 px-6">
-                                    <div class="pb-6 pt-2">
-                                        <h4 class="font-bold text-slate-700 mb-2 border-b border-blue-200 pb-1">乘客座位與行李 (Passenger Manifest)</h4>
+                                <div id="inbound-details" class="details-expand bg-blue-50 px-4">
+                                    <div class="pb-4 pt-2">
                                         ${renderPassengerTable(passengersInbound)}
                                     </div>
                                 </div>
@@ -602,105 +631,94 @@
                     `;
 
                 case 'rate':
-                    // ... (保持不變) ...
                     return `
                         ${header('Calculator 匯率計算機')}
                         <div id="rate-display">
-                            <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl p-6 text-white shadow-lg mb-8 relative overflow-hidden">
-                                <div id="rate-loading" class="text-center font-bold text-xl py-4">正在連線銀行匯率...</div>
-                                <div id="rate-result" class="hidden relative z-10 flex flex-col md:flex-row justify-between items-center">
-                                    <div>
-                                        <div class="text-slate-300 text-sm font-hand mb-1">Current Rate 即時匯率</div>
-                                        <div class="text-4xl font-bold">1 TWD ≈ <span id="krw-val" class="text-jeju-yellow">--</span> KRW</div>
+                            <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl p-4 text-white shadow-lg mb-6 relative overflow-hidden">
+                                <div id="rate-loading" class="text-center font-bold text-lg py-4">連線中...</div>
+                                <div id="rate-result" class="hidden relative z-10 flex flex-col justify-between items-center">
+                                    <div class="text-center mb-2">
+                                        <div class="text-slate-300 text-xs font-hand">Current Rate</div>
+                                        <div class="text-3xl font-bold">1 TWD ≈ <span id="krw-val" class="text-jeju-yellow">--</span></div>
                                     </div>
-                                    <div class="mt-4 md:mt-0 text-right">
-                                        <div class="text-xs text-slate-400">更新時間: 即時</div>
-                                        <div class="text-xs text-slate-400">來源: ExchangeRate-API</div>
-                                    </div>
+                                    <div class="text-[10px] text-slate-400">來源: ExchangeRate-API</div>
                                 </div>
-                                <div class="absolute -right-6 -bottom-6 text-white opacity-5 text-9xl"><i class="fas fa-chart-line"></i></div>
                             </div>
 
-                            <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 shadow-sm">
-                                <h3 class="font-bold text-xl text-slate-700 mb-6 font-kaiti text-center"><i class="fas fa-calculator mr-2 text-jeju-orange"></i>旅遊換算神器</h3>
-                                <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+                            <div class="bg-white p-4 rounded-xl border-2 border-slate-200 shadow-sm">
+                                <h3 class="font-bold text-lg text-slate-700 mb-4 font-kaiti text-center"><i class="fas fa-calculator mr-2 text-jeju-orange"></i>旅遊換算</h3>
+                                <div class="flex flex-col gap-3">
                                     <div class="w-full">
-                                        <label class="block text-sm font-bold text-slate-500 mb-1">台幣 (TWD)</label>
+                                        <label class="block text-xs font-bold text-slate-500 mb-1">台幣 (TWD)</label>
                                         <div class="relative">
-                                            <span class="absolute left-3 top-3 text-slate-400">$</span>
+                                            <span class="absolute left-3 top-2.5 text-slate-400">$</span>
                                             <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" 
-                                                class="w-full pl-8 pr-4 py-3 text-xl font-bold text-slate-700 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-jeju-orange focus:ring-1 focus:ring-jeju-orange transition-all">
+                                                class="w-full pl-6 pr-3 py-2 text-lg font-bold text-slate-700 bg-slate-50 rounded-lg border border-slate-200 focus:outline-none focus:border-jeju-orange focus:ring-1 focus:ring-jeju-orange transition-all">
                                         </div>
                                     </div>
-                                    <div class="text-slate-400 text-2xl"><i class="fas fa-exchange-alt"></i></div>
+                                    <div class="text-center text-slate-300"><i class="fas fa-arrow-down"></i></div>
                                     <div class="w-full">
-                                        <label class="block text-sm font-bold text-slate-500 mb-1">韓元 (KRW)</label>
+                                        <label class="block text-xs font-bold text-slate-500 mb-1">韓元 (KRW)</label>
                                         <div class="relative">
-                                            <span class="absolute left-3 top-3 text-slate-400">₩</span>
+                                            <span class="absolute left-3 top-2.5 text-slate-400">₩</span>
                                             <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" 
-                                                class="w-full pl-8 pr-4 py-3 text-xl font-bold text-jeju-blue bg-blue-50 rounded-xl border border-blue-200 focus:outline-none focus:border-jeju-blue focus:ring-1 focus:ring-jeju-blue transition-all">
+                                                class="w-full pl-6 pr-3 py-2 text-lg font-bold text-jeju-blue bg-blue-50 rounded-lg border border-blue-200 focus:outline-none focus:border-jeju-blue focus:ring-1 focus:ring-jeju-blue transition-all">
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-center text-xs text-slate-400 mt-4">* 銀行換匯通常需加收手續費，建議多抓 1.5% 預算</p>
                             </div>
                         </div>
                     `;
 
                 case 'weather':
-                    // ... (保持不變) ...
                     return `
                         ${header('7 Days Weather 一週氣象')}
                         <div id="weather-widget">
-                             <div id="weather-loading" class="text-center py-10 font-hand text-2xl text-slate-400">Checking...</div>
+                             <div id="weather-loading" class="text-center py-10 font-hand text-xl text-slate-400">Checking...</div>
                             <div id="weather-content" class="hidden">
-                                <div class="bg-blue-500 rounded-3xl p-8 text-white shadow-md mb-8 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 p-8 opacity-20"><i class="fas fa-cloud text-9xl"></i></div>
+                                <div class="bg-blue-500 rounded-2xl p-4 text-white shadow-md mb-6 flex flex-row items-center justify-between relative overflow-hidden">
+                                    <div class="absolute top-0 right-0 p-4 opacity-20"><i class="fas fa-cloud text-8xl"></i></div>
                                     <div class="z-10">
-                                        <h3 class="text-2xl font-bold mb-1">Jeju City (Today)</h3>
-                                        <div class="text-6xl font-black font-hand my-2" id="curr-temp">--°</div>
-                                        <div class="text-xl font-medium opacity-90" id="curr-desc">--</div>
+                                        <h3 class="text-lg font-bold mb-1">Jeju City</h3>
+                                        <div class="text-5xl font-black font-hand my-1" id="curr-temp">--°</div>
+                                        <div class="text-base font-medium opacity-90" id="curr-desc">--</div>
                                     </div>
-                                    <div class="z-10 mt-4 md:mt-0">
-                                        <span class="bg-white/20 px-3 py-1 rounded text-sm">Realtime Live</span>
-                                    </div>
+                                    <div class="z-10 bg-white/20 px-2 py-1 rounded text-xs">Live</div>
                                 </div>
-                                <h3 class="font-bold text-slate-600 mb-3 ml-1"><i class="fas fa-calendar-week mr-1"></i> 未來 7 天預報</h3>
-                                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3" id="forecast-container"></div>
+                                <h3 class="font-bold text-slate-600 mb-2 ml-1 text-sm"><i class="fas fa-calendar-week mr-1"></i> Forecast</h3>
+                                
+                                <!-- 橫向滑動區塊 -->
+                                <div class="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar" id="forecast-container">
+                                    <!-- JS Generated -->
+                                </div>
                             </div>
                         </div>
                     `;
                 
                 case 'booking':
-                    // ... (保持不變) ...
                     return `
-                        ${header('Booking & Tickets 訂位憑證')}
+                        ${header('Booking & Tickets 憑證')}
                         <div class="space-y-4">
-                            ${bookingItem('租車資訊', 'AJ Rent a Car / Lotte', 'img-car', 'fas fa-car', 'green', 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80')}
-                            
-                            ${bookingItem('住宿 D1', '濟州市區 / 2026.01.30', 'img-h1', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80')}
-                            
-                            ${bookingItem('住宿 D2-D3', '西歸浦 / 01.31 - 02.01', 'img-h2', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&q=80')}
-                            
-                            ${bookingItem('住宿 D4-D5', '城山 / 02.02 - 02.03', 'img-h3', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=600&q=80')}
-                            
-                            ${bookingItem('住宿 D6-D7', '咸德 / 02.04 - 02.05', 'img-h4', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80')}
-                            
+                            <!-- 改名：The Safe Rent A Car -->
+                            ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80')}
+                            <!-- 改名：Day1 濟州Glad Maison飯店 + 使用背景圖(unsplash) -->
+                            ${bookingItem('Day1 濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1548115184-bc6544d06a58?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')}
+                            ${bookingItem('住宿 D2-D3', '西歸浦', 'img-h2', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&q=80')}
+                            ${bookingItem('住宿 D4-D5', '城山', 'img-h3', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=600&q=80')}
+                            ${bookingItem('住宿 D6-D7', '咸德', 'img-h4', 'fas fa-hotel', 'purple', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80')}
                             ${bookingItem('Catch Table', '餐廳訂位', 'img-food', 'fas fa-utensils', 'orange', 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80')}
-                            
                             ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', 'https://images.unsplash.com/photo-1583212235753-9c52728806c5?auto=format&fit=crop&w=600&q=80')}
                         </div>
                     `;
 
                 case 'prep':
-                   // ... (保持不變) ...
                    return `
                         ${header('Checklist 行前準備')}
-                        <div class="grid md:grid-cols-2 gap-6">
-                            ${prepGroup('必備證件', ['護照 (效期6個月以上)', 'K-ETA / 入境卡', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}
-                            ${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金 (~30萬)', '信用卡 (海外回饋)', 'eSIM / 網卡', '漫遊開通'], 'yellow')}
+                        <div class="grid grid-cols-1 gap-4">
+                            ${prepGroup('必備證件', ['護照 (效期6個月+)', 'K-ETA / 入境卡', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}
+                            ${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', 'eSIM / 網卡', '漫遊開通'], 'yellow')}
                             ${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}
-                            ${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '輕便雨衣/傘', '暖暖包'], 'green')}
+                            ${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}
                             ${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}
                         </div>
                     `;
@@ -709,10 +727,10 @@
                     return `
                         ${header('Jeju Best Spots 必去景點')}
                         <div class="text-center py-20">
-                            <div class="inline-block bg-white p-10 rounded-2xl shadow-sm border-2 border-dashed border-slate-200 transform rotate-1">
-                                <i class="fas fa-map-marked-alt text-6xl text-jeju-orange mb-6 opacity-50"></i>
-                                <h3 class="font-hand text-3xl text-slate-500 tracking-wide">Waiting for Itinerary...</h3>
-                                <p class="text-slate-400 mt-2 font-sans">配合行程再加入景點內容</p>
+                            <div class="inline-block bg-white p-8 rounded-2xl shadow-sm border-2 border-dashed border-slate-200 transform rotate-1">
+                                <i class="fas fa-map-marked-alt text-5xl text-jeju-orange mb-4 opacity-50"></i>
+                                <h3 class="font-hand text-2xl text-slate-500 tracking-wide">Waiting for Itinerary...</h3>
+                                <p class="text-slate-400 mt-2 font-sans text-sm">配合行程再加入景點內容</p>
                             </div>
                         </div>
                     `;
