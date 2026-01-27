@@ -6,8 +6,8 @@
     <title>濟州島8天7夜親子遊</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- 引入 Noto Sans TC, Gaegu -->
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 引入 Noto Sans TC, Gaegu, JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/zh-tw.min.js"></script>
     
@@ -18,6 +18,7 @@
                     fontFamily: {
                         'hand': ['Gaegu', 'cursive'],
                         'sans': ['Noto Sans TC', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
                         'kaiti': ['KaiTi', 'BiauKai', 'DFKai-SB', 'serif'],
                     },
                     colors: {
@@ -187,7 +188,6 @@
         .boat-table td { padding: 8px; text-align: center; border: 1px solid #e2e8f0; color: #334155; }
         .boat-table tr:nth-child(even) { background: #f8fafc; }
         
-        /* 貼紙插圖樣式 */
         .doodle-sticker {
             position: absolute;
             font-size: 2rem;
@@ -199,6 +199,8 @@
         .bg-stripes-gray {
             background-image: repeating-linear-gradient(45deg, #eee, #eee 10px, #fff 10px, #fff 20px);
         }
+        
+        input::placeholder { color: #cbd5e1; font-family: 'Noto Sans TC'; font-weight: normal; }
     </style>
 </head>
 <body class="min-h-screen pb-10 overflow-x-hidden text-slate-800">
@@ -247,38 +249,126 @@
         const tripStartDate = "2026-01-30";
         let currentExchangeRate = 0; 
         let weatherDataCache = null; 
+        let expenseData = JSON.parse(localStorage.getItem('jeju_expenses')) || [];
 
-        // Booking Info Renderer
-        const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login?_gl=1*cre16d*_gcl_aw*R0NMLjE3Njk1MjIxNjAuQ2owS0NRaUE0ZUhMQmhDekFSSXNBSjJOWm9McGFNeldlTlltTW5BeXNYeHk0azYxTzR2WDNOUDhoWFNfQXh1dzVibGxMcDhBVDZ1RW5Kd2FBdllSRUFMd193Y0I.*_gcl_au*MTExOTM1MTM0NS4xNzY5NDg2MzEx*_ga*MjcwNTYyNjguMTc2OTQ4NjMxMQ..*_ga_SNXJDVLRNM*czE3Njk1MjIxNTkkbzMkZzAkdDE3Njk1MjIxNTkkajYwJGwwJGgw";
-
-        const renderBookingInfo = () => `
-            <div class="mb-4 space-y-2">
-                <!-- Group 1 -->
-                <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
-                     <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
-                     <div class="z-10">
-                        <div class="text-[10px] text-slate-400 font-bold mb-0.5"><i class="fas fa-user-tag mr-1"></i>LI,I-KUN</div>
-                        <div class="text-xl font-black text-jeju-orange font-hand tracking-widest leading-none">Z4WW7F</div>
-                     </div>
-                     <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-orange text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-orange-500 transition-transform active:scale-95 flex items-center">
-                        <i class="fas fa-passport mr-1"></i> 自助報到
-                     </a>
+        // 定義 renderBookingInfo 函式 (移至最上方避免 ReferenceError)
+        function renderBookingInfo() {
+            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login?_gl=1*cre16d*_gcl_aw*R0NMLjE3Njk1MjIxNjAuQ2owS0NRaUE0ZUhMQmhDekFSSXNBSjJOWm9McGFNeldlTlltTW5BeXNYeHk0azYxTzR2WDNOUDhoWFNfQXh1dzVibGxMcDhBVDZ1RW5Kd2FBdllSRUFMd193Y0I.*_gcl_au*MTExOTM1MTM0NS4xNzY5NDg2MzEx*_ga*MjcwNTYyNjguMTc2OTQ4NjMxMQ..*_ga_SNXJDVLRNM*czE3Njk1MjIxNTkkbzMkZzAkdDE3Njk1MjIxNTkkajYwJGwwJGgw";
+            return `
+                <div class="mb-4 space-y-2">
+                    <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
+                         <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
+                         <div class="z-10">
+                            <div class="text-[10px] text-slate-400 font-bold mb-0.5"><i class="fas fa-user-tag mr-1"></i>LI,I-KUN</div>
+                            <div class="text-xl font-black text-jeju-orange font-hand tracking-widest leading-none">Z4WW7F</div>
+                         </div>
+                         <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-orange text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-orange-500 transition-transform active:scale-95 flex items-center">
+                            <i class="fas fa-passport mr-1"></i> 自助報到
+                         </a>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
+                         <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
+                         <div class="z-10">
+                            <div class="text-[10px] text-slate-400 font-bold mb-0.5"><i class="fas fa-user-tag mr-1"></i>HUNG,TSUNG-WEI</div>
+                            <div class="text-xl font-black text-jeju-blue font-hand tracking-widest leading-none">M5NCRC</div>
+                         </div>
+                         <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-blue text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-blue-600 transition-transform active:scale-95 flex items-center">
+                            <i class="fas fa-passport mr-1"></i> 自助報到
+                         </a>
+                    </div>
                 </div>
-                <!-- Group 2 -->
-                <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
-                     <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
-                     <div class="z-10">
-                        <div class="text-[10px] text-slate-400 font-bold mb-0.5"><i class="fas fa-user-tag mr-1"></i>HUNG,TSUNG-WEI</div>
-                        <div class="text-xl font-black text-jeju-blue font-hand tracking-widest leading-none">M5NCRC</div>
-                     </div>
-                     <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-blue text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-blue-600 transition-transform active:scale-95 flex items-center">
-                        <i class="fas fa-passport mr-1"></i> 自助報到
-                     </a>
-                </div>
-            </div>
-        `;
+            `;
+        }
 
-        // 景點資料統整 (Day 1 - Day 8 所有景點)
+        // Backup plan event
+        const snowBackupEvent = {
+            type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car',
+            title: '❄️ [雪天備案] 漢拿山 1100高地',
+            desc: '若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)',
+            icon: 'fa-snowflake',
+            bg: 'bg-sky-50 border-2 border-blue-200 border-dashed',
+            note: '若有積雪，景色絕美；若無雪可走生態步道',
+            navQuery: '1100고지 휴게소',
+            isBackup: true
+        };
+
+        // Day Data (All Days)
+        const day1Events = [
+            { type: 'start', time: '13:30', duration: 90, travelTime: 60, travelMode: 'walk', title: '南苑貴賓室 VIP Lounge', desc: '吃飽喝足，準備出發！(KHH)', icon: 'fa-utensils', bg: 'bg-blue-100', btnText: '怎麼去?', btnAction: 'showLoungeGuide', navQuery: '', externalLink: 'https://orange.udn.com/orange/story/121417/9179081' },
+            { type: 'flight', time: '16:00', duration: 145, travelTime: 0, travelMode: 'plane', title: '快樂起航 (IT670)', desc: '16:00 KHH ✈️ 19:25 CJU (含時差)', icon: 'fa-plane-departure', bg: 'bg-orange-100', isFlight: true, navQuery: '' },
+            { type: 'arrive', time: '19:25', duration: 60, travelTime: 15, travelMode: 'walk', title: '抵達濟州 & 入境', desc: '填寫入境卡、提領行李', icon: 'fa-passport', bg: 'bg-green-100', note: '預計 20:25 完成', navQuery: '' },
+            { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: '메종글래드 제주' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州 Glad Maison 飯店', desc: 'Check-in 休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day2Events = [
+            { type: 'start', time: '08:00', duration: 0, travelTime: 50, travelMode: 'car', title: '飯店出發', desc: '早起出發去吃貝果！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '런던베이글뮤지엄 제주' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '倫敦貝果博物館', desc: 'London Bagel Museum Jeju (需排隊)', icon: 'fa-bread-slice', bg: 'bg-orange-100', note: '營業時間: 08:00 - 18:00', customButtons: [{ text: 'Catch Table 預約', link: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju', icon: 'fa-calendar-check', color: 'red' }], navQuery: '해녀김밥 본점' },
+            { type: 'food', time: 'auto', duration: 30, travelTime: 5, travelMode: 'walk', title: '海女飯捲 (可外帶)', desc: 'Haenyeo Gimbap', icon: 'fa-utensils', bg: 'bg-blue-100', note: '營業時間: 09:00 - 14:45', navQuery: '오드랑베이커리' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 30, travelMode: 'car', title: 'Audrant Bakery & 咸德海灘', desc: '必吃大蒜麵包 & 絕美果凍海', icon: 'fa-umbrella-beach', bg: 'bg-sky-100', note: '營業時間: 07:00 - 22:00', customButtons: [{ text: '介紹', link: 'https://dpm2bb.com/2025-62/', icon: 'fa-globe', color: 'orange' }], navQuery: '에코랜드 테마파크' },
+            { type: 'spot', time: 'auto', duration: 120, travelTime: 25, travelMode: 'car', title: 'ECOLAND 森林小火車', desc: '搭火車遊森林，輕鬆愜意', icon: 'fa-train', bg: 'bg-green-100', note: '冬季營業: 08:30 - 16:30 (最後入場)', btnText: '票價資訊', btnAction: 'showEcoLandPrice', navQuery: '제주레일바이크' },
+            { type: 'activity', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '濟州鐵道自行車', desc: 'Jeju Rail Bike (自動行駛)', icon: 'fa-bicycle', bg: 'bg-pink-100', note: '營業時間: 09:00 - 17:30 (每整點出發)', btnText: '票價資訊', btnAction: 'showRailBikePrice', navQuery: '삼달리' },
+            snowBackupEvent,
+            { type: 'spot', time: 'auto', duration: 45, travelTime: 20, travelMode: 'car', title: '三達里小村 & Doldam Carrot', desc: '韓劇《歡迎回到三達里》拍攝地', icon: 'fa-camera', bg: 'bg-yellow-50', navQuery: '부촌식당' },
+            { type: 'dinner', time: 'auto', duration: 60, travelTime: 10, travelMode: 'car', title: '晚餐 - 富村食堂', desc: 'Buchon Sikdang (白帶魚/鯖魚)', icon: 'fa-fish', bg: 'bg-orange-100', note: '營業時間: 10:30 - 21:00', navQuery: '코업시티호텔 성산' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州城山貝斯特飯店', desc: 'Coop City Hotel Seongsan', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day3Events = [
+            { type: 'start', time: '09:00', duration: 0, travelTime: 15, travelMode: 'car', title: '飯店出發', desc: '睡飽出發前往港口', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '성산포항종합여객터미널' },
+            { type: 'ship', time: 'auto', duration: 30, travelTime: 0, travelMode: null, title: '城山港 (搭船)', desc: 'Seongsan Port (前往牛島)', icon: 'fa-ship', bg: 'bg-blue-100', note: '需填寫乘船申報單(2份) + 護照', btnText: '船班與票價', btnAction: 'showFerryInfo', navQuery: '' },
+            { type: 'spot', time: 'auto', duration: 180, travelTime: 30, travelMode: 'ship', title: '牛島 (Udo) 環島', desc: '必吃花生冰淇淋、炸醬麵', icon: 'fa-island-tropical', bg: 'bg-green-100', note: '推薦租電動車或搭環島巴士', customButtons: [{ text: '行程規劃', link: 'javascript:showUdoPlan()', icon: 'fa-map', color: 'orange' }], navQuery: '' },
+            { type: 'arrive', time: 'auto', duration: 0, travelTime: 10, travelMode: 'car', title: '返回城山港', desc: '搭船返回本島', icon: 'fa-anchor', bg: 'bg-gray-100', navQuery: '아쿠아플라넷 제주' },
+            { type: 'spot', time: 'auto', duration: 180, travelTime: 15, travelMode: 'car', title: 'Aqua Planet Jeju', desc: '亞洲最大水族館之一', icon: 'fa-fish', bg: 'bg-blue-200', note: '營業: 09:30-19:00 / 表演: 13:00, 15:00, 16:50', navQuery: '금돗 성산흑돼지' },
+            snowBackupEvent,
+            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'car', title: '黑毛豬晚餐 - 금돗 성산', desc: 'Geumdot Seongsan Black Pork', icon: 'fa-utensils', bg: 'bg-orange-100', note: '營業時間: 11:00 - 23:00', navQuery: '코업시티호텔 성산' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州城山貝斯特飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day4Events = [
+            { type: 'food', time: '08:30', duration: 60, travelTime: 0, travelMode: null, title: '飯店早餐', desc: '享用美味早餐，開啟美好的一天', icon: 'fa-mug-hot', bg: 'bg-orange-50', navQuery: '' },
+            { type: 'start', time: '09:30', duration: 0, travelTime: 50, travelMode: 'car', title: '飯店出發', desc: '退房前往西歸浦', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '정방폭포' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'car', title: '正房瀑布', desc: 'Jeongbang Waterfall (亞洲唯一直接入海)', icon: 'fa-water', bg: 'bg-blue-100', note: '門票: 成人 2,000 / 兒童 1,000', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577976988', navQuery: '서귀포매일올레시장' },
+            { type: 'food', time: 'auto', duration: 120, travelTime: 20, travelMode: 'car', title: '每日偶來市場', desc: 'Seogwipo Olle Market (午餐)', icon: 'fa-utensils', bg: 'bg-orange-100', note: '必吃：橘子麻糬、黑豬肉可樂餅', externalLink: 'https://journey.tw/seogwipo-olle-market/', customButtons: [{ text: '強力推薦', link: 'javascript:showOlleMarketRecs()', icon: 'fa-thumbs-up', color: 'red' }], navQuery: '귤꽃다락' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: '橘花閣樓 (귤꽃다락)', desc: '西歸浦超人氣橘子園咖啡廳', icon: 'fa-coffee', bg: 'bg-orange-50', btnText: '營業與消費', btnAction: 'showCafeInfo', navQuery: '신화월드 랜딩관' },
+            snowBackupEvent,
+            { type: 'hotel', time: 'auto', duration: 90, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: 'Shinhwa World Landing Resort (Check-in)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '稍作休息，逛逛神話世界商店街', navQuery: '' },
+            { type: 'dinner', time: '18:00', duration: 120, travelTime: 0, travelMode: null, title: '藍鼎自助晚餐', desc: 'Landing Dining (海鮮自助餐)', icon: 'fa-wine-glass-alt', bg: 'bg-yellow-200', note: '⚠️ 已預約 18:00 (時間不可動)', btnText: '營業與消費', btnAction: 'showLandingDiningInfo', externalLink: 'https://www.youtube.com/watch?v=oKv2f09cXAo', navQuery: '' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '住宿', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day5Events = [
+            { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테마파크' },
+            { type: 'activity', time: 'auto', duration: 180, travelTime: 10, travelMode: 'car', title: '神話主題公園', desc: 'Shinhwa Theme Park (Big 3)', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '使用 Big 3 券，任選 3 項設施遊玩', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '1100고지 휴게소' },
+            { type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car', title: '❄️ [雪天備案] 漢拿山 1100高地', desc: '若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)', icon: 'fa-snowflake', bg: 'bg-sky-50 border-2 border-blue-200 border-dashed', note: '若有積雪，景色絕美；若無雪可走生態步道', navQuery: '1100고지 휴게소', isBackup: true },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '返回飯店休息 / 晚餐', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day6Events = [
+            { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테마파크 제주' },
+            { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '營業與票價', btnAction: 'showPororoInfo', navQuery: '도두동 무지개해안도로' },
+            snowBackupEvent,
+            { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호텔레오' },
+            { type: 'hotel', time: 'auto', duration: 60, travelTime: 15, travelMode: 'car', title: '利奧飯店 (Hotel Leo)', desc: 'Check-in (新濟州)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '放行李，稍作休息', navQuery: '숙성도 노형점' },
+            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fa-fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day7Events = [
+            { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '睡飽飽，前往舊濟州探索', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주동문시장' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'walk', title: '濟州東門市場', desc: 'Jeju Dongmun Market', icon: 'fa-store', bg: 'bg-orange-100', note: '早上買伴手禮/水果比較少人', navQuery: '제주중앙지하상가' },
+            { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', customButtons: [{ text: '強力推薦', link: 'javascript:showJungangRecs()', icon: 'fa-thumbs-up', color: 'red' }], navQuery: '자매국수' },
+            { type: 'food', time: 'auto', duration: 60, travelTime: 20, travelMode: 'car', title: '午餐 - 姊妹麵條', desc: 'Jamae Guksu (必吃豬肉湯麵)', icon: 'fa-utensils', bg: 'bg-red-100', note: '排隊名店，湯頭濃郁', navQuery: '브릭캠퍼스' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 20, travelMode: 'car', title: 'Brick Campus (備案)', desc: '樂高積木校園 (雨天/室內備案)', icon: 'fa-cube', bg: 'bg-purple-100', note: '樂高迷必去，充滿創意', navQuery: '롯데마트 제주점' },
+            snowBackupEvent,
+            { type: 'shopping', time: 'auto', duration: 120, travelTime: 10, travelMode: 'walk', title: '蓮洞商圈 / 樂天超市', desc: 'Yeondong / Lotte Mart', icon: 'fa-shopping-cart', bg: 'bg-green-100', note: '最後採買機會！', navQuery: '교촌치킨 연동점' },
+            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 橋村炸雞', desc: 'Kyochon Chicken (蓮洞店)', icon: 'fa-drumstick-bite', bg: 'bg-yellow-200', note: '必點：蜂蜜炸雞 (Honey Series)', navQuery: '호텔레오' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '打包行李，準備回程', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+        ];
+        const day8Events = [
+            { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，把握最後時光！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '이호테우말등대' },
+            { type: 'spot', time: 'auto', duration: 30, travelTime: 25, travelMode: 'car', title: '梨湖小馬燈塔', desc: 'Iho Tewoo Horse Lighthouses', icon: 'fa-camera', bg: 'bg-red-50', note: '紅白小馬燈塔，拍照打卡聖地', navQuery: '애월카페거리' },
+            { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 제주' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세이프렌터카' },
+            { type: 'car', time: '16:30', duration: 30, travelTime: 15, travelMode: 'walk', title: '還車 - The Safe Rent A Car', desc: 'Return Rental Car', icon: 'fa-car', bg: 'bg-green-100', note: '檢查車況，搭乘接駁車前往機場', navQuery: '제주국제공항' },
+            { type: 'flight', time: '18:15', duration: 120, travelTime: 0, travelMode: null, title: '濟州機場報到', desc: 'Jeju Int\'l Airport (CJU)', icon: 'fa-plane-departure', bg: 'bg-blue-200', note: '辦理登機、退稅、最後免稅店衝刺' },
+            { type: 'flight', time: '20:15', duration: 0, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
+        ];
+
         const allSpots = [
             { name: "南苑貴賓室 VIP Lounge", desc: "高雄機場舒適休息，吃飽喝足開啟旅程。", img: "https://images.unsplash.com/photo-1572579893796-03c02d25f778?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "☕" },
             { name: "倫敦貝果博物館", desc: "超人氣排隊名店，必吃蔥奶油貝果。", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🥯" },
@@ -292,7 +382,7 @@
             { name: "Aqua Planet Jeju", desc: "亞洲最大級水族館，精彩海女表演必看。", img: "https://images.unsplash.com/photo-1583212235753-9c52728806c5?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "🐬" },
             { name: "金豚黑豬肉 (城山)", desc: "濟州島必吃黑豬肉，肉質鮮美。", img: "https://images.unsplash.com/photo-1603073707010-85c378943336?auto=format&fit=crop&w=600&q=80", tape: "tape-red", sticker: "🥩" },
             { name: "正房瀑布", desc: "亞洲唯一直接入海的瀑布，壯觀懸崖與海景。", img: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=600&q=80", tape: "tape-green", sticker: "🌊" },
-            { name: "每日偶來市場", desc: "西歸浦最大傳統市場，橘子麻糬、可樂餅必吃。", img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🍊" },
+            { name: "每日偶來市場", desc: "西歸浦最大傳統市場，橘子麻糬、可樂餅必吃。", img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🍢" },
             { name: "橘花閣樓", desc: "隱身在橘子園裡的網美咖啡廳，每個角落都好拍。", img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "☕" },
             { name: "藍鼎自助晚餐", desc: "神話世界高級海鮮自助餐，帝王蟹吃到飽。", img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🍽️" },
             { name: "神話主題公園", desc: "逗逗蟲主題樂園，設施豐富，色彩繽紛。", img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=80", tape: "tape-pink", sticker: "🎡" },
@@ -309,19 +399,6 @@
             { name: "愛月邑咖啡街", desc: "海景咖啡廳一級戰區，日落超美。", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🌊" },
             { name: "Arte Museum", desc: "大型沉浸式光影藝術展，視覺震撼。", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80", tape: "tape-purple", sticker: "🖼️" }
         ];
-
-        // Backup plan event
-        const snowBackupEvent={type:"spot",time:"backup",duration:60,travelTime:0,travelMode:"car",title:"❄️ [雪天備案] 漢拿山 1100高地",desc:"若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)",icon:"fa-snowflake",bg:"bg-sky-50 border-2 border-blue-200 border-dashed",note:"若有積雪，景色絕美；若無雪可走生態步道",navQuery:"1100고지 휴게소",isBackup:!0};
-        
-        // Day 1-8 Data
-        const day1Events=[{type:"start",time:"13:30",duration:90,travelTime:60,travelMode:"walk",title:"南苑貴賓室 VIP Lounge",desc:"吃飽喝足，準備出發！(KHH)",icon:"fa-utensils",bg:"bg-blue-100",btnText:"怎麼去?",btnAction:"showLoungeGuide",navQuery:"",externalLink:"https://orange.udn.com/orange/story/121417/9179081"},{type:"flight",time:"16:00",duration:145,travelTime:0,travelMode:"plane",title:"快樂起航 (IT670)",desc:"16:00 KHH ✈️ 19:25 CJU (含時差)",icon:"fa-plane-departure",bg:"bg-orange-100",isFlight:!0,navQuery:""},{type:"arrive",time:"19:25",duration:60,travelTime:15,travelMode:"walk",title:"抵達濟州 & 入境",desc:"填寫入境卡、提領行李",icon:"fa-passport",bg:"bg-green-100",note:"預計 20:25 完成",navQuery:""},{type:"car",time:"auto",duration:30,travelTime:15,travelMode:"car",title:"The Safe Rent A Car",desc:"搭接駁車前往取車",icon:"fa-car",bg:"bg-yellow-100",btnText:"取車指引",btnAction:"showCarGuide",navQuery:"메종글래드 제주"},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"濟州 Glad Maison 飯店",desc:"Check-in 休息",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day2Events=[{type:"start",time:"08:00",duration:0,travelTime:50,travelMode:"car",title:"飯店出發",desc:"早起出發去吃貝果！",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"런던베이글뮤지엄 제주"},{type:"spot",time:"auto",duration:90,travelTime:15,travelMode:"car",title:"倫敦貝果博物館",desc:"London Bagel Museum Jeju (需排隊)",icon:"fa-bread-slice",bg:"bg-orange-100",note:"營業時間: 08:00 - 18:00",customButtons:[{text:"Catch Table 預約",link:"https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju",icon:"fa-calendar-check",color:"red"}],navQuery:"해녀김밥 본점"},{type:"food",time:"auto",duration:30,travelTime:5,travelMode:"walk",title:"海女飯捲 (可外帶)",desc:"Haenyeo Gimbap",icon:"fa-utensils",bg:"bg-blue-100",note:"營業時間: 09:00 - 14:45",navQuery:"오드랑베이커리"},{type:"spot",time:"auto",duration:60,travelTime:30,travelMode:"car",title:"Audrant Bakery & 咸德海灘",desc:"必吃大蒜麵包 & 絕美果凍海",icon:"fa-umbrella-beach",bg:"bg-sky-100",note:"營業時間: 07:00 - 22:00",customButtons:[{text:"介紹",link:"https://dpm2bb.com/2025-62/",icon:"fa-globe",color:"orange"}],navQuery:"에코랜드 테마파크"},{type:"spot",time:"auto",duration:120,travelTime:25,travelMode:"car",title:"ECOLAND 森林小火車",desc:"搭火車遊森林，輕鬆愜意",icon:"fa-train",bg:"bg-green-100",note:"冬季營業: 08:30 - 16:30 (最後入場)",btnText:"票價資訊",btnAction:"showEcoLandPrice",navQuery:"제주레일바이크"},{type:"activity",time:"auto",duration:90,travelTime:25,travelMode:"car",title:"濟州鐵道自行車",desc:"Jeju Rail Bike (自動行駛)",icon:"fa-bicycle",bg:"bg-pink-100",note:"營業時間: 09:00 - 17:30 (每整點出發)",btnText:"票價資訊",btnAction:"showRailBikePrice",navQuery:"삼달리"},snowBackupEvent,{type:"spot",time:"auto",duration:45,travelTime:20,travelMode:"car",title:"三達里小村 & Doldam Carrot",desc:"韓劇《歡迎回到三達里》拍攝地",icon:"fa-camera",bg:"bg-yellow-50",navQuery:"부촌식당"},{type:"dinner",time:"auto",duration:60,travelTime:10,travelMode:"car",title:"晚餐 - 富村食堂",desc:"Buchon Sikdang (白帶魚/鯖魚)",icon:"fa-fish",bg:"bg-orange-100",note:"營業時間: 10:30 - 21:00",navQuery:"코업시티호텔 성산"},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"濟州城山貝斯特飯店",desc:"Coop City Hotel Seongsan",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day3Events=[{type:"start",time:"09:00",duration:0,travelTime:15,travelMode:"car",title:"飯店出發",desc:"睡飽出發前往港口",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"성산포항종합여객터미널"},{type:"ship",time:"auto",duration:30,travelTime:0,travelMode:null,title:"城山港 (搭船)",desc:"Seongsan Port (前往牛島)",icon:"fa-ship",bg:"bg-blue-100",note:"需填寫乘船申報單(2份) + 護照",btnText:"船班與票價",btnAction:"showFerryInfo",navQuery:""},{type:"spot",time:"auto",duration:180,travelTime:30,travelMode:"ship",title:"牛島 (Udo) 環島",desc:"必吃花生冰淇淋、炸醬麵",icon:"fa-island-tropical",bg:"bg-green-100",note:"推薦租電動車或搭環島巴士",customButtons:[{text:"行程規劃",link:"javascript:showUdoPlan()",icon:"fa-map",color:"orange"}],navQuery:""},{type:"arrive",time:"auto",duration:0,travelTime:10,travelMode:"car",title:"返回城山港",desc:"搭船返回本島",icon:"fa-anchor",bg:"bg-gray-100",navQuery:"아쿠아플라넷 제주"},{type:"spot",time:"auto",duration:180,travelTime:15,travelMode:"car",title:"Aqua Planet Jeju",desc:"亞洲最大水族館之一",icon:"fa-fish",bg:"bg-blue-200",note:"營業: 09:30-19:00 / 表演: 13:00, 15:00, 16:50",navQuery:"금돗 성산흑돼지"},snowBackupEvent,{type:"dinner",time:"auto",duration:90,travelTime:10,travelMode:"car",title:"黑毛豬晚餐 - 금돗 성산",desc:"Geumdot Seongsan Black Pork",icon:"fa-utensils",bg:"bg-orange-100",note:"營業時間: 11:00 - 23:00",navQuery:"코업시티호텔 성산"},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"濟州城山貝斯特飯店",desc:"休息",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day4Events=[{type:"food",time:"08:30",duration:60,travelTime:0,travelMode:null,title:"飯店早餐",desc:"享用美味早餐，開啟美好的一天",icon:"fa-mug-hot",bg:"bg-orange-50",navQuery:""},{type:"start",time:"09:30",duration:0,travelTime:50,travelMode:"car",title:"飯店出發",desc:"退房前往西歸浦",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"정방폭포"},{type:"spot",time:"auto",duration:60,travelTime:10,travelMode:"car",title:"正房瀑布",desc:"Jeongbang Waterfall (亞洲唯一直接入海)",icon:"fa-water",bg:"bg-blue-100",note:"門票: 成人 2,000 / 兒童 1,000",externalLink:"https://tinachiang0824.pixnet.net/blog/posts/9577976988",navQuery:"서귀포매일올레시장"},{type:"food",time:"auto",duration:120,travelTime:20,travelMode:"car",title:"每日偶來市場",desc:"Seogwipo Olle Market (午餐)",icon:"fa-utensils",bg:"bg-orange-100",note:"必吃：橘子麻糬、黑豬肉可樂餅",externalLink:"https://journey.tw/seogwipo-olle-market/",customButtons:[{text:"強力推薦",link:"javascript:showOlleMarketRecs()",icon:"fa-thumbs-up",color:"red"}],navQuery:"귤꽃다락"},{type:"spot",time:"auto",duration:90,travelTime:40,travelMode:"car",title:"橘花閣樓 (귤꽃다락)",desc:"西歸浦超人氣橘子園咖啡廳",icon:"fa-coffee",bg:"bg-orange-50",btnText:"營業與消費",btnAction:"showCafeInfo",navQuery:"신화월드 랜딩관"},snowBackupEvent,{type:"hotel",time:"auto",duration:90,travelTime:0,travelMode:null,title:"神話世界-藍鼎",desc:"Shinhwa World Landing Resort (Check-in)",icon:"fa-hotel",bg:"bg-purple-100",note:"稍作休息，逛逛神話世界商店街",navQuery:""},{type:"dinner",time:"18:00",duration:120,travelTime:0,travelMode:null,title:"藍鼎自助晚餐",desc:"Landing Dining (海鮮自助餐)",icon:"fa-wine-glass-alt",bg:"bg-yellow-200",note:"⚠️ 已預約 18:00 (時間不可動)",btnText:"營業與消費",btnAction:"showLandingDiningInfo",externalLink:"https://www.youtube.com/watch?v=oKv2f09cXAo",navQuery:""},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"神話世界-藍鼎",desc:"住宿",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day5Events=[{type:"start",time:"10:00",duration:0,travelTime:10,travelMode:"walk",title:"飯店出發",desc:"睡飽飽，準備去樂園玩！",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"제주신화월드 신화테마파크"},{type:"activity",time:"auto",duration:180,travelTime:40,travelMode:"car",title:"神話主題公園",desc:"Shinhwa Theme Park (Big 3)",icon:"fa-ticket-alt",bg:"bg-purple-100",note:"使用 Big 3 券，任選 3 項設施遊玩",btnText:"營業與攻略",btnAction:"showThemeParkInfo",navQuery:"1100고지 휴게소"},{type:"spot",time:"backup",duration:60,travelTime:0,travelMode:"car",title:"❄️ [雪天備案] 漢拿山 1100高地",desc:"若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)",icon:"fa-snowflake",bg:"bg-sky-50 border-2 border-blue-200 border-dashed",note:"若有積雪，景色絕美；若無雪可走生態步道",navQuery:"1100고지 휴게소",isBackup:!0},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"神話世界-藍鼎",desc:"返回飯店休息 / 晚餐",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day6Events=[{type:"start",time:"10:00",duration:0,travelTime:20,travelMode:"car",title:"飯店出發",desc:"退房，前往小朋友的天堂！",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"뽀로로앤타요 테마파크 제주"},{type:"activity",time:"auto",duration:240,travelTime:50,travelMode:"car",title:"Pororo & Tayo 樂園",desc:"室內外綜合大型親子樂園",icon:"fa-child",bg:"bg-blue-100",note:"預留 4 小時盡情放電",btnText:"營業與票價",btnAction:"showPororoInfo",navQuery:"도두동 무지개해안도로"},snowBackupEvent,{type:"spot",time:"auto",duration:45,travelTime:15,travelMode:"car",title:"彩虹海岸公路",desc:"Dodu-dong Rainbow Coastal Road",icon:"fa-rainbow",bg:"bg-pink-50",note:"整排彩虹石墩，背景是大海，拍照超美",navQuery:"호텔레오"},{type:"hotel",time:"auto",duration:60,travelTime:15,travelMode:"car",title:"利奧飯店 (Hotel Leo)",desc:"Check-in (新濟州)",icon:"fa-hotel",bg:"bg-purple-100",note:"放行李，稍作休息",navQuery:"숙성도 노형점"},{type:"dinner",time:"18:30",duration:90,travelTime:10,travelMode:"walk",title:"晚餐 - 熟成到燒肉",desc:"Suksungdo (熟成黑豬肉)",icon:"fa-fire-alt",bg:"bg-red-100",note:"⚠️ 已訂位 18:30 (預付訂金 30,000元)",btnText:"訂位與菜單",btnAction:"showSuksungdoInfo",navQuery:"호텔레오"},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"利奧飯店",desc:"休息",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day7Events=[{type:"start",time:"09:30",duration:0,travelTime:20,travelMode:"car",title:"飯店出發",desc:"睡飽飽，前往舊濟州探索",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"제주동문시장"},{type:"spot",time:"auto",duration:60,travelTime:10,travelMode:"walk",title:"濟州東門市場",desc:"Jeju Dongmun Market",icon:"fa-store",bg:"bg-orange-100",note:"早上買伴手禮/水果比較少人",navQuery:"제주중앙지하상가"},{type:"shopping",time:"auto",duration:90,travelTime:15,travelMode:"car",title:"中央地下街 / 中央街市場",desc:"Jungang Underground Shopping Center",icon:"fa-shopping-bag",bg:"bg-blue-100",note:"好逛好買的購物天堂",customButtons:[{text:"強力推薦",link:"javascript:showJungangRecs()",icon:"fa-thumbs-up",color:"red"}],navQuery:"자매국수"},{type:"food",time:"auto",duration:60,travelTime:20,travelMode:"car",title:"午餐 - 姊妹麵條",desc:"Jamae Guksu (必吃豬肉湯麵)",icon:"fa-utensils",bg:"bg-red-100",note:"排隊名店，湯頭濃郁",navQuery:"브릭캠퍼스"},{type:"spot",time:"auto",duration:90,travelTime:20,travelMode:"car",title:"Brick Campus (備案)",desc:"樂高積木校園 (雨天/室內備案)",icon:"fa-cube",bg:"bg-purple-100",note:"樂高迷必去，充滿創意",navQuery:"롯데마트 제주점"},snowBackupEvent,{type:"shopping",time:"auto",duration:120,travelTime:10,travelMode:"walk",title:"蓮洞商圈 / 樂天超市",desc:"Yeondong / Lotte Mart",icon:"fa-shopping-cart",bg:"bg-green-100",note:"最後採買機會！",navQuery:"교촌치킨 연동점"},{type:"dinner",time:"auto",duration:90,travelTime:10,travelMode:"walk",title:"晚餐 - 橋村炸雞",desc:"Kyochon Chicken (蓮洞店)",icon:"fa-drumstick-bite",bg:"bg-yellow-200",note:"必點：蜂蜜炸雞 (Honey Series)",navQuery:"호텔레오"},{type:"hotel",time:"auto",duration:0,travelTime:0,travelMode:null,title:"利奧飯店",desc:"打包行李，準備回程",icon:"fa-bed",bg:"bg-purple-100",navQuery:""}];
-        const day8Events=[{type:"start",time:"09:30",duration:0,travelTime:20,travelMode:"car",title:"飯店出發",desc:"退房，把握最後時光！",icon:"fa-sun",bg:"bg-yellow-100",navQuery:"이호테우말등대"},{type:"spot",time:"auto",duration:30,travelTime:25,travelMode:"car",title:"梨湖小馬燈塔",desc:"Iho Tewoo Horse Lighthouses",icon:"fa-camera",bg:"bg-red-50",note:"紅白小馬燈塔，拍照打卡聖地",navQuery:"애월카페거리"},{type:"food",time:"auto",duration:90,travelTime:25,travelMode:"car",title:"愛月邑咖啡街 / 午餐",desc:"Aewol Cafe Street",icon:"fa-coffee",bg:"bg-orange-100",note:"推薦：Randy's Donuts 或海景咖啡廳",navQuery:"아르떼뮤지엄 제주"},{type:"spot",time:"auto",duration:90,travelTime:40,travelMode:"car",title:"Arte Museum",desc:"光影藝術館 (沉浸式體驗)",icon:"fa-palette",bg:"bg-purple-100",note:"雨天備案首選，視覺饗宴",navQuery:"더세이프렌터카"},{type:"car",time:"16:30",duration:30,travelTime:15,travelMode:"walk",title:"還車 - The Safe Rent A Car",desc:"Return Rental Car",icon:"fa-car",bg:"bg-green-100",note:"檢查車況，搭乘接駁車前往機場",navQuery:"제주국제공항"},{type:"flight",time:"18:15",duration:120,travelTime:0,travelMode:null,title:"濟州機場報到",desc:"Jeju Int'l Airport (CJU)",icon:"fa-plane-departure",bg:"bg-blue-200",note:"辦理登機、退稅、最後免稅店衝刺"},{type:"flight",time:"20:15",duration:0,travelTime:0,travelMode:null,title:"起飛回程 (IT671)",desc:"20:15 CJU ✈️ 21:50 KHH",icon:"fa-home",bg:"bg-blue-600 text-white",navQuery:""}];
 
         const tabs = [
             { id: 'flight', icon: 'fa-paper-plane', label: '航班', color: 'bg-blue-100' },
@@ -419,7 +496,10 @@
             }
             const contentArea = document.getElementById('content-area');
             contentArea.innerHTML = getContent(tabId);
-            if(tabId === 'rate') fetchRate();
+            if(tabId === 'rate') {
+                fetchRate();
+                renderExpenses();
+            }
             if(tabId === 'weather') fetchWeather();
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
@@ -573,6 +653,67 @@
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
+        window.showUdoPlan = function() {
+            const udoSpots = [
+                { name: '西濱白沙 (Sanho Beach)', desc: '韓國唯一的紅藻團塊海灘，沙子像爆米花一樣白！', query: '우도 서빈백사', icon: 'fa-umbrella-beach' },
+                { name: '下古水洞海水浴場', desc: '海水超清澈，適合玩水。必去 Blanc Rocher 咖啡廳☕', query: '하고수동해수욕장', icon: 'fa-water' },
+                { name: '飛揚島 (Biyangdo)', desc: '退潮時可步行前往的小島，拍照打卡聖地📸', query: '비양도 연육교', icon: 'fa-camera' },
+                { name: '檢蠻沙 (黑沙灘)', desc: '🥜 必吃：Jimmy\'s 花生冰淇淋！可搭快艇看海蝕洞。', query: '검멀레해수욕장', icon: 'fa-ice-cream' },
+                { name: '牛島峰 (Udo Peak)', desc: '俯瞰全島壯麗景色，有體力可以爬上去看看。', query: '우도봉', icon: 'fa-mountain' }
+            ];
+
+            let html = `
+                <div class="text-left relative h-full">
+                    <div class="absolute top-0 right-0 text-4xl opacity-20">🥜</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-orange-200 pb-2 font-hand tracking-wide">
+                        牛島環島必去路線 (順時針)
+                    </h3>
+                    
+                    <div class="bg-orange-50 p-3 rounded-xl mb-4 text-xs text-orange-800 flex items-center border border-orange-100">
+                        <i class="fas fa-motorcycle text-xl mr-3"></i>
+                        <div>
+                            <strong>交通建議：</strong><br>
+                            下船後租「電動三輪車」或搭乘「海岸循環巴士」遊玩最方便。
+                        </div>
+                    </div>
+
+                    <div class="space-y-0 pl-2">
+            `;
+
+            udoSpots.forEach((spot, index) => {
+                const navUrl = `https://map.naver.com/p/search/${encodeURIComponent(spot.query)}`;
+                html += `
+                    <div class="relative pl-6 border-l-2 border-dashed border-slate-300 pb-6 last:border-0 last:pb-0">
+                        <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-400 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-orange-500 shadow-sm">${index + 1}</div>
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-100 -mt-1 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-slate-700 text-sm flex items-center">
+                                    <i class="fas ${spot.icon} text-orange-300 mr-2 w-4 text-center"></i>${spot.name}
+                                </h4>
+                                <a href="${navUrl}" target="_blank" class="text-jeju-blue hover:text-blue-700 text-[10px] bg-blue-50 px-2 py-1 rounded-full whitespace-nowrap ml-2 font-bold flex items-center">
+                                    <i class="fas fa-location-arrow mr-1"></i> 導航
+                                </a>
+                            </div>
+                            <p class="text-xs text-slate-500 leading-relaxed pl-6">${spot.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
+                            關閉 Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-content-area').innerHTML = html;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+        
         window.showOlleMarketRecs = function() {
              document.getElementById('modal-content-area').innerHTML = `
                 <div class="text-left">
@@ -674,11 +815,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 text-center">
-                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
-                            關閉 Close
-                        </button>
-                    </div>
                 </div>
             `;
             document.getElementById('info-modal').classList.remove('hidden');
@@ -740,12 +876,6 @@
                             </div>
                          </div>
                     </div>
-                    
-                    <div class="mt-4 text-center">
-                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
-                            關閉 Close
-                        </button>
-                    </div>
                 </div>
             `;
             document.getElementById('info-modal').classList.remove('hidden');
@@ -780,12 +910,6 @@
                                 * 下午 3 點後入場有優惠價 (After 3)
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="mt-4 text-center">
-                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
-                            關閉 Close
-                        </button>
                     </div>
                 </div>
             `;
@@ -835,12 +959,6 @@
                         </div>
                         <p class="text-[10px] text-slate-400 mt-2">* 每日限量部位建議早點確認</p>
                     </div>
-                    
-                    <div class="mt-4 text-center">
-                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
-                            關閉 Close
-                        </button>
-                    </div>
                 </div>
             `;
             document.getElementById('info-modal').classList.remove('hidden');
@@ -855,11 +973,6 @@
                         <i class="fas fa-edit text-4xl mb-2 text-red-300"></i><br>
                         <span class="font-bold text-red-500">內容撰寫中...</span><br>
                         <span class="text-sm">(稍後補上推薦店家與必買清單)</span>
-                    </div>
-                    <div class="mt-4 text-center">
-                        <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-2 rounded-full text-xs font-bold transition-colors">
-                            關閉 Close
-                        </button>
                     </div>
                 </div>
             `;
@@ -992,6 +1105,22 @@
             const dayPlanner = (dayNum, dateStr) => `${header(`Day ${dayNum} : ${dateStr}`)}<div class="bg-yellow-100 p-3 rounded-lg shadow-sm transform -rotate-1 mb-6 border border-yellow-200 relative"><div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-red-100 opacity-60 rounded-sm"></div><h3 class="font-bold text-base text-orange-800 text-center font-hand"><i class="fas fa-star mr-1"></i> Highlights</h3><p class="text-slate-700 text-center mt-1 font-hand text-lg">Coming Soon...</p></div>`;
 
             switch(id) {
+                case 'intro':
+                    return `${header('Jeju Best Spots 必去景點')}
+                    <div class="grid grid-cols-2 gap-4 pb-10">
+                        ${allSpots.map((spot, index) => `
+                            <div class="polaroid-card transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0 transition-transform duration-300">
+                                <div class="masking-tape ${spot.tape}"></div>
+                                <div class="relative">
+                                    <img src="${spot.img}" class="w-full aspect-video object-cover rounded-sm mb-2 filter sepia-[.1]">
+                                    <div class="doodle-sticker" style="bottom:-10px; right:-10px; transform: rotate(10deg);">${spot.sticker}</div>
+                                </div>
+                                <h4 class="font-bold text-slate-700 text-lg font-hand leading-tight mb-1">${spot.name}</h4>
+                                <p class="text-xs text-slate-500 font-sans leading-relaxed border-t border-dashed border-gray-200 pt-1">${spot.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>`;
+                    
                 case 'flight':
                     return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
                 case 'rate': return `
@@ -1030,6 +1159,51 @@
                             <ul class="space-y-1 text-sm font-hand text-slate-700" id="rate-cheat-sheet">
                                 <li class="text-center text-xs text-gray-400">Loading rates...</li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <!-- 記帳表單 -->
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 mt-6">
+                        <h3 class="font-bold text-jeju-green mb-4 flex items-center gap-2 font-hand text-lg">
+                            <i class="fas fa-pen"></i> 新增支出
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="expense-name" placeholder="項目名稱 (如: 晚餐)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                <select id="expense-category" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                    <option value="food">🍽️ 飲食</option>
+                                    <option value="transport">🚗 交通</option>
+                                    <option value="hotel">🏨 住宿</option>
+                                    <option value="shopping">🛍️ 購物</option>
+                                    <option value="fun">🎡 娛樂</option>
+                                    <option value="other">📦 其他</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                <button onclick="addExpense()" class="bg-jeju-green text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition shadow-sm font-hand text-lg">
+                                    新增
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 記帳列表與統計 -->
+                    <div class="space-y-4 pb-20">
+                        <div class="flex justify-between items-center px-2">
+                            <h3 class="font-bold text-slate-700 font-hand text-lg">消費紀錄</h3>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-400">總計約</p>
+                                <p class="text-xl font-bold text-jeju-orange font-mono" id="total-twd">NT$ 0</p>
+                            </div>
+                        </div>
+                        
+                        <div id="expense-list" class="space-y-2">
+                            <!-- JS 生成 -->
+                            <div class="text-center py-10 opacity-50">
+                                <div class="text-4xl mb-2">💸</div>
+                                <p class="text-sm font-hand">還沒有消費紀錄喔！</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1082,35 +1256,7 @@
                         </div>
                     </div>
                 `;
-                case 'intro':
-                    return `${header('Jeju Best Spots 必去景點')}
-                    <div class="grid grid-cols-2 gap-4 pb-10">
-                        ${allSpots.map((spot, index) => `
-                            <div class="polaroid-card transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0 transition-transform duration-300">
-                                <div class="masking-tape ${spot.tape}"></div>
-                                <div class="relative">
-                                    <img src="${spot.img}" class="w-full aspect-video object-cover rounded-sm mb-2 filter sepia-[.1]">
-                                    <div class="doodle-sticker" style="bottom:-10px; right:-10px; transform: rotate(10deg);">${spot.sticker}</div>
-                                </div>
-                                <h4 class="font-bold text-slate-700 text-lg font-hand leading-tight mb-1">${spot.name}</h4>
-                                <p class="text-xs text-slate-500 font-sans leading-relaxed border-t border-dashed border-gray-200 pt-1">${spot.desc}</p>
-                            </div>
-                        `).join('')}
-                    </div>`;
-
-                // ... (other cases: flight, rate, weather, prep, booking, day1-8) ...
-                // For brevity in this response, assume they are included as in previous steps
-                // I will include the full 'intro' logic and refer to previous 'renderScheduleList' logic
-                
-                case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
-                case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
-                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
-                case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
-                case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
-                case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
-                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
-                case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
-                case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('必備證件', ['護照', 'K-ETA', '機票', '訂房', '駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS', '現金', '信用卡', '網卡'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
+                case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('出發前必做', ['預辦登機 (48小時前)', '線上填寫電子入境卡 (e-Arrival Card)'], 'red')}${prepGroup('必備證件', ['護照 (效期6個月+)', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', '購買 eSIM 卡', '漫遊開通'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
                 case 'booking': return `${header('Booking & Tickets 憑證')}<div class="space-y-4">
                     ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', ['The_Safe_Rent_A_Car_1.png', 'The_Safe_Rent_A_Car_2.png', 'The_Safe_Rent_A_Car_3.png', 'The_Safe_Rent_A_Car_4.png', 'The_Safe_Rent_A_Car_5.png', 'The_Safe_Rent_A_Car_6.png', 'The_Safe_Rent_A_Car_7.png'])}
                     ${bookingItem('【Day1】濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
@@ -1121,12 +1267,165 @@
                     ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', ['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'])}
                 </div>`;
                 
+                case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
+                case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
+                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
+                case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
+                case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
+                case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
+                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
+                case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
                 default: return '<div>Coming Soon</div>';
             }
         }
         
-        // Ensure all modal functions and renderScheduleList are defined in the script
-        // (Due to length limits, I'm ensuring the structure is valid. The full content should be pasted)
+        // --- Helper Functions ---
+        
+        function updateRateCheatSheet(rate) {
+            const listEl = document.getElementById('rate-cheat-sheet');
+            if (!listEl) return;
+            const amounts = [1000, 5000, 10000, 30000, 50000];
+            let html = '';
+            amounts.forEach(krw => {
+                const twd = Math.round(krw * rate);
+                html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1 last:border-0"><span class="font-bold text-slate-700">₩ ${krw.toLocaleString()}</span><span class="text-xs text-slate-400">≈</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
+            });
+            listEl.innerHTML = html;
+        }
+
+        function updateOOTD(feelTemp, weatherCode) {
+            const tipEl = document.getElementById('weather-tip');
+            if (!tipEl) return;
+            let tip = "";
+            if (feelTemp < 5) tip = "超級冷！羽絨衣、圍巾、暖暖包是必須的！🧤";
+            else if (feelTemp < 10) tip = "有點冷喔，建議洋蔥式穿搭，帶件厚外套。🧥";
+            else if (feelTemp < 15) tip = "涼爽舒適，長袖衛衣或針織衫剛好。👕";
+            else tip = "天氣不錯，輕便穿著即可！👟";
+            if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) tip += " <br>⚠️ 會下雨，記得帶傘！☂️";
+            tipEl.innerHTML = tip;
+        }
+
+        function addExpense() {
+            const name = document.getElementById('expense-name').value;
+            const category = document.getElementById('expense-category').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            
+            if(!name || !amount) return alert('請輸入項目與金額');
+            
+            expenseData.push({
+                id: Date.now(),
+                name,
+                category,
+                amount,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
+            renderExpenses();
+            
+            document.getElementById('expense-name').value = '';
+            document.getElementById('expense-amount').value = '';
+        }
+
+        function deleteExpense(id) {
+            if(confirm('確定要刪除這筆紀錄嗎？')) {
+                expenseData = expenseData.filter(e => e.id !== id);
+                localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
+                renderExpenses();
+            }
+        }
+
+        function renderExpenses() {
+            const listEl = document.getElementById('expense-list');
+            const totalEl = document.getElementById('total-twd');
+            if(!listEl) return;
+            
+            if(expenseData.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center py-10 opacity-50">
+                        <div class="text-4xl mb-2">💸</div>
+                        <p class="text-sm font-hand">還沒有消費紀錄喔！</p>
+                    </div>`;
+                totalEl.innerText = 'NT$ 0';
+                return;
+            }
+            
+            let html = '';
+            let totalTwd = 0;
+            
+            expenseData.slice().sort((a,b) => new Date(b.date) - new Date(a.date)).forEach((ex) => {
+                const rateForTWD = 1 / currentExchangeRate; 
+                const twd = Math.round(ex.amount * rateForTWD);
+                
+                totalTwd += twd;
+                
+                const catIcons = {
+                    food: '🍽️', transport: '🚗', hotel: '🏨', shopping: '🛍️', fun: '🎡', other: '📦'
+                };
+                
+                html += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">${catIcons[ex.category]}</span>
+                            <div>
+                                <div class="font-bold text-slate-700 text-sm font-hand">${ex.name}</div>
+                                <div class="text-[10px] text-slate-400">${moment(ex.date).format('MM/DD HH:mm')}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="text-right">
+                                <div class="font-bold text-jeju-blue font-mono">₩ ${ex.amount.toLocaleString()}</div>
+                                <div class="text-[10px] text-slate-400">≈ NT$ ${twd.toLocaleString()}</div>
+                            </div>
+                            <button onclick="deleteExpense(${ex.id})" class="text-slate-300 hover:text-red-400 ml-1 p-1"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listEl.innerHTML = html;
+            totalEl.innerText = `NT$ ${totalTwd.toLocaleString()}`;
+        }
+
+        async function fetchRate() {
+            const el = document.getElementById('rate-display');
+            try {
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/TWD');
+                const data = await res.json();
+                
+                const rateForKRW = data.rates.KRW;
+                currentExchangeRate = rateForKRW; 
+
+                if(document.getElementById('krw-val')) {
+                    document.getElementById('rate-loading').style.display = 'none';
+                    document.getElementById('rate-result').classList.remove('hidden');
+                    document.getElementById('krw-val').innerText = rateForKRW.toFixed(2);
+                }
+                
+                updateRateCheatSheet(1/rateForKRW);
+                
+                if(document.getElementById('expense-list')) {
+                    renderExpenses();
+                }
+
+                if(document.getElementById('calc-twd') && document.getElementById('calc-twd').value === "") convertCurrency('twd');
+            } catch (e) { console.error(e); }
+        }
+
+        function convertCurrency(source) {
+            if(!currentExchangeRate) return;
+            const twd = document.getElementById('calc-twd'), krw = document.getElementById('calc-krw');
+            if(source==='twd') krw.value=(parseFloat(twd.value)*currentExchangeRate).toFixed(0)||'';
+            else twd.value=(parseFloat(krw.value)/currentExchangeRate).toFixed(0)||'';
+        }
+        
+        const originalLoadContent = loadContent;
+        loadContent = function(tabId) {
+            originalLoadContent(tabId);
+            if(tabId === 'rate' && currentExchangeRate) {
+                renderExpenses();
+            }
+        }
     </script>
 </body>
 </html>
