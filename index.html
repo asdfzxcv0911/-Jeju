@@ -613,29 +613,16 @@
                 const fallbackImg = "https://images.unsplash.com/photo-1548115184-bc6544d06a58?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80";
 
                 const imagesHtml = filenames.map((filename, index) => {
-                    // 為每個圖片生成唯一 wrapper ID
-                    const wrapperId = `${imgId}-${index}`;
-                    const storageKey = `img-${wrapperId}`;
-                    
-                    const savedImg = localStorage.getItem(storageKey);
-                    const imgSrc = savedImg ? savedImg : filename;
+                    const imgSrc = filename; // 直接使用檔名
 
                     return `
-                        <div class="flex-1 min-w-[140px] p-2 flex flex-col items-center relative" id="${wrapperId}">
-                            <div class="inline-block p-1 bg-white shadow-md transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} relative group w-full">
-                                <img src="${imgSrc}" onerror="this.src='${fallbackImg}'" class="rounded w-full h-32 object-cover polaroid-img" alt="Booking Image">
+                        <div class="flex-1 min-w-[200px] p-2 flex flex-col items-center relative" id="${imgId}-${index}">
+                            <div class="inline-block p-1 bg-white shadow-md transform ${index % 2 === 0 ? 'rotate-0' : '-rotate-0'} relative group w-full border border-gray-100">
+                                <img src="${imgSrc}" onerror="this.src='${fallbackImg}'" class="rounded w-full h-auto" alt="Booking Image">
                             </div>
                             
-                            <!-- Hidden Input -->
-                            <input type="file" id="file-${wrapperId}" style="display: none;" accept="image/*" onchange="updateImage('${wrapperId}', this)">
-                            
-                            <div class="mt-2">
-                                <button onclick="event.stopPropagation(); document.getElementById('file-${wrapperId}').click();" class="text-[10px] bg-slate-200 hover:bg-slate-300 text-slate-600 px-3 py-1 rounded-full transition-colors font-bold whitespace-nowrap">
-                                    <i class="fas fa-camera mr-1"></i> 更換
-                                </button>
-                            </div>
-                            <div class="text-[9px] text-slate-400 mt-1 break-all text-center leading-tight">
-                                ${filename}
+                            <div class="text-[9px] text-slate-400 mt-2 break-all text-center leading-tight">
+                                <i class="fas fa-file-image mr-1"></i>${filename}
                             </div>
                         </div>
                     `;
@@ -666,13 +653,72 @@
                 `;
             };
 
+            // 新增：連結項目 Helper
+            const linkItem = (title, sub, iconClass, colorClass, links) => `
+                <div class="bg-white rounded-xl shadow-sm border-2 border-slate-100 overflow-hidden mb-4 relative">
+                    <div class="p-3 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-${colorClass}-100 text-${colorClass}-500 w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center text-lg border-2 border-white shadow-sm">
+                                <i class="${iconClass}"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg font-hand text-slate-700 tracking-wide leading-tight">${title}</h3>
+                                <p class="text-xs text-slate-400 font-sans border-b border-dotted border-${colorClass}-200 inline-block">${sub}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-paper border-t-2 border-dashed border-slate-200 p-3">
+                        <div class="flex flex-col gap-2">
+                            ${links.map(link => `
+                                <a href="${link.url}" target="_blank" class="flex items-center p-3 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md hover:border-${colorClass}-300 transition-all group">
+                                    <div class="bg-${colorClass}-50 text-${colorClass}-500 w-8 h-8 rounded-full flex items-center justify-center mr-3 group-hover:bg-${colorClass}-100">
+                                        <i class="fas fa-link"></i>
+                                    </div>
+                                    <span class="font-bold text-slate-700 group-hover:text-${colorClass}-600">${link.text}</span>
+                                    <i class="fas fa-external-link-alt ml-auto text-slate-300 group-hover:text-${colorClass}-400 text-xs"></i>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const prepGroup = (title, items, color) => `
+                <div class="mb-4 bg-white p-4 rounded-lg shadow-sm relative overflow-hidden">
+                    <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 24px;"></div>
+                    
+                    <div class="relative inline-block bg-${color}-100 px-3 py-1 rounded mb-3 transform -rotate-1 shadow-sm border border-${color}-200">
+                        <span class="font-bold text-${color}-600 font-hand text-lg tracking-wider">${title}</span>
+                    </div>
+
+                    <div class="relative space-y-2 pl-1">
+                        ${items.map(item => `
+                            <label class="flex items-center cursor-pointer hover:bg-${color}-50 p-1 rounded transition-colors">
+                                <input type="checkbox" class="custom-checkbox text-${color}-500 mr-2 flex-shrink-0">
+                                <span class="text-slate-600 font-hand text-base pt-1 leading-none">${item}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            const attractionItem = (name, desc, img, tapeColor, rotation) => `
+                <div class="polaroid-card transform rotate-[${rotation}deg] mb-6 break-inside-avoid">
+                    <div class="masking-tape ${tapeColor}"></div>
+                    <div class="aspect-video w-full overflow-hidden bg-gray-100 mb-2 rounded-sm border border-gray-200">
+                        <img src="${img}" class="w-full h-full object-cover polaroid-img" alt="${name}">
+                    </div>
+                    <h3 class="font-hand font-bold text-xl text-slate-700 text-center mb-1 tracking-tight">${name}</h3>
+                    <p class="font-sans text-xs text-slate-500 text-center leading-relaxed px-1 border-t border-dashed border-gray-200 pt-1 mt-1">${desc}</p>
+                </div>
+            `;
+
             switch(id) {
                 case 'flight':
                     // ... (保持不變) ...
                     return `
                         ${header('Flight Info 航班資訊')}
                         <div class="flex flex-col gap-4">
-                            <!-- 航班資訊省略重複代碼，維持原樣 -->
                             <div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')">
                                 <div class="p-4 relative">
                                     <div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div>
@@ -794,7 +840,6 @@
                                     <span><i class="fas fa-calendar-week mr-1"></i> Forecast (Click for details)</span>
                                 </h3>
                                 
-                                <!-- 橫向滑動區塊 -->
                                 <div class="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar" id="forecast-container">
                                     <!-- JS Generated -->
                                 </div>
@@ -811,18 +856,21 @@
                         ${header('Booking & Tickets 憑證')}
                         <div class="space-y-4">
                             ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', 'The_Safe_Rent_A_Car.png')}
-                            ${bookingItem('Day1 濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
                             
-                            <!-- Day2-3 兩張圖 -->
-                            ${bookingItem('住宿 D2-D3', '西歸浦', 'img-h2', 'fas fa-hotel', 'purple', ['Hotel_Seogwipo_1.png', 'Hotel_Seogwipo_2.png'])}
+                            ${bookingItem('【Day1】濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
                             
-                            <!-- Day4-5 兩張圖 -->
-                            ${bookingItem('住宿 D4-D5', '城山', 'img-h3', 'fas fa-hotel', 'purple', ['Hotel_Seongsan_1.png', 'Hotel_Seongsan_2.png'])}
+                            ${bookingItem('【Day2.3】城山貝斯特飯店(Coop City Hotel Seongsan)', '城山', 'img-h2', 'fas fa-hotel', 'purple', ['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'])}
                             
-                            <!-- Day6-7 兩張圖 -->
-                            ${bookingItem('住宿 D6-D7', '咸德', 'img-h4', 'fas fa-hotel', 'purple', ['Hotel_Hamdeok_1.png', 'Hotel_Hamdeok_2.png'])}
+                            ${bookingItem('【Day4.5】神話世界-藍鼎(Shinhwa World Landing)', '神話世界', 'img-h3', 'fas fa-hotel', 'purple', ['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'])}
                             
-                            ${bookingItem('Catch Table', '餐廳訂位', 'img-food', 'fas fa-utensils', 'orange', 'Catch_Table_Reservation.png')}
+                            ${bookingItem('【Day6.7】利奧飯店(Hotel Leo)', '新濟州', 'img-h4', 'fas fa-hotel', 'purple', ['Hotel_Leo_1.png', 'Hotel_Leo_2.png'])}
+                            
+                            <!-- 新增：Catch Table 連結按鈕區塊 -->
+                            ${linkItem('Catch Table', '餐廳訂位連結', 'fas fa-utensils', 'orange', [
+                                { text: '【London Bagel Museum】', url: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju' },
+                                { text: '【熟成到燒肉】', url: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju' }
+                            ])}
+                            
                             ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', 'Aqua_Planet_Ticket.png')}
                         </div>
                     `;
