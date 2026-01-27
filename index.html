@@ -65,9 +65,9 @@
         .sticker-tab.active {
             background-color: #FFD93D !important;
             color: #374151 !important;
-            transform: translateY(-5px);
+            transform: translateY(-3px); /* 縮小移動距離 */
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             z-index: 10;
             border-bottom: none;
         }
@@ -222,9 +222,9 @@
     <!-- 主容器：限制為 max-w-md (手機大小) -->
     <div class="max-w-md mx-auto px-2">
         
-        <!-- 上方導航標籤 (可滑動) -->
-        <div class="flex overflow-x-auto hide-scrollbar gap-1 px-1 pb-1" id="tab-menu" style="margin-bottom: -10px; padding-top: 10px;">
-            <!-- 選單由 JS 生成 -->
+        <!-- 上方導航標籤 (改為兩列 Grid，不滑動) -->
+        <div class="flex flex-col gap-1 px-1 pb-1" id="tab-menu" style="margin-bottom: -10px; padding-top: 5px;">
+            <!-- 選單由 JS 生成 (兩列) -->
         </div>
 
         <!-- 內容紙張區域 -->
@@ -244,9 +244,7 @@
         let currentExchangeRate = 0; 
         let weatherDataCache = null; 
 
-        // 行程資料 (Day 1) - 時間邏輯核心
-        // duration: 分鐘 (在該點停留時間)
-        // travel: 分鐘 (前往下一個點的交通時間)
+        // 行程資料 (Day 1)
         const day1Events = [
             {
                 type: 'start', time: '13:30', duration: 90, travel: 60,
@@ -256,15 +254,15 @@
                 bg: 'bg-blue-100',
                 btnText: '怎麼去?',
                 btnAction: 'showLoungeGuide',
-                navLink: '' // 機場內不需導航
+                navLink: '' 
             },
             {
-                type: 'flight', time: '16:00', duration: 145, travel: 60, // 2h25m flight + 1h timezone diff is handled manually in text usually, but here we just flow time
+                type: 'flight', time: '16:00', duration: 145, travel: 60, 
                 title: '快樂起航 (IT670)',
                 desc: '16:00 KHH ✈️ 19:25 CJU (含時差)',
                 icon: 'fa-plane-departure',
                 bg: 'bg-orange-100',
-                isFlight: true // 特殊標記，用於時間計算校正(如果需要)
+                isFlight: true 
             },
             {
                 type: 'arrive', time: '19:25', duration: 60, travel: 15,
@@ -275,14 +273,14 @@
                 note: '預計 20:25 完成'
             },
             {
-                type: 'car', time: 'auto', duration: 30, travel: 15, // time: auto means calc from prev
+                type: 'car', time: 'auto', duration: 30, travel: 15, 
                 title: 'The Safe Rent A Car',
                 desc: '搭接駁車前往取車',
                 icon: 'fa-car',
                 bg: 'bg-yellow-100',
                 btnText: '取車指引',
                 btnAction: 'showCarGuide',
-                navLink: 'https://map.naver.com/p/search/The%20Safe%20Rent%20A%20Car' // 導航到租車公司
+                navLink: 'https://map.naver.com/p/search/The%20Safe%20Rent%20A%20Car' 
             },
             {
                 type: 'hotel', time: 'auto', duration: 0, travel: 0,
@@ -290,17 +288,20 @@
                 desc: 'Check-in 休息',
                 icon: 'fa-bed',
                 bg: 'bg-purple-100',
-                navLink: 'https://map.naver.com/p/search/Maison%20Glad%20Jeju' // 導航到飯店
+                navLink: 'https://map.naver.com/p/search/Maison%20Glad%20Jeju' 
             }
         ];
 
+        // Tabs Data
         const tabs = [
+            // Row 1: Function Tabs (6 items)
             { id: 'flight', icon: 'fa-plane', label: '航班', color: 'bg-blue-100' },
             { id: 'rate', icon: 'fa-coins', label: '匯率', color: 'bg-yellow-100' },
             { id: 'weather', icon: 'fa-cloud-sun', label: '氣象', color: 'bg-sky-100' },
             { id: 'intro', icon: 'fa-camera-retro', label: '景點', color: 'bg-orange-100' },
             { id: 'prep', icon: 'fa-suitcase', label: '準備', color: 'bg-green-100' },
             { id: 'booking', icon: 'fa-ticket-alt', label: '憑證', color: 'bg-purple-100' }, 
+            // Row 2: Day Tabs (8 items)
             { id: 'day1', icon: 'fa-1', label: 'D1', color: 'bg-red-50' },
             { id: 'day2', icon: 'fa-2', label: 'D2', color: 'bg-red-50' },
             { id: 'day3', icon: 'fa-3', label: 'D3', color: 'bg-red-50' },
@@ -340,18 +341,31 @@
             fetchWeather();
         });
 
+        // 重構: 雙層 Grid 佈局
         function renderMenu() {
             const menu = document.getElementById('tab-menu');
-            menu.innerHTML = tabs.map(tab => `
+            
+            // 分割 tabs
+            const mainTabs = tabs.slice(0, 6);
+            const dayTabs = tabs.slice(6, 14);
+
+            const renderBtn = (tab) => `
                 <button onclick="loadContent('${tab.id}')" 
                         id="btn-${tab.id}"
-                        class="sticker-tab flex-shrink-0 px-3 py-2 rounded-t-xl text-slate-600 ${tab.color} border-t border-x border-black/5 mx-0.5">
-                    <div class="flex flex-col items-center min-w-[40px]">
-                        <i class="fas ${tab.icon} text-lg mb-1"></i>
-                        <span class="font-bold text-sm font-hand whitespace-nowrap">${tab.label}</span>
-                    </div>
+                        class="sticker-tab flex flex-col items-center justify-center p-1 rounded-t-lg text-slate-600 ${tab.color} border-t border-x border-black/5 h-10 md:h-12 w-full transition-all">
+                    <i class="fas ${tab.icon} text-sm mb-0.5"></i>
+                    <span class="font-bold text-[10px] font-hand whitespace-nowrap leading-none">${tab.label}</span>
                 </button>
-            `).join('');
+            `;
+
+            menu.innerHTML = `
+                <div class="grid grid-cols-6 gap-1 w-full">
+                    ${mainTabs.map(renderBtn).join('')}
+                </div>
+                <div class="grid grid-cols-8 gap-1 w-full">
+                    ${dayTabs.map(renderBtn).join('')}
+                </div>
+            `;
         }
 
         function updateCountdown() {
@@ -371,11 +385,13 @@
         function loadContent(tabId) {
             document.querySelectorAll('.sticker-tab').forEach(btn => {
                 btn.classList.remove('active');
-                btn.classList.add('opacity-80');
+                btn.classList.add('opacity-90'); // 稍微透明
             });
             const activeBtn = document.getElementById(`btn-${tabId}`);
-            activeBtn.classList.add('active'); 
-            activeBtn.classList.remove('opacity-80');
+            if(activeBtn) {
+                activeBtn.classList.add('active'); 
+                activeBtn.classList.remove('opacity-90');
+            }
 
             const contentArea = document.getElementById('content-area');
             contentArea.innerHTML = getContent(tabId);
@@ -383,7 +399,6 @@
             if(tabId === 'rate') fetchRate();
             if(tabId === 'weather') fetchWeather();
             
-            // Scroll to top of content
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
@@ -395,32 +410,13 @@
             let currentTime = moment(events[0].time, "HH:mm");
 
             events.forEach((event, index) => {
-                // 如果不是第一個活動且沒有固定時間，則根據上一個活動計算
-                if (index > 0 && event.time === 'auto') {
-                    // 上一個活動開始時間 + 持續時間 + 交通時間
-                    // 注意：這裡簡化計算，實際會根據需求累加
-                    const prevEvent = events[index - 1];
-                    // 如果上一個是飛行，這裡已經手動校正過時間(假設)，或者我們直接用累加
-                    // 為了 Day1 的特殊性 (跨時區)，我們這裡做個簡單邏輯：
-                    // Flight 到 Arrive 的時間已經在資料中寫死 19:25，所以我們從 Arrive 後開始動態算
-                }
-                
-                // Day 1 特殊處理：因為有跨時區，我們採取「錨點」策略
-                // 13:30 (Start) -> 16:00 (Flight Start)
-                // Flight End is hardcoded to 19:25
-                // Arrive (19:25) -> +60m duration -> 20:25
-                // 20:25 + 15m travel -> 20:40 (Next Start)
-                
                 let displayTime = event.time;
                 
-                // 動態計算邏輯 (從 Arrive 之後開始)
                 if (event.time === 'auto') {
-                    // 找到上一個有具體時間的點 (Arrive: 19:25)
-                    // 這裡為了演示方便，直接寫死計算邏輯
                     if(event.title.includes('The Safe Rent A Car')) {
-                        displayTime = '20:40'; // 19:25 + 60m duration + 15m travel gap
+                        displayTime = '20:40'; 
                     } else if (event.title.includes('Glad Maison')) {
-                        displayTime = '21:25'; // 20:40 + 30m duration + 15m travel
+                        displayTime = '21:25'; 
                     }
                 }
 
