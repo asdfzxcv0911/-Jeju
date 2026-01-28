@@ -1723,15 +1723,29 @@
                             </div>
                         </div>
 
-                        <!-- 園區地圖展示區 -->
+                        <!-- 園區地圖展示區 (已修改為憑證圖卡風格) -->
                         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm">
                             <h4 class="font-bold text-slate-700 mb-2 text-sm flex items-center gap-2">
                                 <i class="fas fa-map"></i> 園區地圖
                             </h4>
-                            <div class="bg-white p-1 rounded border border-slate-200">
-                                <img src="${photoUrl}" 
-                                     onerror="this.src='https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=400&q=80';" 
-                                     class="w-full h-auto rounded shadow-sm" alt="園區地圖">
+                            <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200">
+                                <div class="rounded-xl overflow-hidden shadow-inner border border-slate-100 relative h-48 cursor-pointer group" 
+                                     onclick="window.open('jeju_shinhwa_park.jpg', '_blank')">
+                                    <!-- 請確認您的圖片檔名為 jeju_shinhwa_park.jpg 並與此網頁放在同一層目錄 -->
+                                    <img src="jeju_shinhwa_park.jpg" 
+                                         onerror="this.src='https://images.unsplash.com/photo-1605218427368-35b0b0213032?auto=format&fit=crop&w=800&q=80';" 
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                         alt="園區地圖">
+                                    
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                    
+                                    <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur text-slate-700 text-xs px-2 py-1 rounded shadow-sm font-bold flex items-center gap-1 group-active:scale-95 transition-transform">
+                                        <i class="fas fa-expand"></i> 查看地圖
+                                    </div>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-2 text-center">
+                                    <i class="fas fa-info-circle mr-1"></i>點擊圖片可開啟大圖 (請確認圖片名稱為 jeju_shinhwa_park.jpg)
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -2312,81 +2326,222 @@
                 <div class="text-left relative h-full">
                     <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-green-600"><i class="fas fa-shopping-cart"></i></div>
                     <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-300 pb-3 font-hand tracking-wide">
-                        🛍️ 蓮洞商圈 & 樂天超市 攻略
+                        🛍️ 蓮洞商圈 & 樂天超市 終極攻略
                     </h3>
 
                     <div class="space-y-4">
-                        <!-- Lotte Mart Section -->
+                        <!-- 1. 樂天超市 Lotte Mart -->
                         <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
-                            <h4 class="font-bold text-green-700 mb-2 text-sm flex items-center gap-2">
-                                <i class="fas fa-store"></i> 樂天超市 (Lotte Mart)
+                            <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-store"></i> 樂天超市 (Lotte Mart) 濟州店
                             </h4>
-                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
-                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">10:00 - 23:00</span></p>
-                                <p class="text-[10px] text-red-500 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i>注意：若自行打包，膠帶需自備或用繩子。</p>
-                                <div class="mt-2 pt-2 border-t border-green-200">
-                                    <p class="font-bold text-slate-700 text-xs mb-1">🛒 必買清單：</p>
-                                    <ul class="text-xs list-disc pl-4 space-y-0.5">
-                                        <li><strong>零糖餅乾 (Lotte Zero)：</strong> 巧克力派、軟糖，健康又好吃。</li>
-                                        <li><strong>HBAF 杏仁果：</strong> 蜂蜜奶油、芥末、烤玉米口味。</li>
-                                        <li><strong>韓國海苔/海苔酥：</strong> 拌飯神器，送禮自用兩相宜。</li>
-                                        <li><strong>泡麵：</strong> 安城湯麵、辛拉麵 (黑版)、金拉麵。</li>
-                                        <li><strong>燒酒/瑪格利：</strong> 種類比超商多很多 (記得放托運)。</li>
+                            
+                            <div class="space-y-3">
+                                <!-- 營業資訊 -->
+                                <div class="bg-white p-2 rounded-lg border border-green-100 text-xs text-slate-600">
+                                    <p class="flex justify-between mb-1"><span>⏰ 營業時間：</span><span class="font-bold">10:00 - 23:00</span></p>
+                                    <p class="flex justify-between"><span>📍 位置：</span><span>位於蓮洞市區，好停車</span></p>
+                                </div>
+
+                                <!-- 必買清單 -->
+                                <div class="bg-white p-3 rounded-xl border-l-4 border-green-400 shadow-sm">
+                                    <p class="font-bold text-slate-700 text-sm mb-2">🛒 必掃貨清單</p>
+                                    <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4 font-hand text-base">
+                                        <li><strong>零食類：</strong> HBAF 杏仁果(多種口味)、Orion 烏龜餅乾(巧克力/松露)、Lotte Zero 零糖系列。</li>
+                                        <li><strong>沖泡飲品：</strong> KANU 咖啡(拿鐵/美式)、Maxim 摩卡金、濟州限定抹茶拿鐵。</li>
+                                        <li><strong>料理包：</strong> 不倒翁麻油、韓國烤肉醬、泡菜罐頭(有些可帶回國，請確認法規)。</li>
+                                        <li><strong>酒類 (記得託運)：</strong> 漢拿山燒酒 (純/淡)、濟州艾爾啤酒、瑪格利 (不建議帶回國因易爆)。</li>
                                     </ul>
+                                </div>
+
+                                <!-- 打包與退稅 -->
+                                <div class="text-[10px] text-slate-500 space-y-1">
+                                    <p><i class="fas fa-box-open text-orange-500 mr-1"></i><strong>自助打包區：</strong> 提供紙箱，但通常不提供膠帶 (需自備或用繩子綁)。建議自備購物袋！</p>
+                                    <p><i class="fas fa-passport text-blue-500 mr-1"></i><strong>退稅：</strong> 結帳時出示護照，可直接扣抵 (即時退稅) 或拿單據去機場退。</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Yeondong Shopping Street -->
+                        <!-- 2. 蓮洞商圈 (Nuwemaru Street) -->
                         <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm">
                             <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
                                 <i class="fas fa-walking text-blue-500"></i> 蓮洞商圈 (Nuwemaru Street)
                             </h4>
+                            <p class="text-xs text-slate-500 mb-3">濟州的明洞！行人徒步區，集中了各大運動品牌與美妝店。</p>
+                            
                             <div class="space-y-3 font-hand text-lg">
-                                <div class="flex items-start gap-2">
-                                    <span class="bg-blue-100 text-blue-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-magic"></i></span>
+                                <!-- Sportswear -->
+                                <div class="flex items-start gap-3 border-b border-slate-50 pb-2">
+                                    <span class="bg-blue-100 text-blue-600 rounded-lg p-2 text-sm mt-1 w-8 h-8 flex items-center justify-center"><i class="fas fa-tshirt"></i></span>
                                     <div>
-                                        <p class="font-bold text-slate-700 text-sm">Olive Young (美妝)</p>
-                                        <p class="text-[10px] text-slate-500">規模很大，面膜、精華液、保健食品一次買齊。記得滿 30,000 可退稅。</p>
+                                        <p class="font-bold text-slate-700 text-sm">運動潮牌</p>
+                                        <p class="text-[11px] text-slate-500 font-sans">ABC Mart (大間)、Nike、Adidas、FILA、Discovery Expedition (韓國限定長版羽絨衣必看)。</p>
                                     </div>
                                 </div>
-                                <div class="flex items-start gap-2">
-                                    <span class="bg-orange-100 text-orange-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-shoe-prints"></i></span>
+                                <!-- Cosmetics -->
+                                <div class="flex items-start gap-3 border-b border-slate-50 pb-2">
+                                    <span class="bg-pink-100 text-pink-600 rounded-lg p-2 text-sm mt-1 w-8 h-8 flex items-center justify-center"><i class="fas fa-magic"></i></span>
                                     <div>
-                                        <p class="font-bold text-slate-700 text-sm">運動潮牌 (ABC Mart, Nike)</p>
-                                        <p class="text-[10px] text-slate-500">可以找看看韓國限定款球鞋 (如 Converse 厚底、FILA)。</p>
+                                        <p class="font-bold text-slate-700 text-sm">美妝保養</p>
+                                        <p class="text-[11px] text-slate-500 font-sans">Olive Young (旗艦店規模，貨超全)、Innisfree、Etude House。面膜、精華液這裡補貨最齊。</p>
                                     </div>
                                 </div>
-                                <div class="flex items-start gap-2">
-                                    <span class="bg-purple-100 text-purple-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-tshirt"></i></span>
+                                <!-- Snacks -->
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-orange-100 text-orange-600 rounded-lg p-2 text-sm mt-1 w-8 h-8 flex items-center justify-center"><i class="fas fa-cookie-bite"></i></span>
                                     <div>
-                                        <p class="font-bold text-slate-700 text-sm">服飾小店</p>
-                                        <p class="text-[10px] text-slate-500">巷弄間有很多韓系服飾店，質感通常不錯。</p>
+                                        <p class="font-bold text-slate-700 text-sm">街頭小吃</p>
+                                        <p class="text-[11px] text-slate-500 font-sans">糖葫蘆、雞蛋糕、韓式熱狗。逛累了路邊隨時有得吃。</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Tips -->
-                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
-                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
-                                <i class="fas fa-lightbulb"></i> 最後衝刺小撇步
+                        <!-- 3. Daiso 大創 (加碼推薦) -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm relative overflow-hidden">
+                            <div class="absolute -right-3 -top-3 bg-red-500 text-white text-xs px-4 py-1 rotate-12 font-bold shadow-sm">必逛</div>
+                            <h4 class="font-bold text-red-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-shopping-basket"></i> Daiso 濟州蓮洞店
+                            </h4>
+                            <div class="text-xs text-slate-600 space-y-1">
+                                <p><strong>為什麼要逛？</strong> 韓國大創跟台灣很不一樣！有超多迪士尼聯名、姓名貼紙機、韓國限定文具與美妝蛋。</p>
+                                <p><strong>樓層：</strong> 通常是整棟多層樓，建議預留 1 小時。</p>
+                                <p><strong>價格：</strong> 大多在 ₩1,000 ~ ₩5,000 之間，超級好買。</p>
+                            </div>
+                        </div>
+
+                        <!-- 最後提醒 -->
+                        <div class="bg-yellow-50 p-3 rounded-xl border border-yellow-200 text-xs text-slate-600 flex items-start gap-2">
+                            <i class="fas fa-exclamation-circle text-yellow-600 mt-0.5"></i>
+                            <div>
+                                <strong>打包攻略：</strong> 
+                                <br>1. 液體類 (化妝水、酒、醬料) 務必放託運。
+                                <br>2. 泡麵含肉塊的不能帶回台灣 (辛拉麵、安城湯麵通常OK，但若是調理包有肉塊的不行，請仔細確認)。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showJamaeGuksuInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-red-600"><i class="fas fa-utensils"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-red-300 pb-3 font-hand tracking-wide">
+                        🍜 姊妹麵條 (자매국수) 菜單與攻略
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業資訊 -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm">
+                            <h4 class="font-bold text-red-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 營業資訊
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">09:00 - 18:00</span></p>
+                                <p class="flex justify-between"><span>休息時間：</span><span class="font-bold">14:30 - 16:10</span></p>
+                                <p class="flex justify-between text-red-500 font-bold mt-1"><span>公休日：</span><span>每週三 (Wed)</span></p>
+                                <p class="text-[10px] text-slate-400 mt-2"><i class="fas fa-exclamation-circle mr-1"></i>最後點餐為打烊前 20 分鐘，建議提早前往以免撲空。</p>
+                            </div>
+                        </div>
+
+                        <!-- 必點菜單 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-thumbs-up text-jeju-orange"></i> 人氣必點 (Menu)
+                            </h4>
+                            <div class="space-y-4 font-hand text-lg">
+                                <!-- 1. 豬肉湯麵 -->
+                                <div>
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">豬肉湯麵 <span class="bg-red-500 text-white text-[9px] px-1.5 rounded ml-1">招牌</span></p>
+                                            <p class="text-[10px] text-slate-400 font-sans">고기국수 (Gogi Guksu)</p>
+                                        </div>
+                                        <b class="text-slate-700 whitespace-nowrap">₩10,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 bg-orange-50 p-2 rounded">
+                                        濃郁豚骨高湯配上軟嫩切片黑豬肉，麵條使用特製黃梔子麵，口感Q彈。喜歡吃辣可加桌上的辣椒粉。
+                                    </p>
+                                </div>
+
+                                <!-- 2. 拌麵 -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">香辣拌麵</p>
+                                            <p class="text-[10px] text-slate-400 font-sans">비빔국수 (Bibim Guksu)</p>
+                                        </div>
+                                        <b class="text-slate-700 whitespace-nowrap">₩10,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500">
+                                        酸甜微辣的醬汁拌入豆芽與蔬菜，同樣附有豬肉片。非常開胃，適合不想喝熱湯的人。
+                                    </p>
+                                </div>
+
+                                <!-- 3. 水餃 (小孩推薦) -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">一口水餃 <span class="bg-blue-100 text-blue-600 text-[9px] px-1.5 rounded ml-1">親子</span></p>
+                                            <p class="text-[10px] text-slate-400 font-sans">물만두 (Mul-mandu)</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <b class="text-slate-700 whitespace-nowrap block">₩8,000</b>
+                                            <span class="text-[9px] text-slate-400">(半份 ₩5,000)</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500">
+                                        小顆好入口的韓式水餃，皮薄餡多，怕辣的小朋友可以點這個當主食或配菜。
+                                    </p>
+                                </div>
+                                
+                                <!-- 4. 切盤肉 -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-center text-sm mb-1">
+                                        <div>
+                                            <span class="font-bold text-slate-800 block">切盤肉 (Dombe Gogi)</span>
+                                            <span class="text-[9px] text-slate-400">돔베고기 (半份/小)</span>
+                                        </div>
+                                        <b>₩18,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 mt-1">
+                                        如果你覺得麵裡的肉不夠吃，可以單點這盤！肉質鮮嫩不柴，配蝦醬或泡菜超讚。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 點餐與排隊攻略 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-list-ol"></i> 點餐與排隊攻略
                             </h4>
                             <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
                                 <li class="flex items-start gap-2">
-                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
-                                    <strong>退稅 (Tax Refund)：</strong> 結帳時務必出示護照，部分店家可現場折抵，不能折抵的記得拿單據去機場退。
+                                    <span class="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">1</span>
+                                    <strong>抽號碼牌：</strong> 抵達後先到門口機器輸入手機號碼 (或使用 CatchTable App) 登記候位。若無韓國手機號碼，請直接向櫃台人員索取紙本號碼。
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
-                                    <strong>行李空間：</strong> 這是最後採買機會，買完回飯店直接塞進行李箱，不夠裝就在超市買購物袋。
+                                    <span class="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">2</span>
+                                    <strong>自助點餐機：</strong> 入座後使用桌上的平板 (T-Order) 點餐並刷卡結帳。機器通常有中文/英文介面，不用擔心語言問題。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">3</span>
+                                    <strong>自助吧：</strong> 泡菜、蘿蔔塊、海苔絲都是自助無限取用，吃多少拿多少。
                                 </li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="mt-6">
-                        <button onclick="closeModal()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                        <button onclick="closeModal()" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
@@ -2628,6 +2783,29 @@
                                 <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
                                     <h4 class="font-bold text-blue-800 text-sm mb-2 border-b border-blue-200 pb-1">
                                         <i class="fas fa-edit mr-1"></i> 住宿資料填寫範本 (必填)
+                                    </h4>
+                                    <div class="text-xs space-y-2 text-slate-700 font-mono">
+                                        <div>
+                                            <span class="block text-slate-400 mb-0.5">Zip Code (郵遞區號)</span>
+                                            <div class="bg-white px-2 py-1 rounded border border-blue-200 font-bold select-all">63125</div>
+                                        </div>
+                                        <div>
+                                            <span class="block text-slate-400 mb-0.5">Address (地址)</span>
+                                            <div class="bg-white px-2 py-1 rounded border border-blue-200 select-all leading-tight">80, Noyeon-ro, Jeju-si, Jeju-do</div>
+                                        </div>
+                                        <div>
+                                            <span class="block text-slate-400 mb-0.5">Phone (電話)</span>
+                                            <div class="bg-white px-2 py-1 rounded border border-blue-200 select-all">064-747-5000</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="https://ses.immigration.go.kr/ses/H/H_2010/H_2010_100.ses" target="_blank" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-md active:scale-95">
+                                    <i class="fas fa-external-link-alt mr-1"></i> 填寫 Q-Code / 入境卡
+                                </a>
+                            </div>
+                        </div>
+
                         <!-- 3. 換錢與 WOWPASS (含深夜攻略) -->
                         <div class="bg-white p-5 rounded-2xl border-2 border-dashed border-purple-200 shadow-sm relative">
                             <div class="absolute -top-3 -left-2 bg-purple-500 text-white px-3 py-1 rounded-lg font-bold shadow-sm transform -rotate-2">Step 3</div>
