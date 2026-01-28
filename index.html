@@ -106,7 +106,7 @@
             transition: max-height 0.3s ease-out;
         }
         .details-expand.show {
-            max-height: 2000px;
+            max-height: 5000px; /* 足夠顯示多張圖片 */
             transition: max-height 0.5s ease-in;
         }
 
@@ -239,7 +239,7 @@
         </div>
 
         <main class="bg-paper rounded-2xl p-4 min-h-[70vh] relative journal-shadow border-t-8 border-jeju-yellow mb-10">
-            <div class="absolute top-3 left-3 text-red-400 text-xl drop-shadow-md z-20"><i class="fas fa-thumbtack"></i></div>
+            <div class="absolute top-3 left-3 text-jeju-orange text-xl drop-shadow-md z-20"><i class="fas fa-thumbtack"></i></div>
             <div class="absolute top-3 right-3 text-jeju-blue text-xl drop-shadow-md z-20"><i class="fas fa-paperclip"></i></div>
             <div id="content-area" class="relative z-10"></div>
         </main>
@@ -251,9 +251,31 @@
         let weatherDataCache = null; 
         let expenseData = JSON.parse(localStorage.getItem('jeju_expenses')) || [];
 
+        // 去程乘客
+        const passengersOutbound = [
+            { name: "LI,I-KUN", seat: "2A", bag: "15KG" },
+            { name: "CHEN,YING-YU", seat: "2C", bag: "15KG" },
+            { name: "LI,ZHI-QI", seat: "2B", bag: "15KG" },
+            { name: "HUNG,TSUNG-WEI", seat: "3F", bag: "20KG" },
+            { name: "HUANG,CHING-TING", seat: "2E", bag: "20KG" },
+            { name: "HUNG,SHAO-CHI", seat: "2F", bag: "20KG" },
+            { name: "HUNG,SHAO-JIE", seat: "2D", bag: "20KG" }
+        ];
+
+        // 回程乘客
+        const passengersInbound = [
+            { name: "LI,I-KUN", seat: "2F", bag: "25KG" },
+            { name: "CHEN,YING-YU", seat: "2D", bag: "25KG" },
+            { name: "LI,ZHI-QI", seat: "2E", bag: "20KG" },
+            { name: "HUNG,TSUNG-WEI", seat: "4C", bag: "20KG" },
+            { name: "HUANG,CHING-TING", seat: "4E", bag: "20KG" },
+            { name: "HUNG,SHAO-CHI", seat: "4F", bag: "20KG" },
+            { name: "HUNG,SHAO-JIE", seat: "4D", bag: "20KG" }
+        ];
+
         // 定義 renderBookingInfo 函式
         function renderBookingInfo() {
-            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login";
+            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login?_gl=1*cre16d*_gcl_aw*R0NMLjE3Njk1MjIxNjAuQ2owS0NRaUE0ZUhMQmhDekFSSXNBSjJOWm9McGFNeldlTlltTW5BeXNYeHk0azYxTzR2WDNOUDhoWFNfQXh1dzVibGxMcDhBVDZ1RW5Kd2FBdllSRUFMd193Y0I.*_gcl_au*MTExOTM1MTM0NS4xNzY5NDg2MzEx*_ga*MjcwNTYyNjguMTc2OTQ4NjMxMQ..*_ga_SNXJDVLRNM*czE3Njk1MjIxNTkkbzMkZzAkdDE3Njk1MjIxNTkkajYwJGwwJGgw";
             return `
                 <div class="mb-4 space-y-2">
                     <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
@@ -275,6 +297,136 @@
                          <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-blue text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-blue-600 transition-transform active:scale-95 flex items-center">
                             <i class="fas fa-passport mr-1"></i> 自助報到
                          </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 渲染乘客表格
+        function renderPassengerTable(list) {
+            return `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left mt-2 border-collapse">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b">
+                            <tr>
+                                <th class="px-2 py-2 w-1/2">Name</th>
+                                <th class="px-1 py-2 text-center w-1/4">Seat</th>
+                                <th class="px-1 py-2 text-right w-1/4">KG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${list.map(p => `
+                                <tr class="bg-white border-b hover:bg-yellow-50 transition-colors">
+                                    <td class="px-2 py-2 font-medium text-slate-900 text-[10px] break-all">${p.name}</td>
+                                    <td class="px-1 py-2 text-center font-hand font-bold text-lg text-jeju-blue">${p.seat}</td>
+                                    <td class="px-1 py-2 text-right font-hand font-bold text-slate-600">${p.bag}</td>
+                                </tr>
+                            `).join('')}
+                            <tr class="bg-slate-50 font-bold text-xs">
+                                <td class="px-2 py-2 text-right" colspan="2">Total:</td>
+                                <td class="px-1 py-2 text-right">${list.reduce((acc, curr) => acc + parseInt(curr.bag), 0)} KG</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // 渲染準備組
+        function prepGroup(title, items, color) {
+            const colorMap = {
+                red: 'border-red-200 bg-red-50 text-red-600',
+                blue: 'border-jeju-blue/20 bg-blue-50 text-jeju-blue',
+                yellow: 'border-jeju-yellow bg-yellow-50 text-yellow-700',
+                orange: 'border-jeju-orange/20 bg-orange-50 text-jeju-orange',
+                green: 'border-jeju-green/20 bg-green-50 text-jeju-green',
+                purple: 'border-purple-200 bg-purple-50 text-purple-600'
+            };
+            const style = colorMap[color] || colorMap.blue;
+            const borderClass = style.split(' ')[0];
+            const bgClass = style.split(' ')[1];
+            const textClass = style.split(' ')[2];
+
+            return `
+                <div class="p-4 rounded-2xl border-2 border-dashed ${borderClass} ${bgClass} shadow-sm relative">
+                    <h4 class="font-bold mb-3 flex items-center gap-2 ${textClass}">
+                        <i class="fas fa-thumbtack text-xs opacity-50"></i> ${title}
+                    </h4>
+                    <ul class="space-y-3 font-hand text-lg">
+                        ${items.map(item => `
+                            <li class="flex items-center gap-3 group">
+                                <input type="checkbox" class="custom-checkbox">
+                                <span class="text-slate-700 group-hover:text-slate-900 transition-colors">${item}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // 渲染憑證項目
+        function bookingItem(title, subtitle, id, icon, color, images) {
+            const imagesArray = Array.isArray(images) ? images : [images];
+            const colorMap = {
+                green: 'bg-green-100 text-green-600',
+                purple: 'bg-purple-100 text-purple-600',
+                blue: 'bg-blue-100 text-blue-600',
+                orange: 'bg-orange-100 text-orange-600'
+            };
+            const style = colorMap[color] || 'bg-slate-100 text-slate-600';
+
+            return `
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-4 flex justify-between items-center cursor-pointer" onclick="toggleDetails('${id}')">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full ${style} flex items-center justify-center">
+                                <i class="${icon}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">${title}</h4>
+                                <p class="text-[10px] text-slate-400 font-hand text-base">${subtitle}</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-slate-300 text-xs"></i>
+                    </div>
+                    <div id="${id}" class="details-expand bg-slate-50 border-t border-slate-50">
+                        <div class="p-4 space-y-4">
+                            ${imagesArray.map(img => `
+                                <div class="relative group">
+                                    <img src="https://raw.githubusercontent.com/[你的GitHub帳號]/[你的專案名稱]/main/vouchers/${img}" 
+                                         onerror="this.src='https://placehold.co/600x400?text=${img}';" 
+                                         class="w-full h-auto rounded-lg shadow-sm border border-white">
+                                    <div class="mt-1 text-[9px] text-slate-400 text-center font-mono">${img}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 渲染連結項目
+        function linkItem(title, subtitle, icon, color, links) {
+            const style = color === 'orange' ? 'bg-orange-100 text-orange-600' : 'bg-slate-100 text-slate-600';
+
+            return `
+                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full ${style} flex items-center justify-center">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">${title}</h4>
+                            <p class="text-[10px] text-slate-400 font-hand text-base">${subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        ${links.map(link => `
+                            <a href="${link.url}" target="_blank" class="flex items-center justify-between bg-orange-50 hover:bg-orange-100 p-3 rounded-lg border border-orange-100 transition-colors group">
+                                <span class="text-xs font-bold text-orange-700 font-hand text-base">${link.text}</span>
+                                <i class="fas fa-external-link-alt text-orange-300 group-hover:text-orange-500 text-xs transition-colors"></i>
+                            </a>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -335,18 +487,18 @@
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '住宿', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day5Events = [
-            { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테มาพาพาร์發' },
+            { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테마파크' },
             { type: 'activity', time: 'auto', duration: 180, travelTime: 10, travelMode: 'car', title: '神話主題公園', desc: '神話世界中最受親子歡迎的樂園', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '免票入場，設施需付費或使用 Big 3 券', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '1100고지 휴게소' },
             { type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car', title: '❄️ [雪天備案] 漢拿山 1100高地', desc: '若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)', icon: 'fa-snowflake', bg: 'bg-sky-50 border-2 border-blue-200 border-dashed', note: '若有積雪，景色絕美；若無雪可走生態步道', navQuery: '1100고지 휴게소', isBackup: true },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '返回飯店休息 / 晚餐', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day6Events = [
-            { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테มาพาพาร์發 제주' },
-            { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '營業與票價', btnAction: 'showPororoInfo', navQuery: '도두동 무지개해안도로' },
+            { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테마파크 제주' },
+            { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '營業與票價', btnAction: 'showPororoInfo', navQuery: '도두動 무지개해안도로' },
             snowBackupEvent,
-            { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호體레오' },
+            { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호텔레오' },
             { type: 'hotel', time: 'auto', duration: 60, travelTime: 15, travelMode: 'car', title: '利奧飯店 (Hotel Leo)', desc: 'Check-in (新濟州)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '放行李，稍作休息', navQuery: '숙성도 노형점' },
-            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
+            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fa-fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day7Events = [
@@ -364,7 +516,7 @@
             { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，把握最後時光！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '이호테우말등대' },
             { type: 'spot', time: 'auto', duration: 30, travelTime: 25, travelMode: 'car', title: '梨湖小馬燈塔', desc: 'Iho Tewoo Horse Lighthouses', icon: 'fa-camera', bg: 'bg-red-50', note: '紅白小馬燈塔，拍照打卡聖地', navQuery: '애월카페거리' },
             { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 發' },
-            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세いフ렌터카' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세이프렌터카' },
             { type: 'car', time: '16:30', duration: 30, travelTime: 15, travelMode: 'walk', title: '還車 - The Safe Rent A Car', desc: 'Return Rental Car', icon: 'fa-car', bg: 'bg-green-100', note: '檢查車況，搭乘接駁車前往機場', navQuery: '제주국제공항' },
             { type: 'flight', time: '18:15', duration: 120, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
         ];
@@ -382,7 +534,7 @@
             { id: 'day4', label: 'Day4', date: '2/02', week: '(一)', color: 'bg-red-50' },
             { id: 'day5', label: 'Day5', date: '2/03', week: '(二)', color: 'bg-red-50' },
             { id: 'day6', label: 'Day6', date: '2/04', week: '(三)', color: 'bg-red-50' },
-            { id: 'day7', label: 'Day7', date: '2/05', week: '(發)', color: 'bg-red-50' },
+            { id: 'day7', label: 'Day7', date: '2/05', week: '(四)', color: 'bg-red-50' },
             { id: 'day8', label: 'Day8', date: '2/06', week: '(五)', color: 'bg-red-50' },
         ];
 
@@ -952,7 +1104,7 @@
                         <!-- 配菜區 -->
                         <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
                             <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
-                                <i class="fas fa-bowl-rice"></i> 必點道地配菜
+                                <i class="fas fa-bowl-rice"></i>必點道地配菜
                             </h4>
                             <div class="space-y-2 font-hand text-lg">
                                 <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
@@ -1136,7 +1288,7 @@
                     </h3>
 
                     <div class="space-y-4">
-                        <!-- 門票狀況區 (Agoda Note) -->
+                        <!-- 門票狀況區 -->
                         <div class="bg-blue-600 text-white p-4 rounded-2xl shadow-lg border-2 border-blue-400 relative overflow-hidden">
                             <div class="absolute -right-2 -bottom-2 text-5xl opacity-20 rotate-12"><i class="fas fa-check-circle"></i></div>
                             <div class="relative z-10 flex items-center gap-3">
@@ -1336,7 +1488,7 @@
                         </div>
 
                         <!-- 消費規則 -->
-                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                        <div class="bg-white p-4 rounded-2xl border border-2 border-dashed border-orange-200 shadow-sm">
                             <h4 class="font-bold text-slate-800 mb-2 text-sm flex items-center gap-2">
                                 <i class="fas fa-coins text-jeju-orange"></i> 咖啡廳規範
                             </h4>
@@ -1573,6 +1725,7 @@
                     document.getElementById('krw-val').innerText = currentExchangeRate.toFixed(2);
                 }
                 updateRateCheatSheet(1/currentExchangeRate);
+                renderExpenses();
             } catch (e) { console.error(e); }
         }
 
@@ -1583,15 +1736,16 @@
             let html = '';
             amounts.forEach(krw => {
                 const twd = Math.round(krw * rate);
-                html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1"><span class="font-bold">₩ ${krw.toLocaleString()}</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
+                html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1 last:border-0"><span class="font-bold">₩ ${krw.toLocaleString()}</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
             });
             listEl.innerHTML = html;
         }
 
         async function fetchWeather() {
             if(!document.getElementById('weather-widget')) return;
+            if(weatherDataCache) { renderWeatherWidget(weatherDataCache); return; }
             try {
-                const url = "https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=8";
+                const url = "https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max&timezone=Asia%2FSeoul&forecast_days=8";
                 const res = await fetch(url);
                 const data = await res.json();
                 weatherDataCache = data;
@@ -1600,18 +1754,58 @@
         }
 
         function renderWeatherWidget(data) {
+            if(!document.getElementById('weather-widget')) return;
             const current = data.current;
+            const daily = data.daily;
+            
             document.getElementById('curr-temp').innerText = `${current.temperature_2m}°`;
             document.getElementById('weather-loading').style.display='none';
             document.getElementById('weather-content').classList.remove('hidden');
-            
+
+            // Populate details
+            if(document.getElementById('w-wind')) document.getElementById('w-wind').innerText = `${current.wind_speed_10m} km/h`;
+            if(document.getElementById('w-hum')) document.getElementById('w-hum').innerText = `${current.relative_humidity_2m}%`;
+            if(document.getElementById('w-feel')) document.getElementById('w-feel').innerText = `${current.apparent_temperature}°`;
+            if(document.getElementById('w-uv')) document.getElementById('w-uv').innerText = `UV ${daily.uv_index_max[0]}`;
+
+            // Weather Code to Text
+            const weatherCodes = {
+                0: "晴朗", 1: "大致晴朗", 2: "多雲", 3: "陰天",
+                45: "霧", 48: "霧淞",
+                51: "毛毛雨", 53: "毛毛雨", 55: "毛毛雨",
+                61: "小雨", 63: "雨", 65: "大雨",
+                71: "小雪", 73: "雪", 75: "大雪",
+                95: "雷雨"
+            };
+            if(document.getElementById('curr-desc')) document.getElementById('curr-desc').innerText = weatherCodes[current.weather_code] || "多雲時晴";
+
+            // OOTD
+            const tipEl = document.getElementById('weather-tip');
+            if (tipEl) {
+                let tip = "";
+                const feel = current.apparent_temperature;
+                if (feel < 5) tip = "超級冷！羽絨衣、圍巾、暖暖包是必須的！🧤";
+                else if (feel < 10) tip = "有點冷喔，建議洋蔥式穿搭，帶件厚外套。🧥";
+                else if (feel < 15) tip = "涼爽舒適，長袖衛衣或針織衫剛好。👕";
+                else tip = "天氣不錯，輕便穿著即可！👟";
+                
+                if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(current.weather_code)) tip += " <br>⚠️ 會下雨，記得帶傘！☂️";
+                tipEl.innerHTML = tip;
+            }
+
             let html = '';
             for(let i=0;i<7;i++) {
-                const date = moment(data.daily.time[i]).format('MM/DD');
+                const date = moment(daily.time[i]).format('MM/DD');
+                let icon = 'fa-sun text-orange-400';
+                if(daily.weather_code[i] > 3) icon = 'fa-cloud text-gray-400';
+                if(daily.weather_code[i] > 50) icon = 'fa-cloud-rain text-blue-400';
+                if(daily.weather_code[i] > 70) icon = 'fa-snowflake text-sky-300';
+                
                 html += `
-                <div class="flex-shrink-0 w-20 flex flex-col items-center p-2 bg-white border-2 border-dashed border-slate-200 rounded-xl mx-1">
-                    <span class="text-sm font-bold">${date}</span>
-                    <span class="text-[10px]">${data.daily.temperature_2m_min[i]}°~${data.daily.temperature_2m_max[i]}°</span>
+                <div class="flex-shrink-0 w-24 flex flex-col items-center p-3 bg-white border-2 border-dashed border-slate-200 rounded-xl mx-1 snap-center">
+                    <span class="text-sm font-hand font-bold text-slate-600">${date}</span>
+                    <i class="fas ${icon} text-xl my-2"></i>
+                    <span class="text-[10px] font-bold text-slate-500">${daily.temperature_2m_min[i]}°~${daily.temperature_2m_max[i]}°</span>
                 </div>`;
             }
             document.getElementById('forecast-container').innerHTML = html;
@@ -1619,6 +1813,7 @@
 
         function addExpense() {
             const name = document.getElementById('expense-name').value;
+            const category = document.getElementById('expense-category').value;
             const amount = parseFloat(document.getElementById('expense-amount').value);
             
             if(!name || !amount) {
@@ -1627,11 +1822,25 @@
                 return;
             }
             
-            expenseData.push({ id: Date.now(), name, amount, date: new Date().toISOString() });
+            expenseData.push({ 
+                id: Date.now(), 
+                name, 
+                category,
+                amount, 
+                date: new Date().toISOString() 
+            });
             localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
             renderExpenses();
             document.getElementById('expense-name').value = '';
             document.getElementById('expense-amount').value = '';
+        }
+
+        function deleteExpense(id) {
+            if(confirm('確定要刪除這筆消費紀錄嗎？')) {
+                expenseData = expenseData.filter(ex => ex.id !== id);
+                localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
+                renderExpenses();
+            }
         }
 
         function renderExpenses() {
@@ -1640,17 +1849,46 @@
             if(!listEl) return;
             
             if(expenseData.length === 0) {
-                listEl.innerHTML = `<p class="text-center py-10 opacity-50 font-hand">還沒有消費紀錄喔！</p>`;
+                listEl.innerHTML = `
+                    <div class="text-center py-10 opacity-50">
+                        <div class="text-4xl mb-2">💸</div>
+                        <p class="text-sm font-hand">還沒有消費紀錄喔！</p>
+                    </div>`;
                 totalEl.innerText = 'NT$ 0';
                 return;
             }
             
             let html = '';
             let totalTwd = 0;
-            expenseData.forEach((ex) => {
-                const twd = Math.round(ex.amount / currentExchangeRate);
+            const categoryIcons = {
+                food: '🍽️', transport: '🚗', hotel: '🏨', shopping: '🛍️', fun: '🎡', other: '📦'
+            };
+
+            expenseData.slice().reverse().forEach((ex) => {
+                const twd = Math.round(ex.amount / (currentExchangeRate || 40)); // Fallback rate if not loaded
                 totalTwd += twd;
-                html += `<div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm mb-2"><div class="font-bold text-sm">${ex.name}</div><div class="font-bold text-jeju-blue">₩ ${ex.amount.toLocaleString()}</div></div>`;
+                const icon = categoryIcons[ex.category] || '💰';
+                
+                html += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100 mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">${icon}</span>
+                            <div>
+                                <div class="font-bold text-slate-700 text-sm font-hand">${ex.name}</div>
+                                <div class="text-[10px] text-slate-400">${moment(ex.date).format('MM/DD HH:mm')}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="text-right">
+                                <div class="font-bold text-jeju-blue font-mono">₩ ${ex.amount.toLocaleString()}</div>
+                                <div class="text-[10px] text-slate-400">≈ NT$ ${twd.toLocaleString()}</div>
+                            </div>
+                            <button onclick="deleteExpense(${ex.id})" class="text-slate-300 hover:text-red-400 transition-colors p-1">
+                                <i class="fas fa-trash-alt text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
             });
             listEl.innerHTML = html;
             totalEl.innerText = `NT$ ${totalTwd.toLocaleString()}`;
@@ -1663,7 +1901,7 @@
         }
 
         function getContent(id) {
-            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand">${text}</h2></div>`;
+            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand text-slate-700">${text}</h2></div>`;
             
             switch(id) {
                 case 'intro':
@@ -1674,56 +1912,143 @@
                         <span class="text-sm">(稍後補上教學資訊)</span>
                     </div>`;
                 case 'flight':
-                    return `${header('Flight Info')}${renderBookingInfo()}`;
+                    return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
                 case 'rate': 
                     return `
                     ${header('Currency Calculator')}
                     <div id="rate-display">
-                        <div class="bg-white border-2 border-slate-200 rounded-xl p-4 mb-6 shadow-sm">
-                            <div id="rate-loading" class="text-center font-hand text-xl">連線中...</div>
-                            <div id="rate-result" class="hidden">
-                                <span class="text-2xl font-black text-jeju-orange font-hand">1 TWD ≈ <span id="krw-val">--</span> KRW</span>
-                                <div class="mt-4 space-y-3">
-                                    <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" class="w-full p-2 border rounded-lg font-hand">
-                                    <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" class="w-full p-2 border rounded-lg font-hand text-jeju-blue">
+                        <div class="bg-white border-2 border-slate-200 rounded-xl p-4 mb-6 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-2 bg-stripes-gray opacity-20"></div>
+                            <div id="rate-loading" class="text-center font-hand text-xl py-4">連線中...</div>
+                            <div id="rate-result" class="hidden relative z-10">
+                                <div class="flex justify-between items-center mb-4 border-b border-dashed border-slate-200 pb-2">
+                                    <span class="text-xs text-slate-400 font-bold">TODAY'S RATE</span>
+                                    <span class="text-2xl font-black text-jeju-orange font-hand">1 TWD ≈ <span id="krw-val">--</span> KRW</span>
+                                </div>
+                                <div class="flex flex-col gap-3">
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">TWD <img src="https://flagcdn.com/w20/tw.png" class="inline w-4 ml-1"></span>
+                                        <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" 
+                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-slate-700 bg-slate-50 rounded-lg border border-slate-200 focus:outline-none focus:border-jeju-orange transition-all text-right font-hand">
+                                    </div>
+                                    <div class="text-center text-slate-300 text-xs"><i class="fas fa-exchange-alt rotate-90"></i></div>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">KRW <img src="https://flagcdn.com/w20/kr.png" class="inline w-4 ml-1"></span>
+                                        <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" 
+                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-jeju-blue bg-blue-50 rounded-lg border border-blue-200 focus:outline-none focus:border-jeju-blue transition-all text-right font-hand">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-yellow-100 p-4 rounded-lg shadow-md mb-6"><ul class="space-y-1 font-hand" id="rate-cheat-sheet"></ul></div>
-                        <div class="bg-white p-5 rounded-xl border mb-6">
-                            <h3 class="font-bold text-jeju-green mb-4 font-hand">新增支出</h3>
-                            <input type="text" id="expense-name" placeholder="項目" class="w-full mb-2 p-2 border rounded-lg">
-                            <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="w-full mb-2 p-2 border rounded-lg">
-                            <button onclick="addExpense()" class="w-full bg-jeju-green text-white py-2 rounded-lg font-bold font-hand">新增</button>
-                        </div>
-                        <div class="flex justify-between items-center mb-2 px-2">
-                            <h3 class="font-bold font-hand">消費紀錄</h3>
-                            <p class="font-bold text-jeju-orange" id="total-twd">NT$ 0</p>
-                        </div>
-                        <div id="expense-list"></div>
-                    </div>`;
-                case 'weather': 
-                    return `${header('7 Days Weather')}
-                    <div id="weather-widget">
-                        <div id="weather-loading" class="text-center py-10 font-hand">Checking...</div>
-                        <div id="weather-content" class="hidden">
-                            <div class="bg-blue-400 rounded-2xl p-5 text-white mb-6">
-                                <div class="text-6xl font-black font-hand" id="curr-temp">--°</div>
+
+                        <div class="bg-yellow-100 p-4 rounded-lg shadow-md mb-6"><ul class="space-y-1 font-hand text-slate-700" id="rate-cheat-sheet"></ul></div>
+                        
+                        <!-- 記帳表單 -->
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 mt-6">
+                            <h3 class="font-bold text-jeju-green mb-4 flex items-center gap-2 font-hand text-lg">
+                                <i class="fas fa-pen"></i> 新增支出
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <input type="text" id="expense-name" placeholder="項目名稱 (如: 晚餐)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                    <select id="expense-category" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                        <option value="food">🍽️ 飲食</option>
+                                        <option value="transport">🚗 交通</option>
+                                        <option value="hotel">🏨 住宿</option>
+                                        <option value="shopping">🛍️ 購物</option>
+                                        <option value="fun">🎡 娛樂</option>
+                                        <option value="other">📦 其他</option>
+                                    </select>
+                                </div>
+                                <div class="flex gap-2">
+                                    <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
+                                    <button onclick="addExpense()" class="bg-jeju-green text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition shadow-sm font-hand text-lg">
+                                        新增
+                                    </button>
+                                </div>
                             </div>
-                            <div class="flex overflow-x-auto gap-3 pb-4 hide-scrollbar" id="forecast-container"></div>
+                        </div>
+
+                        <!-- 記帳列表與統計 -->
+                        <div class="space-y-4 pb-20">
+                            <div class="flex justify-between items-center px-2">
+                                <h3 class="font-bold text-slate-700 font-hand text-lg">消費紀錄</h3>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-gray-400">總計約</p>
+                                    <p class="text-xl font-bold text-jeju-orange font-mono" id="total-twd">NT$ 0</p>
+                                </div>
+                            </div>
+                            
+                            <div id="expense-list" class="space-y-2">
+                                <!-- JS 生成 -->
+                            </div>
                         </div>
                     </div>`;
-                case 'prep': 
-                    return `${header('Checklist')}<div class="bg-white p-4 rounded-lg border mb-4"><ul class="space-y-2 font-hand"><li><input type="checkbox" class="mr-2"> 護照</li><li><input type="checkbox" class="mr-2"> 國際駕照</li></ul></div>`;
-                case 'booking': 
-                    return `${header('Vouchers')}<div class="bg-white p-4 rounded-lg border mb-4 font-hand">租車、飯店、門票憑證已備妥於各行程中。</div>`;
+                case 'weather': return `
+                    ${header('7 Days Weather 一週氣象')}
+                    <div id="weather-widget">
+                        <div id="weather-loading" class="text-center py-10 font-hand text-xl text-slate-400">Checking...</div>
+                        <div id="weather-content" class="hidden">
+                            <!-- Main Weather Card -->
+                            <div class="bg-gradient-to-br from-blue-400 to-blue-200 rounded-2xl p-5 text-white shadow-md mb-6 relative overflow-hidden">
+                                <div class="absolute top-[-20px] right-[-20px] text-9xl opacity-20 text-white"><i class="fas fa-cloud-sun"></i></div>
+                                <div class="z-10 relative">
+                                    <h3 class="text-lg font-bold mb-1 font-hand tracking-wider">Jeju City (Today)</h3>
+                                    <div class="flex items-end">
+                                        <div class="text-6xl font-black font-hand mr-3" id="curr-temp">--°</div>
+                                        <div class="text-xl font-medium opacity-90 mb-2" id="curr-desc">--</div>
+                                    </div>
+                                    
+                                    <!-- Detail Grid -->
+                                    <div class="grid grid-cols-2 gap-2 mt-4 bg-white/20 backdrop-blur-sm p-3 rounded-lg text-xs">
+                                        <div class="flex items-center"><i class="fas fa-wind mr-2 opacity-70"></i> <span id="w-wind">--</span></div>
+                                        <div class="flex items-center"><i class="fas fa-tint mr-2 opacity-70"></i> <span id="w-hum">--</span></div>
+                                        <div class="flex items-center"><i class="fas fa-sun mr-2 opacity-70"></i> <span id="w-uv">UV --</span></div>
+                                        <div class="flex items-center"><i class="fas fa-temperature-high mr-2 opacity-70"></i> 體感 <span id="w-feel">--</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 穿搭便條紙 -->
+                            <div class="bg-pink-50 p-3 rounded-lg shadow-sm border-l-4 border-pink-300 mb-6 flex items-start">
+                                <i class="fas fa-tshirt text-pink-400 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold text-pink-800 text-xs mb-1">OOTD 穿搭建議</h4>
+                                    <p class="text-xs text-slate-600" id="weather-tip">載入中...</p>
+                                </div>
+                            </div>
+
+                            <h3 class="font-bold text-slate-600 mb-2 ml-1 text-sm flex items-center justify-between">
+                                <span><i class="fas fa-calendar-week mr-1"></i> Forecast</span>
+                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400">Slide →</span>
+                            </h3>
+                            
+                            <div class="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar" id="forecast-container">
+                                <!-- JS Generated -->
+                            </div>
+                            
+                            <div class="text-[10px] text-slate-400 text-center mt-2">
+                                Data: Open-Meteo.com
+                            </div>
+                        </div>
+                    </div>`;
+                case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('出發前必做', ['預辦登機 (48小時前)', '線上填寫電子入境卡 (e-Arrival Card)'], 'red')}${prepGroup('必備證件', ['護照 (效期6個月+)', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', '購買 eSIM 卡', '漫遊開通'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
+                case 'booking': return `${header('Booking & Tickets 憑證')}<div class="space-y-4">
+                        ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', ['The_Safe_Rent_A_Car_1.png', 'The_Safe_Rent_A_Car_2.png', 'The_Safe_Rent_A_Car_3.png', 'The_Safe_Rent_A_Car_4.png', 'The_Safe_Rent_A_Car_5.png', 'The_Safe_Rent_A_Car_6.png', 'The_Safe_Rent_A_Car_7.png'])}
+                        ${bookingItem('【Day1】濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
+                        ${bookingItem('【Day2.3】城山貝斯特飯店', '城山', 'img-h2', 'fas fa-hotel', 'purple', ['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'])}
+                        ${bookingItem('【Day4.5】神話世界-藍鼎', '神話世界', 'img-h3', 'fas fa-hotel', 'purple', ['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'])}
+                        ${bookingItem('【Day6.7】利奧飯店', '新濟州', 'img-h4', 'fas fa-hotel', 'purple', ['Hotel_Leo_1.png', 'Hotel_Leo_2.png'])}
+                        ${linkItem('Catch Table', '餐廳訂位連結', 'fas fa-utensils', 'orange', [{ text: '【London Bagel Museum】', url: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju' }, { text: '【熟成到燒肉】', url: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju' }])}
+                        ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', ['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'])}
+                    </div>`;
                 case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
                 case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
                 case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
                 case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
                 case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
                 case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
-                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(發)');
+                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
                 case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
                 default: return '<div>Coming Soon</div>';
             }
