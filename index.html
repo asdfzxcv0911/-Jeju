@@ -441,7 +441,8 @@
             { type: 'food', time: '08:30', duration: 60, travelTime: 0, travelMode: null, title: '飯店早餐', desc: '享用美味早餐，開啟美好的一天', icon: 'fa-mug-hot', bg: 'bg-orange-50', navQuery: '' },
             { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '睡飽出發', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주동문시장' },
             { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'walk', title: '濟州東門市場', desc: 'Jeju Dongmun Market', icon: 'fa-store', bg: 'bg-orange-100', note: '早上買伴手禮/水果比較少人', btnText: '攻略 & 必吃', btnAction: 'showDongmunInfo', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577972318', navQuery: '제주동문시장' },
-            { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577972318', navQuery: '제주중앙지하상가' },
+            // 修改了這裡：加入 btnText 和 btnAction
+            { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', btnText: '逛街攻略', btnAction: 'showJungangInfo', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577972318', navQuery: '제주중앙지하상가' },
             { type: 'food', time: 'auto', duration: 60, travelTime: 20, travelMode: 'car', title: '午餐 - 姊妹麵條', desc: 'Jamae Guksu (必吃豬肉湯麵)', icon: 'fa-utensils', bg: 'bg-red-100', note: '排隊名店，湯頭濃郁', btnText: '菜單 & 攻略', btnAction: 'showJamaeGuksuInfo', navQuery: '자매국수' },
             { type: 'spot', time: 'auto', duration: 90, travelTime: 20, travelMode: 'car', title: 'Brick Campus (備案)', desc: '樂高積木校園 (雨天/室內備案)', icon: 'fa-cube', bg: 'bg-purple-100', note: '樂高迷必去，充滿創意', btnText: '參觀指南', btnAction: 'showBrickCampusInfo', navQuery: '브릭캠퍼스 제주' },
             snowBackupEvent,
@@ -2429,6 +2430,89 @@
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
+        // 新增：中央地下街攻略
+        window.showJungangInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-blue-600"><i class="fas fa-shopping-bag"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-blue-300 pb-3 font-hand tracking-wide">
+                        🛍️ 中央地下街 & 中央街市場 攻略
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業資訊 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 營業時間
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>地下街：</span><span class="font-bold">10:00 - 22:00</span></p>
+                                <p class="flex justify-between"><span>中央街商店：</span><span class="font-bold">10:00 - 21:00</span></p>
+                                <p class="text-[10px] text-slate-400 mt-1">部分店家營業時間可能略有不同。</p>
+                            </div>
+                        </div>
+
+                        <!-- 好逛好買推薦 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-thumbs-up text-jeju-orange"></i> 好逛好買推薦
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex items-start gap-3 border-b border-slate-50 pb-2">
+                                    <span class="bg-blue-100 text-blue-600 rounded p-1 text-xs mt-1"><i class="fas fa-tshirt"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">平價服飾 (地下街)</p>
+                                        <p class="text-[10px] text-slate-500">超多 10,000 韓元的衣服、褲子，還有可愛的襪子店。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 border-b border-slate-50 pb-2">
+                                    <span class="bg-pink-100 text-pink-600 rounded p-1 text-xs mt-1"><i class="fas fa-magic"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">韓系美妝</p>
+                                        <p class="text-[10px] text-slate-500">Innisfree, Etude House, Nature Republic 這裡都有。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-yellow-100 text-yellow-600 rounded p-1 text-xs mt-1"><i class="fas fa-running"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">運動品牌 (七星路/中央街)</p>
+                                        <p class="text-[10px] text-slate-500">地面上有 ABC Mart, Nike, Adidas 等大店。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Akkomi Note -->
+                        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm relative overflow-hidden">
+                            <div class="absolute -right-3 -top-3 bg-purple-500 text-white text-xs px-4 py-1 rotate-12 font-bold shadow-sm">MUST VISIT</div>
+                            <h4 class="font-bold text-purple-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-heart"></i> 私房推薦：akkomi
+                            </h4>
+                            <div class="text-xs text-slate-600 space-y-1">
+                                <p><strong>別忘了去逛 akkomi！</strong></p>
+                                <p>這是一家超可愛的文創/飾品/選物店，非常適合挖寶！</p>
+                            </div>
+                        </div>
+
+                        <!-- 溫馨提醒 -->
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-xs text-slate-600 flex items-start gap-2">
+                            <i class="fas fa-info-circle text-gray-500 mt-0.5"></i>
+                            <div>
+                                <strong>溫馨提醒：</strong> 
+                                <br>1. 地下街出口很多，記得記下進來的出口號碼。
+                                <br>2. 有些店家只收現金會比較便宜，建議準備一點現金。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
         window.showJamaeGuksuInfo = function() {
             document.getElementById('modal-content-area').innerHTML = `
                 <div class="text-left relative h-full">
@@ -2895,6 +2979,45 @@
                                 </a>
                             </div>
                         </div>
+
+                        <!-- 4. 威訊 WaySim eSIM 設定 (新增) -->
+                        <div class="bg-white p-5 rounded-2xl border-2 border-dashed border-green-200 shadow-sm relative">
+                            <div class="absolute -top-3 -left-2 bg-green-500 text-white px-3 py-1 rounded-lg font-bold shadow-sm transform -rotate-2">Step 4</div>
+                            <h3 class="font-bold text-slate-800 text-lg mb-3 mt-2 flex items-center gap-2">
+                                <i class="fas fa-sim-card text-green-500"></i> 威訊 WaySim eSIM 設定
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-green-50 p-3 rounded-xl text-sm text-slate-700 leading-relaxed border border-green-100">
+                                    <p class="font-bold text-green-700 mb-1"><i class="fas fa-exclamation-triangle mr-1"></i> 啟用時機點：</p>
+                                    <p>建議在<strong>「台灣機場候機」</strong>時先掃描加入，落地後再開啟使用。</p>
+                                </div>
+
+                                <ol class="list-decimal pl-5 text-sm text-slate-600 space-y-3 font-sans">
+                                    <li>
+                                        <strong>掃描安裝 (在台灣)：</strong><br>
+                                        設定 > 行動服務 > 加入 eSIM > 掃描 QR Code (請準備好憑證截圖或紙本)。<br>
+                                        <span class="text-xs text-slate-400">*(若無法掃描，可手動輸入 SM-DP+ 位址與啟用碼)*</span>
+                                    </li>
+                                    <li>
+                                        <strong>設定標籤：</strong><br>
+                                        將新加入的 eSIM 標籤設為「旅遊」或「WaySim」，安裝後先<strong>「關閉」</strong>此號碼，避免在台灣就開始計算天數。
+                                    </li>
+                                    <li>
+                                        <strong>抵達開啟 (在濟州)：</strong><br>
+                                        落地後，開啟 WaySim 號碼，並將「行動數據」來源切換為此號碼。<br>
+                                        <span class="text-red-500 font-bold">⚠️ 務必開啟「數據漫遊」功能！</span>
+                                    </li>
+                                </ol>
+
+                                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-500">
+                                    <strong class="block mb-1 text-slate-700"><i class="fas fa-tools mr-1"></i> 連不上的排除法：</strong>
+                                    1. 確認「數據漫遊」已打開。<br>
+                                    2. 飛航模式 開/關 一次，讓手機重新抓訊號。<br>
+                                    3. 檢查 APN 設定是否為 <strong>internet</strong> (或依官方說明書)。
+                                </div>
+                            </div>
+                        </div>
                     </div>`;
                 case 'flight':
                     return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
@@ -3223,7 +3346,38 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- 5. eSIM 憑證 -->
+                        <div class="relative group mt-4">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-green-200 to-teal-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                            <div class="relative bg-white rounded-2xl border border-green-100 shadow-md overflow-hidden">
+                                <div class="bg-green-50 px-5 py-3 border-b border-green-100 flex justify-between items-center">
+                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                                        <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-500"><i class="fas fa-sim-card"></i></span>
+                                        宜昆、映羽esim憑證
+                                    </h3>
+                                    <span class="bg-green-200 text-green-800 text-[10px] font-bold px-2 py-1 rounded-full">4 Vouchers</span>
+                                </div>
+                                <div class="p-5 flex gap-3 overflow-x-auto snap-x hide-scrollbar">
+                                     ${['eSIM_1.jpg', 'eSIM_2.jpg', 'eSIM_3.jpg', 'eSIM_4.jpg'].map((img, i) => `
+                                        <div class="flex-shrink-0 w-[45%] snap-center aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 relative cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                                             onclick="window.open('${img}', '_blank')">
+                                            <img src="${img}" 
+                                                 onerror="this.src='https://placehold.co/400x600?text=${img}';" 
+                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-2">
+                                                <span class="text-white text-xs font-bold"><i class="fas fa-expand"></i> 點擊放大</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="px-5 pb-3 text-[10px] text-slate-400 text-center">
+                                    <i class="fas fa-info-circle mr-1"></i>請將照片命名為 eSIM_1~4.jpg 並放在同資料夾
+                                </div>
+                            </div>
+                        </div>
                     </div>`;
+
                 case 'day1': 
                     // 插入橫向行程膠囊，移除舊的報到與乘客資訊
                     let d1Html = renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
