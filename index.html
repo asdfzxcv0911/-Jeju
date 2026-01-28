@@ -106,7 +106,7 @@
             transition: max-height 0.3s ease-out;
         }
         .details-expand.show {
-            max-height: 5000px; /* 足夠顯示多張圖片 */
+            max-height: 2000px;
             transition: max-height 0.5s ease-in;
         }
 
@@ -275,7 +275,7 @@
 
         // 定義 renderBookingInfo 函式
         function renderBookingInfo() {
-            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login?_gl=1*cre16d*_gcl_aw*R0NMLjE3Njk1MjIxNjAuQ2owS0NRaUE0ZUhMQmhDekFSSXNBSjJOWm9McGFNeldlTlltTW5BeXNYeHk0azYxTzR2WDNOUDhoWFNfQXh1dzVibGxMcDhBVDZ1RW5Kd2FBdllSRUFMd193Y0I.*_gcl_au*MTExOTM1MTM0NS4xNzY5NDg2MzEx*_ga*MjcwNTYyNjguMTc2OTQ4NjMxMQ..*_ga_SNXJDVLRNM*czE3Njk1MjIxNTkkbzMkZzAkdDE3Njk1MjIxNTkkajYwJGwwJGgw";
+            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login";
             return `
                 <div class="mb-4 space-y-2">
                     <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
@@ -364,74 +364,6 @@
             `;
         }
 
-        // 渲染憑證項目
-        function bookingItem(title, subtitle, id, icon, color, images) {
-            const imagesArray = Array.isArray(images) ? images : [images];
-            const colorMap = {
-                green: 'bg-green-100 text-green-600',
-                purple: 'bg-purple-100 text-purple-600',
-                blue: 'bg-blue-100 text-blue-600',
-                orange: 'bg-orange-100 text-orange-600'
-            };
-            const style = colorMap[color] || 'bg-slate-100 text-slate-600';
-
-            return `
-                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-4 flex justify-between items-center cursor-pointer" onclick="toggleDetails('${id}')">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full ${style} flex items-center justify-center">
-                                <i class="${icon}"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-800 text-sm">${title}</h4>
-                                <p class="text-[10px] text-slate-400 font-hand text-base">${subtitle}</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-down text-slate-300 text-xs"></i>
-                    </div>
-                    <div id="${id}" class="details-expand bg-slate-50 border-t border-slate-50">
-                        <div class="p-4 space-y-4">
-                            ${imagesArray.map(img => `
-                                <div class="relative group">
-                                    <img src="https://raw.githubusercontent.com/[你的GitHub帳號]/[你的專案名稱]/main/vouchers/${img}" 
-                                         onerror="this.src='https://placehold.co/600x400?text=${img}';" 
-                                         class="w-full h-auto rounded-lg shadow-sm border border-white">
-                                    <div class="mt-1 text-[9px] text-slate-400 text-center font-mono">${img}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // 渲染連結項目
-        function linkItem(title, subtitle, icon, color, links) {
-            const style = color === 'orange' ? 'bg-orange-100 text-orange-600' : 'bg-slate-100 text-slate-600';
-
-            return `
-                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden p-4">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-full ${style} flex items-center justify-center">
-                            <i class="${icon}"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">${title}</h4>
-                            <p class="text-[10px] text-slate-400 font-hand text-base">${subtitle}</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        ${links.map(link => `
-                            <a href="${link.url}" target="_blank" class="flex items-center justify-between bg-orange-50 hover:bg-orange-100 p-3 rounded-lg border border-orange-100 transition-colors group">
-                                <span class="text-xs font-bold text-orange-700 font-hand text-base">${link.text}</span>
-                                <i class="fas fa-external-link-alt text-orange-300 group-hover:text-orange-500 text-xs transition-colors"></i>
-                            </a>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
         // Backup plan event
         const snowBackupEvent = {
             type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car',
@@ -448,15 +380,16 @@
         const day1Events = [
             { type: 'start', time: '13:30', duration: 90, travelTime: 60, travelMode: 'walk', title: '南苑貴賓室 VIP Lounge', desc: '吃飽喝足，準備出發！(KHH)', icon: 'fa-utensils', bg: 'bg-blue-100', btnText: '怎麼去?', btnAction: 'showLoungeGuide', navQuery: '', externalLink: 'https://orange.udn.com/orange/story/121417/9179081' },
             { type: 'flight', time: '16:00', duration: 145, travelTime: 0, travelMode: 'plane', title: '快樂起航 (IT670)', desc: '16:00 KHH ✈️ 19:25 CJU (含時差)', icon: 'fa-plane-departure', bg: 'bg-orange-100', isFlight: true, navQuery: '' },
-            { type: 'arrive', time: '19:25', duration: 60, travelTime: 15, travelMode: 'walk', title: '抵達濟州 & 入境', desc: '填寫入境卡、提領行李', icon: 'fa-passport', bg: 'bg-green-100', note: '預計 20:25 完成', navQuery: '' },
-            { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: '더세이프렌터카' },
+            { type: 'arrive', time: '19:25', duration: 60, travelTime: 15, travelMode: 'walk', title: '抵達濟州 & 入境', desc: '填寫入境卡、提領行李', icon: 'fa-passport', bg: 'bg-green-100', note: '預計 20:25 完成', navQuery: '더세이프렌터카' },
+            { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: 'https://map.naver.com/p/directions/14081868.5306003,3962495.0698039,%EB%8D%94%EC%84%B8%EC%9D%B4%ED%94%84%EB%A0%8C%ED%84%B0%EC%B9%B4,1041558315,PLACE_POI/14080643.3928124,3959888.7729626,%EB%A9%94%EC%A2%85%20%EA%B8%80%EB%9E%98%EB%93%9C%20%EC%A0%9C%EC%A3%BC,11659012,PLACE_POI/-/car?c=14.00,0,0,0,dh' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州 Glad Maison 飯店', desc: 'Check-in 休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
+        
         const day2Events = [
             { type: 'start', time: '08:00', duration: 0, travelTime: 50, travelMode: 'car', title: '飯店出發', desc: '早起出發去吃貝果！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '런던베이글뮤지엄 제주' },
             { type: 'spot', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '倫敦貝果博物館', desc: 'London Bagel Museum Jeju (需排隊)', icon: 'fa-bread-slice', bg: 'bg-orange-100', note: '營業時間: 08:00 - 18:00', customButtons: [{ text: 'Catch Table 預約', link: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju', icon: 'fa-calendar-check', color: 'red' }], navQuery: '해녀김밥 本店' },
             { type: 'food', time: 'auto', duration: 30, travelTime: 5, travelMode: 'walk', title: '海女飯捲 (可外帶)', desc: 'Haenyeo Gimbap', icon: 'fa-utensils', bg: 'bg-blue-100', note: '營業時間: 09:00 - 14:45', navQuery: '오드랑베이커리' },
-            { type: 'spot', time: 'auto', duration: 60, travelTime: 30, travelMode: 'car', title: 'Audrant Bakery & 咸德海灘', desc: '必吃大蒜麵包 & 絕美果凍海', icon: 'fa-umbrella-beach', bg: 'bg-sky-100', note: '營業時間: 07:00 - 22:00', customButtons: [{ text: '介紹', link: 'https://dpm2bb.com/2025-62/', icon: 'fa-globe', color: 'orange' }], navQuery: '에코랜드 เทมาพาร์ค' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 30, travelMode: 'car', title: 'Audrant Bakery & 咸德海灘', desc: '必吃大蒜麵包 & 絕美果凍海', icon: 'fa-umbrella-beach', bg: 'bg-sky-100', note: '營業時間: 07:00 - 22:00', customButtons: [{ text: '介紹', link: 'https://dpm2bb.com/2025-62/', icon: 'fa-globe', color: 'orange' }], navQuery: '에코랜드 테마파크' },
             { type: 'spot', time: 'auto', duration: 120, travelTime: 25, travelMode: 'car', title: 'ECOLAND 森林小火車', desc: '搭火車遊森林，輕鬆愜意', icon: 'fa-train', bg: 'bg-green-100', note: '冬季營業: 08:30 - 16:30 (最後入場)', btnText: '票價資訊', btnAction: 'showEcoLandPrice', navQuery: '제주레일바이크' },
             { type: 'activity', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '濟州鐵道自行車', desc: 'Jeju Rail Bike (自動行駛)', icon: 'fa-bicycle', bg: 'bg-pink-100', note: '營業時間: 09:00 - 17:30 (每整點出發)', btnText: '票價資訊', btnAction: 'showRailBikePrice', navQuery: '삼달리' },
             snowBackupEvent,
@@ -488,37 +421,44 @@
         ];
         const day5Events = [
             { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테마파크' },
-            { type: 'activity', time: 'auto', duration: 180, travelTime: 10, travelMode: 'car', title: '神話主題公園', desc: '神話世界中最受親子歡迎的樂園', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '免票入場，設施需付費或使用 Big 3 券', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '1100고지 휴게소' },
+            { type: 'activity', time: 'auto', duration: 180, travelTime: 5, travelMode: 'walk', title: '神話主題公園', desc: '神話世界中最受親子歡迎的樂園', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '免票入場，設施需付費或使用 Big 3 券', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '제주신화월드 신화테마파크' },
+            { type: 'food', time: 'auto', duration: 90, travelTime: 5, travelMode: 'walk', title: '午餐 - 神話美食街', desc: 'Selection Dining (S Square)', icon: 'fa-utensils', bg: 'bg-orange-100', note: '有多種韓式料理、炸豬排、麵食可選', navQuery: '제주신화월드' },
+            { type: 'shopping', time: 'auto', duration: 150, travelTime: 5, travelMode: 'walk', title: '濟州 Premium Center', desc: '神話世界名品折扣中心 (Outlet)', icon: 'fa-shopping-bag', bg: 'bg-green-100', note: '集結國際精品與運動品牌，免稅店也在附近', btnText: '購物指南', btnAction: 'showShinhwaShoppingInfo', navQuery: '제주신화월드 프리미엄전문점' },
             { type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car', title: '❄️ [雪天備案] 漢拿山 1100高地', desc: '若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)', icon: 'fa-snowflake', bg: 'bg-sky-50 border-2 border-blue-200 border-dashed', note: '若有積雪，景色絕美；若無雪可走生態步道', navQuery: '1100고지 휴게소', isBackup: true },
-            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '返回飯店休息 / 晚餐', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+            { type: 'dinner', time: 'auto', duration: 90, travelTime: 0, travelMode: 'walk', title: '晚餐 - 濟州膳 (Jeju Seon) 或 烤肉', desc: '渡假村內享用精緻晚餐', icon: 'fa-utensils', bg: 'bg-yellow-100', note: '推薦：濟州膳 (韓定食) 或 Sky on 5 Dining', navQuery: '' },
+            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day6Events = [
             { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테마파크 제주' },
-            { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '營業與票價', btnAction: 'showPororoInfo', navQuery: '도두動 무지개해안도로' },
+            { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '樂園攻略 & 票價', btnAction: 'showPororoInfo', navQuery: '뽀로로앤타요 테마파크 제주' },
             snowBackupEvent,
             { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호텔레오' },
             { type: 'hotel', time: 'auto', duration: 60, travelTime: 15, travelMode: 'car', title: '利奧飯店 (Hotel Leo)', desc: 'Check-in (新濟州)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '放行李，稍作休息', navQuery: '숙성도 노형점' },
-            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fa-fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
+            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fa-fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', customButtons: [{ text: 'Catch Table', link: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju', icon: 'fa-calendar-check', color: 'red' }], navQuery: '호텔레오' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day7Events = [
+            { type: 'food', time: '08:30', duration: 60, travelTime: 0, travelMode: null, title: '飯店早餐', desc: '享用美味早餐，開啟美好的一天', icon: 'fa-mug-hot', bg: 'bg-orange-50', navQuery: '' },
             { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '睡飽出發', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주동문시장' },
-            { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'walk', title: '濟州東門市場', desc: 'Jeju Dongmun Market', icon: 'fa-store', bg: 'bg-orange-100', note: '早上買伴手禮/水果比較少人', navQuery: '제주중앙지하상가' },
-            { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', customButtons: [{ text: '強力推薦', link: 'javascript:showJungangRecs()', icon: 'fa-thumbs-up', color: 'red' }], navQuery: '자매국수' },
-            { type: 'food', time: 'auto', duration: 60, travelTime: 20, travelMode: 'car', title: '午餐 - 姊妹麵條', desc: 'Jamae Guksu (必吃豬肉湯麵)', icon: 'fa-utensils', bg: 'bg-red-100', note: '排隊名店，湯頭濃郁', navQuery: '브릭캠퍼스' },
-            { type: 'spot', time: 'auto', duration: 90, travelTime: 20, travelMode: 'car', title: 'Brick Campus (備案)', desc: '樂高積木校園 (雨天/室內備案)', icon: 'fa-cube', bg: 'bg-purple-100', note: '樂高迷必去，充滿創意', navQuery: '롯데마트 제주점' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'walk', title: '濟州東門市場', desc: 'Jeju Dongmun Market', icon: 'fa-store', bg: 'bg-orange-100', note: '早上買伴手禮/水果比較少人', btnText: '攻略 & 必吃', btnAction: 'showDongmunInfo', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577972318', navQuery: '제주동문시장' },
+            { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577972318', navQuery: '제주중앙지하상가' },
+            { type: 'food', time: 'auto', duration: 60, travelTime: 20, travelMode: 'car', title: '午餐 - 姊妹麵條', desc: 'Jamae Guksu (必吃豬肉湯麵)', icon: 'fa-utensils', bg: 'bg-red-100', note: '排隊名店，湯頭濃郁', btnText: '菜單 & 攻略', btnAction: 'showJamaeGuksuInfo', navQuery: '자매국수' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 20, travelMode: 'car', title: 'Brick Campus (備案)', desc: '樂高積木校園 (雨天/室內備案)', icon: 'fa-cube', bg: 'bg-purple-100', note: '樂高迷必去，充滿創意', btnText: '參觀指南', btnAction: 'showBrickCampusInfo', navQuery: '브릭캠퍼스 제주' },
             snowBackupEvent,
-            { type: 'shopping', time: 'auto', duration: 120, travelTime: 10, travelMode: 'walk', title: '蓮洞商圈 / 樂天超市', desc: 'Yeondong / Lotte Mart', icon: 'fa-shopping-cart', bg: 'bg-green-100', note: '最後採買機會！', navQuery: '교촌치킨 연동점' },
-            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 橋村炸雞', desc: 'Kyochon Chicken (蓮洞店)', icon: 'fa-drumstick-bite', bg: 'bg-yellow-200', note: '必點：蜂蜜炸雞 (Honey Series)', navQuery: '호텔레오' },
+            { type: 'shopping', time: 'auto', duration: 120, travelTime: 10, travelMode: 'walk', title: '蓮洞商圈 / 樂天超市', desc: 'Yeondong / Lotte Mart', icon: 'fa-shopping-cart', bg: 'bg-green-100', note: '最後採買機會！', btnText: '逛街攻略', btnAction: 'showYeondongInfo', navQuery: '롯데마트 제주점' },
+            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 橋村炸雞', desc: 'Kyochon Chicken (蓮洞店)', icon: 'fa-drumstick-bite', bg: 'bg-yellow-200', note: '必點：蜂蜜炸雞 (Honey Series)', btnText: '菜單 & 必吃', btnAction: 'showKyochonInfo', externalLink: 'https://tiffanylin66.pixnet.net/blog/posts/3051053756', navQuery: '교촌치킨 연동점' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '打包行李，準備回程', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day8Events = [
+            { type: 'food', time: '08:30', duration: 60, travelTime: 0, travelMode: null, title: '飯店早餐', desc: '享用美味早餐，開啟美好的一天', icon: 'fa-mug-hot', bg: 'bg-orange-50', navQuery: '' },
             { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，把握最後時光！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '이호테우말등대' },
             { type: 'spot', time: 'auto', duration: 30, travelTime: 25, travelMode: 'car', title: '梨湖小馬燈塔', desc: 'Iho Tewoo Horse Lighthouses', icon: 'fa-camera', bg: 'bg-red-50', note: '紅白小馬燈塔，拍照打卡聖地', navQuery: '애월카페거리' },
-            { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 發' },
+            { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 제주' },
             { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세이프렌터카' },
             { type: 'car', time: '16:30', duration: 30, travelTime: 15, travelMode: 'walk', title: '還車 - The Safe Rent A Car', desc: 'Return Rental Car', icon: 'fa-car', bg: 'bg-green-100', note: '檢查車況，搭乘接駁車前往機場', navQuery: '제주국제공항' },
-            { type: 'flight', time: '18:15', duration: 120, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
+            { type: 'customs', time: 'auto', duration: 60, travelTime: 0, travelMode: null, title: '機場報到 & 過海關', desc: 'Check-in, Security & Immigration', icon: 'fa-user-check', bg: 'bg-slate-100', note: '含行李託運與安檢程序', navQuery: '' },
+            { type: 'shopping', time: 'auto', duration: 60, travelTime: 0, travelMode: null, title: '濟州機場免稅店 (JDC)', desc: '候機室內最後採買', icon: 'fa-gift', bg: 'bg-pink-100', note: '必買：Kakao Friends 濟州限定版、菸酒', navQuery: '' },
+            { type: 'flight', time: '20:15', duration: 120, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
         ];
 
         const tabs = [
@@ -688,7 +628,11 @@
                     if (event.travelMode === 'ship') travelEmoji = '⛴️';
                     let navButtonHtml = '';
                     if (event.navQuery && event.navQuery.length > 0) {
-                        const navUrl = `https://map.naver.com/p/search/${encodeURIComponent(event.navQuery)}`;
+                        let navUrl = event.navQuery;
+                        // 如果 navQuery 不是以 http 開頭，則當作搜尋關鍵字
+                        if (!navUrl.startsWith('http')) {
+                            navUrl = `https://map.naver.com/p/search/${encodeURIComponent(event.navQuery)}`;
+                        }
                         navButtonHtml = `<a href="${navUrl}" target="_blank" class="ml-2 bg-green-50 text-green-600 border border-green-200 px-3 py-1 rounded-full text-[10px] font-bold shadow-sm flex items-center gap-1 transition-all active:scale-95"><i class="fas fa-location-arrow"></i> 導航</a>`;
                     }
                     html += `<div class="relative pl-8 py-3 z-0"><div class="flex items-center text-slate-500 text-xs ml-2"><div class="w-7 h-7 rounded-full bg-white flex items-center justify-center mr-2 border border-slate-200 shadow-sm text-sm select-none">${travelEmoji}</div><span class="font-hand font-bold mr-1 text-slate-400">${event.travelTime} min</span>${navButtonHtml}</div></div>`;
@@ -1104,7 +1048,7 @@
                         <!-- 配菜區 -->
                         <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
                             <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
-                                <i class="fas fa-bowl-rice"></i>必點道地配菜
+                                <i class="fas fa-bowl-rice"></i> 必點道地配菜
                             </h4>
                             <div class="space-y-2 font-hand text-lg">
                                 <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
@@ -1440,6 +1384,117 @@
              document.getElementById('info-modal').classList.remove('hidden');
         }
 
+        window.showDongmunInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-orange-600"><i class="fas fa-store"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-orange-300 pb-3 font-hand tracking-wide">
+                        🍊 濟州東門市場 全攻略
+                    </h3>
+
+                    <!-- 營業資訊 -->
+                    <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm mb-4">
+                        <h4 class="font-bold text-orange-700 mb-2 text-sm flex items-center gap-2">
+                            <i class="fas fa-clock"></i> 營業時間與地點
+                        </h4>
+                        <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                            <p class="flex justify-between"><span>一般市場：</span><span class="font-bold">08:00 - 21:00</span></p>
+                            <p class="flex justify-between"><span>夜市時段：</span><span class="font-bold text-red-500">18:00 - 24:00</span></p>
+                            <p class="text-[10px] text-slate-400 mt-2"><i class="fas fa-map-marker-alt mr-1"></i>夜市集中在 <strong class="text-slate-600">Gate 8</strong> 號出口附近</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- 排隊名店 (必吃) -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-red-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-fire text-red-500"></i> 排隊名店 (必吃)
+                            </h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-start mb-1">
+                                        <p class="font-bold text-slate-800 text-sm">Abebe Bakery <span class="bg-red-500 text-white text-[9px] px-1.5 rounded ml-1">超人氣</span></p>
+                                        <span class="text-[10px] bg-slate-100 px-1 rounded text-slate-500">Gate 1 附近</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 font-sans mb-1">아베베베이커리 (10:00-19:00)</p>
+                                    <ul class="text-xs text-slate-600 list-disc pl-4 space-y-0.5">
+                                        <li>必點：<strong>伍島花生奶油甜甜圈</strong>、<strong>漢拿峰柑橘奶油麵包</strong></li>
+                                        <li>Tip：建議早上 10 點開門就去，下午通常大排長龍。</li>
+                                    </ul>
+                                </div>
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <p class="font-bold text-slate-800 text-sm">Sarang Bunsik</p>
+                                        <span class="text-[10px] bg-slate-100 px-1 rounded text-slate-500">在地推薦</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 font-sans mb-1">사랑분식 (11:30-21:00)</p>
+                                    <ul class="text-xs text-slate-600 list-disc pl-4 space-y-0.5">
+                                        <li>必點：<strong>愛之食 (Sarang-sik)</strong> - 辣炒年糕+飯捲+餃子的組合。</li>
+                                        <li>特色：甜辣口味，是在地人從小吃到大的回憶。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 夜市美食 (Gate 8) -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-moon"></i> 夜市必吃 (Gate 8)
+                            </h4>
+                            <div class="grid grid-cols-1 gap-2 text-sm text-slate-700 font-hand">
+                                <div class="bg-white px-3 py-2 rounded-lg border border-blue-50 flex justify-between items-center">
+                                    <span>🔥 烤龍蝦起司</span>
+                                    <span class="text-[10px] text-slate-400">視覺效果滿分</span>
+                                </div>
+                                <div class="bg-white px-3 py-2 rounded-lg border border-blue-50 flex justify-between items-center">
+                                    <span>🐷 黑豬肉捲 / 꼬치</span>
+                                    <span class="text-[10px] text-slate-400">淋滿醬汁超罪惡</span>
+                                </div>
+                                <div class="bg-white px-3 py-2 rounded-lg border border-blue-50 flex justify-between items-center">
+                                    <span>🍙 鮑魚飯捲</span>
+                                    <span class="text-[10px] text-slate-400">方形飯捲</span>
+                                </div>
+                                <div class="bg-white px-3 py-2 rounded-lg border border-blue-50 flex justify-between items-center">
+                                    <span>🦀 炸螃蟹 / 蟹殼燒</span>
+                                    <span class="text-[10px] text-slate-400">整隻都可以吃</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 必買伴手禮 -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-gift"></i> 必買伴手禮
+                            </h4>
+                            <ul class="text-xs text-slate-600 list-disc pl-4 space-y-1.5 font-hand text-base">
+                                <li><strong>Omegi Tteok (小米紅豆年糕)：</strong> 外層裹滿紅豆，內餡有艾草香，必買名產！(推薦：Jina Tteokzip / 진아떡집)</li>
+                                <li><strong>濟州橘子：</strong> 冬天正好是產季，建議現場試吃再整箱買。</li>
+                                <li><strong>橘子巧克力/果乾：</strong> 市場價格通常比機場便宜很多，適合大量送禮。</li>
+                                <li><strong>石頭爺爺周邊：</strong> 橘子帽、小吊飾等文創小物。</li>
+                            </ul>
+                        </div>
+
+                        <!-- 溫馨提醒 -->
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm text-xs">
+                            <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 溫馨提醒
+                            </h4>
+                            <ul class="space-y-1.5 text-slate-600 font-hand text-base leading-relaxed pl-1">
+                                <li>• <strong>垃圾處理：</strong> 市場內垃圾桶非常少！強烈建議自備小塑膠袋裝垃圾。</li>
+                                <li>• <strong>付款方式：</strong> 大部分攤位可刷卡 (WOWPASS OK)，但準備一些現金 (1000/5000韓元) 買小吃會更方便快速。</li>
+                                <li>• <strong>生魚片：</strong> 這裡有很多一盤 10,000 韓元的生魚片，便宜但要仔細看魚眼睛確認新鮮度。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
         window.showCafeInfo = function() {
             const gamttanamNav = `https://map.naver.com/p/search/${encodeURIComponent('감따남')}`;
             document.getElementById('modal-content-area').innerHTML = `
@@ -1601,7 +1656,6 @@
         }
 
         window.showThemeParkInfo = function() {
-            // 建議將照片上傳至 GitHub，檔名設定為：jeju_shinhwa_park.jpg
             const photoUrl = "https://raw.githubusercontent.com/[你的GitHub帳號]/[你的專案名稱]/main/jeju_shinhwa_park.jpg";
             
             document.getElementById('modal-content-area').innerHTML = `
@@ -1691,27 +1745,652 @@
         }
 
         window.showPororoInfo = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-blue-200 pb-2 font-hand">Pororo 樂園</h3><p class="font-hand">室內外皆有設施，推薦預留 4 小時以上。</p></div>`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-blue-500"><i class="fas fa-child"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-blue-300 pb-3 font-hand tracking-wide">
+                        🐧 Pororo & Tayo 樂園攻略
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業時間 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 營業時間
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1">
+                                <p class="flex justify-between"><span>全園區：</span><span class="font-bold">10:00 - 18:00</span></p>
+                                <p class="text-[10px] text-red-500 mt-1"><i class="fas fa-exclamation-circle mr-1"></i>戶外設施可能因天氣(雨/雪/強風)暫停運作</p>
+                            </div>
+                        </div>
+
+                        <!-- 票價資訊 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-ticket-alt"></i> 票價資訊 (自由通票)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-yellow-100">
+                                    <span class="text-slate-600"><i class="fas fa-child text-xs mr-2 opacity-50"></i>兒童 <span class="text-[10px] font-sans">(12個月-12歲)</span></span>
+                                    <b class="text-jeju-orange">₩40,000</b>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-yellow-100">
+                                    <span class="text-slate-600"><i class="fas fa-user text-xs mr-2 opacity-50"></i>成人 <span class="text-[10px] font-sans">(13歲以上)</span></span>
+                                    <b class="text-slate-600">₩30,000</b>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-2 bg-white/50 p-2 rounded">
+                                    <p>💡 <strong>Note:</strong> 這裡小孩比大人貴！因為設施主要是給小孩玩的。</p>
+                                    <p>💡 <span class="text-blue-500">After 3 (15:00後)</span> 入場通常有 30-40% 折扣。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 必玩設施 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-star text-jeju-blue"></i> 必玩設施推薦
+                            </h4>
+                            
+                            <div class="mb-3">
+                                <p class="font-bold text-blue-600 text-xs mb-1">🚌 戶外區 (Tayo Zone)</p>
+                                <ul class="text-xs text-slate-600 space-y-1 pl-2 border-l-2 border-blue-100">
+                                    <li>• <strong>Tayo 巴士:</strong> 繞行庭園的小火車，必搭！</li>
+                                    <li>• <strong>紅色大摩天輪:</strong> 視野超好，可看海。</li>
+                                    <li>• <strong>海盜船 (Viking):</strong> 比較刺激，需身高 110cm+。</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <p class="font-bold text-orange-600 text-xs mb-1">🐧 室內區 (Pororo Zone)</p>
+                                <ul class="text-xs text-slate-600 space-y-1 pl-2 border-l-2 border-orange-100">
+                                    <li>• <strong>Pororo 小火車:</strong> 室內繞一圈，不用曬太陽。</li>
+                                    <li>• <strong>巨大球池 & 彈跳床:</strong> 放電神器。</li>
+                                    <li>• <strong>4D 騎士體驗:</strong> 戴眼鏡看動畫，有噴水效果。</li>
+                                    <li>• <strong>水上游樂區 (Aqua Play):</strong> 需穿防水衣(現場有)。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 攻略 Tips -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm">
+                            <h4 class="font-bold text-red-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i> 家長生存攻略
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-red-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>必帶襪子：</strong> 室內遊樂區規定大人小孩都要穿襪子！
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-red-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>先攻戶外：</strong> 如果天氣好，建議先玩戶外 Tayo 區，因為下午風大或變天可能會關閉。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-red-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>用餐：</strong> 園區內有美食街 (炸豬排、烏龍麵)，價格和外面差不多，不用特地帶便當。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-blue-500 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
         window.showSuksungdoInfo = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2 font-hand">熟成到燒肉</h3><p class="font-hand">已訂位 18:30。必點熟成五花肉！</p></div>`;
-            document.getElementById('info-modal').classList.remove('hidden');
-        }
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-red-600"><i class="fas fa-fire-alt"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-red-300 pb-3 font-hand tracking-wide">
+                        🥩 熟成到 (Suksungdo) 燒肉指南
+                    </h3>
 
-        window.showJungangRecs = function() {
-             document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2 font-hand">中央地下街推薦</h3>
-                    <div class="bg-red-50 p-4 rounded-xl text-center text-slate-600 font-hand text-lg border border-red-100">
-                        <i class="fas fa-edit text-4xl mb-2 text-red-300"></i><br>
-                        <span class="font-bold text-red-500">內容撰寫中...</span><br>
-                        <span class="text-sm">(包含服飾、美妝與在地美食推薦)</span>
+                    <div class="space-y-4">
+                        <!-- 訂位狀態區 (最重要的資訊) -->
+                        <div class="bg-red-600 text-white p-4 rounded-2xl shadow-lg border-2 border-red-400 relative overflow-hidden">
+                            <div class="absolute -right-2 -bottom-2 text-5xl opacity-20 rotate-12"><i class="fas fa-calendar-check"></i></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fas fa-clock text-2xl"></i>
+                                    <div>
+                                        <p class="font-bold text-lg leading-tight">已訂位 18:30</p>
+                                        <p class="text-xs opacity-90 font-hand text-base">訂金已付：₩30,000</p>
+                                    </div>
+                                </div>
+                                <a href="https://www.catchtable.net/zh-TW/shop/suksungdo_jeju" target="_blank" class="block w-full bg-white text-red-600 text-center text-xs font-bold py-2 rounded-lg shadow-sm hover:bg-slate-100 transition-colors">
+                                    <i class="fas fa-link mr-1"></i> 查看 Catch Table 預約頁面
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 營業與服務 -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm">
+                            <h4 class="font-bold text-red-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-store"></i> 營業資訊
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">11:30 - 22:00</span></p>
+                                <p class="flex justify-between"><span>休息時間：</span><span class="font-bold">15:00 - 16:30</span></p>
+                                <p class="flex justify-between mt-2 text-red-600"><span class="flex items-center gap-1"><i class="fas fa-hands-helping"></i> 服務方式：</span><span class="font-bold">全程專人代烤</span></p>
+                            </div>
+                        </div>
+
+                        <!-- 限量招牌肉品 (Signature) -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-red-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-crown text-jeju-orange"></i> 每日限量必點 (Signature)
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex justify-between items-start border-b border-gray-50 pb-2">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-tight">960 熟成帶骨里肌 <span class="bg-red-500 text-white text-[9px] px-1.5 rounded ml-1">TOP 1</span></p>
+                                        <p class="text-[10px] text-slate-400 font-sans">960 뼈등심 (Bone-in Loin)</p>
+                                        <p class="text-[10px] text-slate-500 mt-0.5">每日限量約20份，結合里肌與五花的雙重口感。</p>
+                                    </div>
+                                    <b class="text-red-600 whitespace-nowrap">₩38,000</b>
+                                </div>
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-tight">720 熟成帶骨豬頸/五花 <span class="bg-red-500 text-white text-[9px] px-1.5 rounded ml-1">TOP 2</span></p>
+                                        <p class="text-[10px] text-slate-400 font-sans">720 뼈목살 (Bone-in Pork Neck)</p>
+                                        <p class="text-[10px] text-slate-500 mt-0.5">經過720小時熟成，肉汁最豐富的部位。</p>
+                                    </div>
+                                    <b class="text-red-600 whitespace-nowrap">₩37,000</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 經典肉品 (Standard) -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-drumstick-bite"></i> 經典熟成部位 (Standard)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none">熟成交錯五花肉</p>
+                                        <p class="text-[9px] font-sans text-slate-400">교차숙성흑돼지 (Pork Belly)</p>
+                                    </div>
+                                    <span class="font-bold text-slate-600">₩22,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none">熟成豬頸肉</p>
+                                        <p class="text-[9px] font-sans text-slate-400">숙성 목살 (Pork Neck)</p>
+                                    </div>
+                                    <span class="font-bold text-slate-600">₩22,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none">熟成特殊部位 (背脊肉)</p>
+                                        <p class="text-[9px] font-sans text-slate-400">특수부위 가브리살 (Cheek Meat)</p>
+                                    </div>
+                                    <span class="font-bold text-slate-600">₩22,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none">熟成抗政肉 (松阪豬)</p>
+                                        <p class="text-[9px] font-sans text-slate-400">숙성 항정살 (Pork Jowl)</p>
+                                    </div>
+                                    <span class="font-bold text-slate-600">₩22,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 必點主食與副餐 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-utensils"></i> 內行人才懂的副餐
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex justify-between items-center border-b border-blue-100 pb-2">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-sm">帶魚醬石鍋拌飯 <span class="text-red-500 text-[10px] font-bold">推!</span></p>
+                                        <p class="text-[9px] font-sans text-slate-400">갈치속젓 볶음밥 (Galchi-sokjeot Bibimbap)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩8,000</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-blue-100 pb-2">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-sm">水冷麵 / 拌冷麵</p>
+                                        <p class="text-[9px] font-sans text-slate-400">물냉면 / 비빔냉면 (Cold Noodles)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩7,000</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-blue-100 pb-2">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-sm">大醬湯 (含飯)</p>
+                                        <p class="text-[9px] font-sans text-slate-400">된장찌개 (Soybean Paste Stew)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩7,000</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-blue-100 pb-2">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-sm">加點低鹽明太子</p>
+                                        <p class="text-[9px] font-sans text-slate-400">명란젓 추가 (Pollack Roe)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩3,000</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-sm">加點杏鮑菇</p>
+                                        <p class="text-[9px] font-sans text-slate-400">버섯 추가 (Mushrooms)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩2,000</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-2 bg-white/50 p-2 rounded"><i class="fas fa-gift mr-1"></i>每桌通常會免費附贈一鍋「黑豬肉泡菜湯 (김치찌개)」。</p>
+                        </div>
+
+                        <!-- 酒水飲料 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-beer"></i> 酒水飲料
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 font-hand text-base">
+                                <div class="flex justify-between bg-white px-2 py-1 rounded border border-yellow-100">
+                                    <span><i class="fas fa-beer text-yellow-500 mr-1"></i>濟州艾爾啤酒</span>
+                                    <b>₩8,000</b>
+                                </div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded border border-yellow-100">
+                                    <span><i class="fas fa-wine-bottle text-green-500 mr-1"></i>漢拿山燒酒</span>
+                                    <b>₩5,000</b>
+                                </div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded border border-yellow-100">
+                                    <span><i class="fas fa-glass-martini-alt text-red-400 mr-1"></i>熟成到 Highball</span>
+                                    <b>₩9,000</b>
+                                </div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded border border-yellow-100">
+                                    <span><i class="fas fa-tint text-blue-400 mr-1"></i>汽水 (可樂/雪碧)</span>
+                                    <b>₩2,000</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 吃法指南 -->
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm text-xs">
+                            <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 熟成到獨家吃法
+                            </h4>
+                            <ul class="space-y-1.5 text-slate-600 font-hand text-base leading-relaxed pl-1">
+                                <li>1. <strong>經典原味：</strong> 第一口先沾少許安第斯山鹽，品嚐熟成肉的甜味。</li>
+                                <li>2. <strong>濟州風味：</strong> 蘸滾熱的鯷魚醬 (Mel-jeot) 配上烤蕨菜。</li>
+                                <li>3. <strong>招牌組合：</strong> 肉片放上明太子 + 芥末 + 辣椒醃菜，口感層次超豐富！</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-red-700 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
-             document.getElementById('info-modal').classList.remove('hidden');
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showBrickCampusInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-purple-600"><i class="fas fa-cube"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-purple-300 pb-3 font-hand tracking-wide">
+                        🧱 Brick Campus Jeju 指南
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- Info Section -->
+                        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm">
+                            <h4 class="font-bold text-purple-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 營業資訊與票價
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">10:00 - 18:00</span></p>
+                                <p class="flex justify-between text-slate-500"><span>最後入場：</span><span class="font-bold">17:30</span></p>
+                                <div class="border-t border-purple-200 my-2 pt-2">
+                                    <p class="flex justify-between items-center mb-1">
+                                        <span>入場券 (單人)</span>
+                                        <b class="text-purple-600">₩16,000</b>
+                                    </p>
+                                    <p class="text-[10px] text-slate-400">
+                                        * 36個月以下幼兒免費 (需證明文件)<br>
+                                        * 網路預訂通常有 10-20% 折扣
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-star text-jeju-orange"></i> 必看亮點
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-orange-100 text-orange-600 rounded p-1 text-xs mt-1"><i class="fas fa-eye"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">Gallery 作品展示館</p>
+                                        <p class="text-[10px] text-slate-500">展示數百件頂級積木藝術品，包括超大型迪士尼城堡、電影場景還原。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-blue-100 text-blue-600 rounded p-1 text-xs mt-1"><i class="fas fa-gamepad"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">Play Zone 體驗館</p>
+                                        <p class="text-[10px] text-slate-500">可以自己組裝賽車並進行比賽，還有一整面的積木牆可以拼貼。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="bg-red-100 text-red-600 rounded p-1 text-xs mt-1"><i class="fas fa-hamburger"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">積木漢堡 (必吃!)</p>
+                                        <p class="text-[10px] text-slate-500">園區內的漢堡店販售「積木造型」麵包的漢堡，色彩繽紛超好拍。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i> 參觀攻略
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>雨天備案首選：</strong> 全室內展場，不受天氣影響，夏天有冷氣冬天有暖氣。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>預留時間：</strong> 喜歡拼積木的小朋友可能會在體驗區卡關很久，建議預留 2 小時。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showKyochonInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-yellow-600"><i class="fas fa-drumstick-bite"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-yellow-300 pb-3 font-hand tracking-wide">
+                        🍗 橋村炸雞 (Kyochon) 蓮洞店
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業資訊 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-100 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-store"></i> 營業資訊
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">12:00 - 23:30</span></p>
+                                <p class="text-[10px] text-slate-400 mt-2"><i class="fas fa-map-marker-alt mr-1"></i>位於蓮洞商圈，從 Hotel Leo 步行可達。</p>
+                            </div>
+                        </div>
+
+                        <!-- 菜單介紹 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-book-open text-jeju-orange"></i> 人氣菜單 (Menu)
+                            </h4>
+                            <div class="space-y-4 font-hand text-lg">
+                                <!-- Honey Series -->
+                                <div>
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">蜂蜜炸雞 (Combo) <span class="bg-red-500 text-white text-[9px] px-1.5 rounded ml-1">必點</span></p>
+                                            <p class="text-[10px] text-slate-400 font-sans">허니콤보 (Honey Combo)</p>
+                                        </div>
+                                        <b class="text-slate-700 whitespace-nowrap">₩23,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 bg-yellow-50 p-1.5 rounded">
+                                        💡 <strong>Combo (콤보)</strong> = 只有雞腿 + 雞翅 (最受歡迎！)<br>
+                                        💡 <strong>Original (오리지날)</strong> = 全雞
+                                    </p>
+                                </div>
+
+                                <!-- Red Series -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">香辣炸雞 (Combo)</p>
+                                            <p class="text-[10px] text-slate-400 font-sans">레드콤보 (Red Combo)</p>
+                                        </div>
+                                        <b class="text-slate-700 whitespace-nowrap">₩23,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500">
+                                        使用韓國青陽辣椒，真的有辣！嗜辣者首選。
+                                    </p>
+                                </div>
+
+                                <!-- Half & Half -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <p class="font-bold text-slate-800 text-base leading-tight">半半炸雞 (原味+辣味)</p>
+                                            <p class="text-[10px] text-slate-400 font-sans">반반콤보 (Half & Half Combo)</p>
+                                        </div>
+                                        <b class="text-slate-700 whitespace-nowrap">₩23,000</b>
+                                    </div>
+                                    <p class="text-[10px] text-red-500 font-bold">
+                                        ⚠️ 注意：蜂蜜口味通常不能做成半半！(因為麵衣不同)
+                                    </p>
+                                </div>
+                                
+                                <!-- Sides -->
+                                <div class="border-t border-slate-100 pt-3">
+                                    <div class="flex justify-between items-center text-sm mb-1">
+                                        <span class="text-slate-600">現炸薯塊 (Wedge Potato)</span>
+                                        <b>₩4,000</b>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-slate-600">起司球 (Cheese Ball)</span>
+                                        <b>₩6,000</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 攻略 Tips -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i> 內行小撇步
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>等待時間：</strong> 橋村堅持現點現炸，通常需等待 <strong>20-40 分鐘</strong>。建議先點餐再去逛旁邊的便利商店。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>外帶 vs 內用：</strong> 內用通常會附贈玉米片或醃蘿蔔；外帶回飯店配啤酒也是絕佳享受！
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>份量：</strong> 一份 Combo 約 2 人份。如果不太餓，可以點一份炸雞 + 薯塊 share。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-yellow-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showShinhwaShoppingInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-green-600"><i class="fas fa-shopping-bag"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-300 pb-3 font-hand tracking-wide">
+                        🛍️ 神話世界 購物攻略
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- Premium Center -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-tags"></i> 濟州 Premium Center (B1/1F)
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-2">
+                                <p class="text-xs">濟州島最新的大型 Outlet，位於神話世界中心地帶，非常好逛！</p>
+                                <div class="bg-white p-3 rounded-lg border border-green-100">
+                                    <p class="font-bold text-slate-700 text-xs mb-1">🔥 必逛品牌：</p>
+                                    <ul class="text-xs list-disc pl-4 space-y-0.5">
+                                        <li><strong>運動休閒：</strong> Nike Golf, Adidas, New Balance, Under Armour。</li>
+                                        <li><strong>國際精品：</strong> Coach, Michael Kors, Tory Burch (價格通常不錯)。</li>
+                                        <li><strong>兒童服飾：</strong> Off-Label (很多童裝特賣)。</li>
+                                    </ul>
+                                </div>
+                                <p class="flex justify-between text-xs mt-1"><span>營業時間：</span><span class="font-bold">10:30 - 21:00</span></p>
+                            </div>
+                        </div>
+
+                        <!-- JDC Duty Free -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-plane text-blue-500"></i> JDC 免稅店 (神話世界店)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <p class="text-xs text-slate-500 font-sans">位於萬豪酒店 (Marriott) 地下一樓連接通道。</p>
+                                <div class="flex items-start gap-2 text-xs text-slate-600">
+                                    <i class="fas fa-check-circle text-blue-400 mt-0.5"></i>
+                                    <span>主要販售化妝品、香水、墨鏡與酒類。</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-xs text-slate-600">
+                                    <i class="fas fa-check-circle text-blue-400 mt-0.5"></i>
+                                    <span><strong>重要：</strong> 這裡買的東西不能現場帶走，需在回程時於「濟州機場」提領。</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dining Options -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-utensils"></i> 逛累了吃什麼？
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">1</span>
+                                    <strong>Selection Dining (美食街)：</strong> 位於樂園入口附近，集結多家韓式餐廳，價格親民，適合親子。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">2</span>
+                                    <strong>Starbucks Reserve：</strong> 神話世界有濟州少見的 Reserve 典藏門市，有很美的戶外座位。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">3</span>
+                                    <strong>The Place：</strong> 義式餐廳，著名的「炸彈披薩」就在這！
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showYeondongInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-green-600"><i class="fas fa-shopping-cart"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-300 pb-3 font-hand tracking-wide">
+                        🛍️ 蓮洞商圈 & 樂天超市 攻略
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- Lotte Mart Section -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-store"></i> 樂天超市 (Lotte Mart)
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1 space-y-1">
+                                <p class="flex justify-between"><span>營業時間：</span><span class="font-bold">10:00 - 23:00</span></p>
+                                <p class="text-[10px] text-red-500 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i>注意：若自行打包，膠帶需自備或用繩子。</p>
+                                <div class="mt-2 pt-2 border-t border-green-200">
+                                    <p class="font-bold text-slate-700 text-xs mb-1">🛒 必買清單：</p>
+                                    <ul class="text-xs list-disc pl-4 space-y-0.5">
+                                        <li><strong>零糖餅乾 (Lotte Zero)：</strong> 巧克力派、軟糖，健康又好吃。</li>
+                                        <li><strong>HBAF 杏仁果：</strong> 蜂蜜奶油、芥末、烤玉米口味。</li>
+                                        <li><strong>韓國海苔/海苔酥：</strong> 拌飯神器，送禮自用兩相宜。</li>
+                                        <li><strong>泡麵：</strong> 安城湯麵、辛拉麵 (黑版)、金拉麵。</li>
+                                        <li><strong>燒酒/瑪格利：</strong> 種類比超商多很多 (記得放托運)。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Yeondong Shopping Street -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-walking text-blue-500"></i> 蓮洞商圈 (Nuwemaru Street)
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex items-start gap-2">
+                                    <span class="bg-blue-100 text-blue-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-magic"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">Olive Young (美妝)</p>
+                                        <p class="text-[10px] text-slate-500">規模很大，面膜、精華液、保健食品一次買齊。記得滿 30,000 可退稅。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <span class="bg-orange-100 text-orange-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-shoe-prints"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">運動潮牌 (ABC Mart, Nike)</p>
+                                        <p class="text-[10px] text-slate-500">可以找看看韓國限定款球鞋 (如 Converse 厚底、FILA)。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <span class="bg-purple-100 text-purple-600 rounded p-1 text-xs mt-1 min-w-[24px] text-center"><i class="fas fa-tshirt"></i></span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 text-sm">服飾小店</p>
+                                        <p class="text-[10px] text-slate-500">巷弄間有很多韓系服飾店，質感通常不錯。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i> 最後衝刺小撇步
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>退稅 (Tax Refund)：</strong> 結帳時務必出示護照，部分店家可現場折抵，不能折抵的記得拿單據去機場退。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    <strong>行李空間：</strong> 這是最後採買機會，買完回飯店直接塞進行李箱，不夠裝就在超市買購物袋。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
         }
 
         async function fetchRate() {
@@ -1901,15 +2580,143 @@
         }
 
         function getContent(id) {
-            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand text-slate-700">${text}</h2></div>`;
+            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand">${text}</h2></div>`;
             
             switch(id) {
                 case 'intro':
-                    return `${header('Tutorial 教學')}
-                    <div class="bg-orange-50 p-10 rounded-xl text-center text-slate-600 font-hand text-lg border border-orange-100 mt-4">
-                        <i class="fas fa-edit text-4xl mb-2 text-orange-300"></i><br>
-                        <span class="font-bold text-orange-500">內容撰寫中...</span><br>
-                        <span class="text-sm">(稍後補上教學資訊)</span>
+                    return `${header('Tutorial 出發前必看教學')}
+                    
+                    <div class="space-y-6 pb-4">
+                        <!-- 1. 虎航預辦登機 -->
+                        <div class="bg-white p-5 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm relative">
+                            <div class="absolute -top-3 -left-2 bg-jeju-orange text-white px-3 py-1 rounded-lg font-bold shadow-sm transform -rotate-2">Step 1</div>
+                            <h3 class="font-bold text-slate-800 text-lg mb-3 mt-2 flex items-center gap-2">
+                                <i class="fas fa-plane-departure text-jeju-orange"></i> 台灣虎航 預辦登機
+                            </h3>
+                            
+                            <div class="space-y-3">
+                                <div class="bg-orange-50 p-3 rounded-xl text-sm text-slate-700 leading-relaxed">
+                                    <p class="font-bold text-orange-700 mb-1"><i class="fas fa-clock mr-1"></i> 開放時間：</p>
+                                    <p>起飛前 <span class="font-bold text-red-500">48小時 ~ 1小時</span> 內可辦理。</p>
+                                </div>
+
+                                <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1.5 font-sans">
+                                    <li>準備好您的 <strong>護照</strong> 與 <strong>訂位代號 (6碼英數)</strong>。</li>
+                                    <li>系統會顯示禁運品須知，請勾選確認。</li>
+                                    <li>完成後會取得 <strong>電子登機證 (QR Code)</strong>，建議截圖保存。</li>
+                                    <li class="text-xs text-slate-400">若有託運行李，仍需在起飛前 1 小時至機場櫃檯/自助機辦理託運。</li>
+                                </ul>
+
+                                <a href="https://sci.tigerairtw.com/zh-TW/login" target="_blank" class="block w-full bg-slate-800 hover:bg-slate-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-md active:scale-95 mt-2">
+                                    <i class="fas fa-link mr-1"></i> 前往虎航自助報到頁面
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 2. 韓國電子入境卡 -->
+                        <div class="bg-white p-5 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm relative">
+                            <div class="absolute -top-3 -left-2 bg-jeju-blue text-white px-3 py-1 rounded-lg font-bold shadow-sm transform -rotate-2">Step 2</div>
+                            <h3 class="font-bold text-slate-800 text-lg mb-3 mt-2 flex items-center gap-2">
+                                <i class="fas fa-passport text-jeju-blue"></i> 韓國電子入境卡 (e-Arrival)
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <p class="text-sm text-slate-600">
+                                    建議出發前線上填寫，通關時不用手寫紙本，速度快很多！
+                                </p>
+
+                                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                    <h4 class="font-bold text-blue-800 text-sm mb-2 border-b border-blue-200 pb-1">
+                                        <i class="fas fa-edit mr-1"></i> 住宿資料填寫範本 (必填)
+                        <!-- 3. 換錢與 WOWPASS (含深夜攻略) -->
+                        <div class="bg-white p-5 rounded-2xl border-2 border-dashed border-purple-200 shadow-sm relative">
+                            <div class="absolute -top-3 -left-2 bg-purple-500 text-white px-3 py-1 rounded-lg font-bold shadow-sm transform -rotate-2">Step 3</div>
+                            <h3 class="font-bold text-slate-800 text-lg mb-3 mt-2 flex items-center gap-2">
+                                <i class="fas fa-coins text-purple-500"></i> 換錢 & WOWPASS (深夜攻略)
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Maison Glad 住客專屬攻略 -->
+                                <div class="bg-purple-600 text-white p-4 rounded-xl shadow-md">
+                                    <h4 class="font-bold text-sm mb-2 flex items-center border-b border-purple-400 pb-2">
+                                        <i class="fas fa-walking mr-2"></i> Maison Glad 住客專屬攻略
+                                    </h4>
+                                    <div class="space-y-2 text-xs font-sans">
+                                        <p class="flex items-start gap-2">
+                                            <span class="bg-yellow-400 text-purple-900 px-1.5 rounded font-bold shrink-0">目標</span>
+                                            <span>前往 <strong>濟州君悅酒店 (Grand Hyatt)</strong> 辦理。</span>
+                                        </p>
+                                        <p class="flex items-start gap-2">
+                                            <span class="bg-green-500 text-white px-1.5 rounded font-bold shrink-0">位置</span>
+                                            <span>機台位於君悅 <strong>1樓大廳</strong> (花藝區附近)。</span>
+                                        </p>
+                                        <p class="flex items-start gap-2">
+                                            <span class="bg-blue-400 text-white px-1.5 rounded font-bold shrink-0">距離</span>
+                                            <span>步行約 <strong>8-10 分鐘</strong> (650公尺)。<br>
+                                            兩間飯店都在同一條大馬路 (Noyeon-ro) 上，出飯店<strong>右轉直走</strong>看到最高的雙子星大樓就是了！</span>
+                                        </p>
+                                        
+                                        <a href="https://map.naver.com/p/directions/14080643.3928124,3959888.7729626,%EB%A9%94%EC%A2%85%20%EA%B8%80%EB%9E%98%EB%93%9C%20%EC%A0%9C%EC%A3%BC,11659012,PLACE_POI/14079836.8608377,3959885.7297987,%EA%B7%B8%EB%9E%9C%EB%93%9C%20%ED%95%98%EC%96%8F%ED%8A%B8%20%EC%A0%9C%EC%A3%BC,1919264399,PLACE_POI/-/walk?c=16.00,0,0,0,dh" target="_blank" class="block w-full bg-white text-purple-700 text-center py-2 rounded-lg font-bold shadow-sm active:scale-95 mt-2 hover:bg-purple-50 transition-colors">
+                                            <i class="fas fa-location-arrow mr-1"></i> 開啟 Naver Map 步行導航
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- 儲值教學 -->
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+                                        <i class="fas fa-hand-holding-usd text-jeju-orange"></i> WOWPASS 儲值教學 (台幣現金)
+                                    </h4>
+                                    <ol class="text-xs text-slate-600 space-y-3 font-sans list-decimal pl-4">
+                                        <li>
+                                            <strong>選擇功能：</strong><br>
+                                            點擊螢幕上的 <span class="bg-slate-100 px-1 rounded border border-slate-300 font-bold">加值卡片 (Top-up Card)</span>。
+                                        </li>
+                                        <li>
+                                            <strong>插入卡片：</strong><br>
+                                            將 WOWPASS 卡插入機台下方的讀卡槽（要在有效期限內）。
+                                        </li>
+                                        <li>
+                                            <strong>選擇幣別：</strong><br>
+                                            選擇 <span class="text-blue-600 font-bold">TWD 台幣</span> (或其他外幣)。
+                                        </li>
+                                        <li>
+                                            <strong>放入現金：</strong><br>
+                                            放入台幣現鈔 (支援 $1000, $500)。<br>
+                                            <span class="text-red-500">*注意：只能存紙鈔，不找零！建議存大鈔。</span>
+                                        </li>
+                                        <li>
+                                            <strong>確認金額：</strong><br>
+                                            螢幕會顯示匯率與換算後的韓元金額，確認無誤按 <span class="bg-purple-600 text-white px-1 rounded font-bold">確認</span>。
+                                        </li>
+                                        <li>
+                                            <strong>完成：</strong><br>
+                                            取回卡片。此時金額是存入「餘額 (付款用)」，若要搭公車，記得用這張卡去便利商店儲值 T-money！
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <!-- 深夜抵達攻略 (Original) -->
+                                <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                                    <h4 class="font-bold text-red-700 text-sm mb-2 flex items-center">
+                                        <i class="fas fa-moon mr-2 text-xl"></i> 🌙 晚班機備案
+                                    </h4>
+                                    <p class="text-xs text-slate-600 mb-2 font-bold">
+                                        若錯過機場 WOWPASS (23:59 關) 或 E-mart (23:00 關)：
+                                    </p>
+                                    <div class="bg-white p-3 rounded-lg border border-red-100 shadow-sm">
+                                        <strong class="text-slate-800 text-sm ml-1">ATM 跨國提款</strong>
+                                        <p class="text-xs text-slate-500 mt-0.5">
+                                            使用台灣提款卡 (需開通跨國提款+4位密碼) 在便利商店 (CU/GS25) 的 Global ATM 直接領韓元。
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <a href="https://www.wowpass.io/" target="_blank" class="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-md active:scale-95">
+                                    <i class="fas fa-download mr-1"></i> 下載 App (查餘額/匯率)
+                                </a>
+                            </div>
+                        </div>
                     </div>`;
                 case 'flight':
                     return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
@@ -2033,25 +2840,291 @@
                         </div>
                     </div>`;
                 case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('出發前必做', ['預辦登機 (48小時前)', '線上填寫電子入境卡 (e-Arrival Card)'], 'red')}${prepGroup('必備證件', ['護照 (效期6個月+)', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', '購買 eSIM 卡', '漫遊開通'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
-                case 'booking': return `${header('Booking & Tickets 憑證')}<div class="space-y-4">
-                        ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', ['The_Safe_Rent_A_Car_1.png', 'The_Safe_Rent_A_Car_2.png', 'The_Safe_Rent_A_Car_3.png', 'The_Safe_Rent_A_Car_4.png', 'The_Safe_Rent_A_Car_5.png', 'The_Safe_Rent_A_Car_6.png', 'The_Safe_Rent_A_Car_7.png'])}
-                        ${bookingItem('【Day1】濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
-                        ${bookingItem('【Day2.3】城山貝斯特飯店', '城山', 'img-h2', 'fas fa-hotel', 'purple', ['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'])}
-                        ${bookingItem('【Day4.5】神話世界-藍鼎', '神話世界', 'img-h3', 'fas fa-hotel', 'purple', ['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'])}
-                        ${bookingItem('【Day6.7】利奧飯店', '新濟州', 'img-h4', 'fas fa-hotel', 'purple', ['Hotel_Leo_1.png', 'Hotel_Leo_2.png'])}
-                        ${linkItem('Catch Table', '餐廳訂位連結', 'fas fa-utensils', 'orange', [{ text: '【London Bagel Museum】', url: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju' }, { text: '【熟成到燒肉】', url: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju' }])}
-                        ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', ['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'])}
+                case 'booking': 
+                    return `${header('電子憑證 Vouchers')}
+                    <div class="space-y-8 pb-24 px-1">
+                        <!-- User Tip -->
+                        <div class="bg-yellow-50/80 backdrop-blur-sm p-4 rounded-2xl border-2 border-yellow-200 text-sm text-slate-600 flex items-start gap-3 shadow-sm">
+                            <i class="fas fa-lightbulb text-yellow-500 text-lg mt-0.5"></i>
+                            <div>
+                                <strong>小貼士：</strong><br>
+                                點擊縮圖可開啟原始大圖，建議截圖保存以防網路不穩。
+                            </div>
+                        </div>
+
+                        <!-- 1. 租車憑證 (Folder Style) -->
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-orange-200 to-amber-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                            <div class="relative bg-white rounded-2xl border border-orange-100 shadow-lg overflow-hidden">
+                                <!-- Header -->
+                                <div class="bg-orange-50 px-5 py-3 border-b border-orange-100 flex justify-between items-center">
+                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                                        <span class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-500"><i class="fas fa-car"></i></span>
+                                        The Safe Rent A Car
+                                    </h3>
+                                    <span class="bg-orange-200 text-orange-800 text-[10px] font-bold px-2 py-1 rounded-full">7 Documents</span>
+                                </div>
+                                <!-- Details -->
+                                <div class="px-5 py-3 bg-slate-50 flex justify-between text-xs text-slate-500 font-mono border-b border-slate-100">
+                                    <span>PICK-UP: 01/30 20:00</span>
+                                    <span>RETURN: 02/06 16:30</span>
+                                </div>
+                                <!-- Grid -->
+                                <div class="p-5 grid grid-cols-3 sm:grid-cols-4 gap-3 bg-white">
+                                    ${[1, 2, 3, 4, 5, 6, 7].map(num => `
+                                        <div class="aspect-[3/4] rounded-lg overflow-hidden border border-slate-200 cursor-pointer relative group/img shadow-sm hover:shadow-md transition-all" 
+                                             onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/The_Safe_Rent_A_Car_${num}.png?raw=true', '_blank')">
+                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/The_Safe_Rent_A_Car_${num}.png?raw=true" class="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500">
+                                            <div class="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 transition-colors"></div>
+                                            <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 rounded backdrop-blur-sm">Page ${num}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. 住宿憑證 (Timeline Style) -->
+                        <div class="relative">
+                            <div class="absolute left-6 top-4 bottom-4 w-0.5 bg-slate-200 border-l-2 border-dotted border-slate-300"></div>
+                            
+                            <h3 class="font-bold text-slate-700 text-lg mb-6 pl-2 flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 shadow-sm z-10"><i class="fas fa-bed"></i></span>
+                                住宿憑證 (7 Nights)
+                            </h3>
+
+                            <div class="space-y-8">
+                                <!-- Hotel 1 -->
+                                <div class="relative pl-14 group">
+                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-slate-800">濟州 Glad Maison</h4>
+                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>1/30 - 1/31 (1 Night)</p>
+                                            </div>
+                                            <span class="text-2xl text-slate-100"><i class="fas fa-hotel"></i></span>
+                                        </div>
+                                        <div class="rounded-xl overflow-hidden shadow-inner border border-slate-100 relative h-32 cursor-pointer" onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/Maison_Glad_Voucher.png?raw=true', '_blank')">
+                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/Maison_Glad_Voucher.png?raw=true" class="w-full h-full object-cover">
+                                            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur text-slate-700 text-xs px-2 py-1 rounded shadow-sm font-bold"><i class="fas fa-expand mr-1"></i>查看憑證</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hotel 2 (Carousel for 2 images) -->
+                                <div class="relative pl-14 group">
+                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-purple-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-purple-300 transition-colors">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-slate-800">Coop City Seongsan</h4>
+                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>1/31 - 2/02 (2 Nights)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
+                                            ${['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'].map((img, i) => `
+                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
+                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
+                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
+                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hotel 3 -->
+                                <div class="relative pl-14 group">
+                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-yellow-400 rounded-full border-2 border-white shadow-sm z-10"></div>
+                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-yellow-300 transition-colors">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-slate-800">神話世界 藍鼎</h4>
+                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>2/02 - 2/04 (2 Nights)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
+                                            ${['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'].map((img, i) => `
+                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
+                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
+                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
+                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hotel 4 -->
+                                <div class="relative pl-14 group">
+                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-slate-600 rounded-full border-2 border-white shadow-sm z-10"></div>
+                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-slate-400 transition-colors">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-slate-800">Hotel Leo</h4>
+                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>2/04 - 2/06 (2 Nights)</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
+                                            ${['Hotel_Leo_1.png', 'Hotel_Leo_2.png'].map((img, i) => `
+                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
+                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
+                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
+                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 門票憑證 (Ticket Style) -->
+                        <div class="relative group mt-4">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                            <div class="relative bg-white rounded-2xl border border-blue-100 shadow-md overflow-hidden">
+                                <div class="bg-blue-50 px-5 py-3 border-b border-blue-100 flex justify-between items-center">
+                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500"><i class="fas fa-ticket-alt"></i></span>
+                                        Aqua Planet 水族館
+                                    </h3>
+                                    <span class="bg-blue-200 text-blue-800 text-[10px] font-bold px-2 py-1 rounded-full">2 Tickets</span>
+                                </div>
+                                <div class="p-5 flex gap-3 overflow-x-auto snap-x hide-scrollbar">
+                                     ${['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'].map((img, i) => `
+                                        <div class="flex-shrink-0 w-[45%] snap-center aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 relative cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                                             onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
+                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
+                                            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-2">
+                                                <span class="text-white text-xs font-bold"><i class="fas fa-search"></i> No.${i+1}</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. 餐廳預約 (Catch Table Links) -->
+                        <div class="relative group mt-4">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-red-200 to-orange-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                            <div class="relative bg-white rounded-2xl border border-red-100 shadow-md overflow-hidden">
+                                <div class="bg-red-50 px-5 py-3 border-b border-red-100 flex justify-between items-center">
+                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                                        <span class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500"><i class="fas fa-utensils"></i></span>
+                                        餐廳預約 (Catch Table)
+                                    </h3>
+                                    <span class="bg-red-200 text-red-800 text-[10px] font-bold px-2 py-1 rounded-full">2 Bookings</span>
+                                </div>
+                                <div class="p-5 space-y-3">
+                                    <!-- Item 1 -->
+                                    <a href="https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors group/item">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-500 text-lg font-bold"><i class="fas fa-bread-slice"></i></div>
+                                            <div>
+                                                <h4 class="font-bold text-slate-700 text-sm">倫敦貝果博物館</h4>
+                                                <p class="text-xs text-slate-400">London Bagel Museum</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-xs text-slate-400 group-hover/item:text-orange-500 transition-colors">
+                                            <span>查看預約</span> <i class="fas fa-external-link-alt"></i>
+                                        </div>
+                                    </a>
+                                    <!-- Item 2 -->
+                                    <a href="https://www.catchtable.net/zh-TW/shop/suksungdo_jeju" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors group/item">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-red-500 text-lg font-bold"><i class="fas fa-fire"></i></div>
+                                            <div>
+                                                <h4 class="font-bold text-slate-700 text-sm">熟成到燒肉</h4>
+                                                <p class="text-xs text-slate-400">Suksungdo</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-xs text-slate-400 group-hover/item:text-red-500 transition-colors">
+                                            <span>查看預約</span> <i class="fas fa-external-link-alt"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>`;
-                case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
-                case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
-                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
-                case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
-                case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
-                case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
-                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
-                case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
+                case 'day1': 
+                    // 插入橫向行程膠囊，移除舊的報到與乘客資訊
+                    let d1Html = renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
+                    const d1Parts = d1Html.split('</h2></div>');
+                    return `${d1Parts[0]}</h2></div> ${renderDayTimeline(day1Events)} ${d1Parts[1]}`;
+                    
+                case 'day2': 
+                    // 插入橫向行程膠囊
+                    let d2Html = renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
+                    const d2Parts = d2Html.split('</h2></div>');
+                    return `${d2Parts[0]}</h2></div> ${renderDayTimeline(day2Events)} ${d2Parts[1]}`;
+                    
+                case 'day3': 
+                    let d3Html = renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
+                    const d3Parts = d3Html.split('</h2></div>');
+                    return `${d3Parts[0]}</h2></div> ${renderDayTimeline(day3Events)} ${d3Parts[1]}`;
+
+                case 'day4': 
+                    let d4Html = renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
+                    const d4Parts = d4Html.split('</h2></div>');
+                    return `${d4Parts[0]}</h2></div> ${renderDayTimeline(day4Events)} ${d4Parts[1]}`;
+
+                case 'day5': 
+                    let d5Html = renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
+                    const d5Parts = d5Html.split('</h2></div>');
+                    return `${d5Parts[0]}</h2></div> ${renderDayTimeline(day5Events)} ${d5Parts[1]}`;
+
+                case 'day6': 
+                    let d6Html = renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
+                    const d6Parts = d6Html.split('</h2></div>');
+                    return `${d6Parts[0]}</h2></div> ${renderDayTimeline(day6Events)} ${d6Parts[1]}`;
+
+                case 'day7': 
+                    let d7Html = renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
+                    const d7Parts = d7Html.split('</h2></div>');
+                    return `${d7Parts[0]}</h2></div> ${renderDayTimeline(day7Events)} ${d7Parts[1]}`;
+
+                case 'day8': 
+                    let d8Html = renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
+                    const d8Parts = d8Html.split('</h2></div>');
+                    return `${d8Parts[0]}</h2></div> ${renderDayTimeline(day8Events)} ${d8Parts[1]}`;
+
                 default: return '<div>Coming Soon</div>';
             }
+        }
+
+        // 新增：渲染橫向行程膠囊列
+        function renderDayTimeline(events) {
+            const colors = [
+                'bg-orange-100 text-orange-600 border-orange-200', 
+                'bg-blue-100 text-blue-600 border-blue-200', 
+                'bg-green-100 text-green-600 border-green-200', 
+                'bg-yellow-100 text-yellow-700 border-yellow-300', 
+                'bg-pink-100 text-pink-600 border-pink-200', 
+                'bg-purple-100 text-purple-600 border-purple-200'
+            ];
+            
+            let html = `<div class="flex gap-2 overflow-x-auto pb-4 pt-1 mb-4 snap-x hide-scrollbar px-1 items-center">`;
+            
+            // 過濾掉備案 (Backup) 行程，只顯示主要路線
+            let validEvents = events.filter(e => !e.isBackup); 
+            
+            validEvents.forEach((e, i) => {
+                const colorClass = colors[i % colors.length];
+                // 簡化標題：移除括號內的說明，讓膠囊文字更精簡
+                const simpleTitle = e.title.split(' (')[0].replace('晚餐 - ', '').replace('Money Box 換錢', '換錢');
+                
+                html += `
+                    <div class="flex items-center shrink-0 snap-start group">
+                        <div class="${colorClass} border-2 border-dashed px-3 py-1.5 rounded-full text-xs font-bold font-hand shadow-sm whitespace-nowrap cursor-default hover:scale-105 transition-transform">
+                            ${simpleTitle}
+                        </div>
+                        ${i < validEvents.length - 1 ? '<i class="fas fa-chevron-right text-slate-300 text-[10px] mx-1"></i>' : ''}
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            return html;
         }
 
         function convertCurrency(source) {
