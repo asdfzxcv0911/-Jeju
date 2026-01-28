@@ -251,9 +251,9 @@
         let weatherDataCache = null; 
         let expenseData = JSON.parse(localStorage.getItem('jeju_expenses')) || [];
 
-        // 定義 renderBookingInfo 函式 (移至最上方避免 ReferenceError)
+        // 定義 renderBookingInfo 函式
         function renderBookingInfo() {
-            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login?_gl=1*cre16d*_gcl_aw*R0NMLjE3Njk1MjIxNjAuQ2owS0NRaUE0ZUhMQmhDekFSSXNBSjJOWm9McGFNeldlTlltTW5BeXNYeHk0azYxTzR2WDNOUDhoWFNfQXh1dzVibGxMcDhBVDZ1RW5Kd2FBdllSRUFMd193Y0I.*_gcl_au*MTExOTM1MTM0NS4xNzY5NDg2MzEx*_ga*MjcwNTYyNjguMTc2OTQ4NjMxMQ..*_ga_SNXJDVLRNM*czE3Njk1MjIxNTkkbzMkZzAkdDE3Njk1MjIxNTkkajYwJGwwJGgw";
+            const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login";
             return `
                 <div class="mb-4 space-y-2">
                     <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
@@ -297,29 +297,30 @@
             { type: 'start', time: '13:30', duration: 90, travelTime: 60, travelMode: 'walk', title: '南苑貴賓室 VIP Lounge', desc: '吃飽喝足，準備出發！(KHH)', icon: 'fa-utensils', bg: 'bg-blue-100', btnText: '怎麼去?', btnAction: 'showLoungeGuide', navQuery: '', externalLink: 'https://orange.udn.com/orange/story/121417/9179081' },
             { type: 'flight', time: '16:00', duration: 145, travelTime: 0, travelMode: 'plane', title: '快樂起航 (IT670)', desc: '16:00 KHH ✈️ 19:25 CJU (含時差)', icon: 'fa-plane-departure', bg: 'bg-orange-100', isFlight: true, navQuery: '' },
             { type: 'arrive', time: '19:25', duration: 60, travelTime: 15, travelMode: 'walk', title: '抵達濟州 & 入境', desc: '填寫入境卡、提領行李', icon: 'fa-passport', bg: 'bg-green-100', note: '預計 20:25 完成', navQuery: '' },
-            { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: '메종글래드 제주' },
+            { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: '더세이프렌터카' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州 Glad Maison 飯店', desc: 'Check-in 休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day2Events = [
             { type: 'start', time: '08:00', duration: 0, travelTime: 50, travelMode: 'car', title: '飯店出發', desc: '早起出發去吃貝果！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '런던베이글뮤지엄 제주' },
-            { type: 'spot', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '倫敦貝果博物館', desc: 'London Bagel Museum Jeju (需排隊)', icon: 'fa-bread-slice', bg: 'bg-orange-100', note: '營業時間: 08:00 - 18:00', customButtons: [{ text: 'Catch Table 預約', link: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju', icon: 'fa-calendar-check', color: 'red' }], navQuery: '해녀김밥 본점' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '倫敦貝果博物館', desc: 'London Bagel Museum Jeju (需排隊)', icon: 'fa-bread-slice', bg: 'bg-orange-100', note: '營業時間: 08:00 - 18:00', customButtons: [{ text: 'Catch Table 預約', link: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju', icon: 'fa-calendar-check', color: 'red' }], navQuery: '해녀김밥 本店' },
             { type: 'food', time: 'auto', duration: 30, travelTime: 5, travelMode: 'walk', title: '海女飯捲 (可外帶)', desc: 'Haenyeo Gimbap', icon: 'fa-utensils', bg: 'bg-blue-100', note: '營業時間: 09:00 - 14:45', navQuery: '오드랑베이커리' },
-            { type: 'spot', time: 'auto', duration: 60, travelTime: 30, travelMode: 'car', title: 'Audrant Bakery & 咸德海灘', desc: '必吃大蒜麵包 & 絕美果凍海', icon: 'fa-umbrella-beach', bg: 'bg-sky-100', note: '營業時間: 07:00 - 22:00', customButtons: [{ text: '介紹', link: 'https://dpm2bb.com/2025-62/', icon: 'fa-globe', color: 'orange' }], navQuery: '에코랜드 테마파크' },
+            { type: 'spot', time: 'auto', duration: 60, travelTime: 30, travelMode: 'car', title: 'Audrant Bakery & 咸德海灘', desc: '必吃大蒜麵包 & 絕美果凍海', icon: 'fa-umbrella-beach', bg: 'bg-sky-100', note: '營業時間: 07:00 - 22:00', customButtons: [{ text: '介紹', link: 'https://dpm2bb.com/2025-62/', icon: 'fa-globe', color: 'orange' }], navQuery: '에코랜드 เทมาพาร์ค' },
             { type: 'spot', time: 'auto', duration: 120, travelTime: 25, travelMode: 'car', title: 'ECOLAND 森林小火車', desc: '搭火車遊森林，輕鬆愜意', icon: 'fa-train', bg: 'bg-green-100', note: '冬季營業: 08:30 - 16:30 (最後入場)', btnText: '票價資訊', btnAction: 'showEcoLandPrice', navQuery: '제주레일바이크' },
             { type: 'activity', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '濟州鐵道自行車', desc: 'Jeju Rail Bike (自動行駛)', icon: 'fa-bicycle', bg: 'bg-pink-100', note: '營業時間: 09:00 - 17:30 (每整點出發)', btnText: '票價資訊', btnAction: 'showRailBikePrice', navQuery: '삼달리' },
             snowBackupEvent,
             { type: 'spot', time: 'auto', duration: 45, travelTime: 20, travelMode: 'car', title: '三達里小村 & Doldam Carrot', desc: '韓劇《歡迎回到三達里》拍攝地', icon: 'fa-camera', bg: 'bg-yellow-50', navQuery: '부촌식당' },
-            { type: 'dinner', time: 'auto', duration: 60, travelTime: 10, travelMode: 'car', title: '晚餐 - 富村食堂', desc: 'Buchon Sikdang (白帶魚/鯖魚)', icon: 'fa-fish', bg: 'bg-orange-100', note: '營業時間: 10:30 - 21:00', navQuery: '코업시티호텔 성산' },
+            { type: 'dinner', time: 'auto', duration: 60, travelTime: 10, travelMode: 'car', title: '晚餐 - 富村食堂', desc: 'CP值極高！濟州在地風味定食', icon: 'fa-fish', bg: 'bg-orange-100', note: '營業時間: 10:30 - 21:00', btnText: '詳細菜單', btnAction: 'showBuchonMenu', navQuery: '코업시티호텔 성산' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州城山貝斯特飯店', desc: 'Coop City Hotel Seongsan', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day3Events = [
+            { type: 'food', time: '08:00', duration: 60, travelTime: 0, travelMode: null, title: '飯店早餐', desc: '享用美味早餐，補足體力！', icon: 'fa-mug-hot', bg: 'bg-orange-50', navQuery: '' },
             { type: 'start', time: '09:00', duration: 0, travelTime: 15, travelMode: 'car', title: '飯店出發', desc: '睡飽出發前往港口', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '성산포항종합여객터미널' },
             { type: 'ship', time: 'auto', duration: 30, travelTime: 0, travelMode: null, title: '城山港 (搭船)', desc: 'Seongsan Port (前往牛島)', icon: 'fa-ship', bg: 'bg-blue-100', note: '需填寫乘船申報單(2份) + 護照', btnText: '船班與票價', btnAction: 'showFerryInfo', navQuery: '' },
             { type: 'spot', time: 'auto', duration: 180, travelTime: 30, travelMode: 'ship', title: '牛島 (Udo) 環島', desc: '必吃花生冰淇淋、炸醬麵', icon: 'fa-island-tropical', bg: 'bg-green-100', note: '推薦租電動車或搭環島巴士', customButtons: [{ text: '行程規劃', link: 'javascript:showUdoPlan()', icon: 'fa-map', color: 'orange' }], navQuery: '' },
             { type: 'arrive', time: 'auto', duration: 0, travelTime: 10, travelMode: 'car', title: '返回城山港', desc: '搭船返回本島', icon: 'fa-anchor', bg: 'bg-gray-100', navQuery: '아쿠아플라넷 제주' },
-            { type: 'spot', time: 'auto', duration: 180, travelTime: 15, travelMode: 'car', title: 'Aqua Planet Jeju', desc: '亞洲最大水族館之一', icon: 'fa-fish', bg: 'bg-blue-200', note: '營業: 09:30-19:00 / 表演: 13:00, 15:00, 16:50', navQuery: '금돗 성산흑돼지' },
+            { type: 'spot', time: 'auto', duration: 180, travelTime: 15, travelMode: 'car', title: 'Aqua Planet Jeju', desc: '亞洲最大水族館之一', icon: 'fa-fish', bg: 'bg-blue-200', note: '營業: 09:30-19:00 / 門票已在 Agoda 購買', btnText: '玩樂指南 & 門票資訊', btnAction: 'showAquaPlanetInfo', navQuery: '금돗 성산흑돼지' },
             snowBackupEvent,
-            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'car', title: '黑毛豬晚餐 - 금돗 성산', desc: 'Geumdot Seongsan Black Pork', icon: 'fa-utensils', bg: 'bg-orange-100', note: '營業時間: 11:00 - 23:00', navQuery: '코업시티호텔 성산' },
+            { type: 'dinner', time: 'auto', duration: 90, travelTime: 10, travelMode: 'car', title: '黑毛豬晚餐 - 금돗 성산', desc: '在地人狂推！高品質黑豬肉燒肉', icon: 'fa-fire', bg: 'bg-orange-100', note: '營業時間: 11:00 - 23:00', btnText: '黑豬肉饗宴 & 菜單指南', btnAction: 'showGeumdotMenu', navQuery: '코업시티호텔 성산' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州城山貝斯特飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day4Events = [
@@ -327,29 +328,29 @@
             { type: 'start', time: '09:30', duration: 0, travelTime: 50, travelMode: 'car', title: '飯店出發', desc: '退房前往西歸浦', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '정방폭포' },
             { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'car', title: '正房瀑布', desc: 'Jeongbang Waterfall (亞洲唯一直接入海)', icon: 'fa-water', bg: 'bg-blue-100', note: '門票: 成人 2,000 / 兒童 1,000', externalLink: 'https://tinachiang0824.pixnet.net/blog/posts/9577976988', navQuery: '서귀포매일올레시장' },
             { type: 'food', time: 'auto', duration: 120, travelTime: 20, travelMode: 'car', title: '每日偶來市場', desc: 'Seogwipo Olle Market (午餐)', icon: 'fa-utensils', bg: 'bg-orange-100', note: '必吃：橘子麻糬、黑豬肉可樂餅', externalLink: 'https://journey.tw/seogwipo-olle-market/', customButtons: [{ text: '強力推薦', link: 'javascript:showOlleMarketRecs()', icon: 'fa-thumbs-up', color: 'red' }], navQuery: '귤꽃다락' },
-            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: '橘花閣樓 (귤꽃다락)', desc: '西歸浦超人氣橘子園咖啡廳', icon: 'fa-coffee', bg: 'bg-orange-50', btnText: '營業與消費', btnAction: 'showCafeInfo', navQuery: '신화월드 랜딩관' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: '橘花閣樓 (귤꽃다락)', desc: '西歸浦超人氣橘子園咖啡廳', icon: 'fa-coffee', bg: 'bg-orange-50', btnText: '營業與消費', btnAction: 'showCafeInfo', externalLink: 'https://abby0318.pixnet.net/blog/posts/9577500892', navQuery: '신화월드 랜딩관' },
             snowBackupEvent,
             { type: 'hotel', time: 'auto', duration: 90, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: 'Shinhwa World Landing Resort (Check-in)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '稍作休息，逛逛神話世界商店街', navQuery: '' },
             { type: 'dinner', time: '18:00', duration: 120, travelTime: 0, travelMode: null, title: '藍鼎自助晚餐', desc: 'Landing Dining (海鮮自助餐)', icon: 'fa-wine-glass-alt', bg: 'bg-yellow-200', note: '⚠️ 已預約 18:00 (時間不可動)', btnText: '營業與消費', btnAction: 'showLandingDiningInfo', externalLink: 'https://www.youtube.com/watch?v=oKv2f09cXAo', navQuery: '' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '住宿', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day5Events = [
-            { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테마파크' },
-            { type: 'activity', time: 'auto', duration: 180, travelTime: 10, travelMode: 'car', title: '神話主題公園', desc: 'Shinhwa Theme Park (Big 3)', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '使用 Big 3 券，任選 3 項設施遊玩', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '1100고지 휴게소' },
+            { type: 'start', time: '10:00', duration: 0, travelTime: 10, travelMode: 'walk', title: '飯店出發', desc: '睡飽飽，準備去樂園玩！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주신화월드 신화테มาพาพาร์發' },
+            { type: 'activity', time: 'auto', duration: 180, travelTime: 10, travelMode: 'car', title: '神話主題公園', desc: '神話世界中最受親子歡迎的樂園', icon: 'fa-ticket-alt', bg: 'bg-purple-100', note: '免票入場，設施需付費或使用 Big 3 券', btnText: '營業與攻略', btnAction: 'showThemeParkInfo', navQuery: '1100고지 휴게소' },
             { type: 'spot', time: 'backup', duration: 60, travelTime: 0, travelMode: 'car', title: '❄️ [雪天備案] 漢拿山 1100高地', desc: '若遇下雪，推薦前往賞雪 (1100 Altitude Wetland)', icon: 'fa-snowflake', bg: 'bg-sky-50 border-2 border-blue-200 border-dashed', note: '若有積雪，景色絕美；若無雪可走生態步道', navQuery: '1100고지 휴게소', isBackup: true },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '神話世界-藍鼎', desc: '返回飯店休息 / 晚餐', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day6Events = [
-            { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테마파크 제주' },
+            { type: 'start', time: '10:00', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，前往小朋友的天堂！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '뽀로로앤타요 테มาพาพาร์發 제주' },
             { type: 'activity', time: 'auto', duration: 240, travelTime: 50, travelMode: 'car', title: 'Pororo & Tayo 樂園', desc: '室內外綜合大型親子樂園', icon: 'fa-child', bg: 'bg-blue-100', note: '預留 4 小時盡情放電', btnText: '營業與票價', btnAction: 'showPororoInfo', navQuery: '도두동 무지개해안도로' },
             snowBackupEvent,
-            { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호텔레오' },
+            { type: 'spot', time: 'auto', duration: 45, travelTime: 15, travelMode: 'car', title: '彩虹海岸公路', desc: 'Dodu-dong Rainbow Coastal Road', icon: 'fa-rainbow', bg: 'bg-pink-50', note: '整排彩虹石墩，背景是大海，拍照超美', navQuery: '호體레오' },
             { type: 'hotel', time: 'auto', duration: 60, travelTime: 15, travelMode: 'car', title: '利奧飯店 (Hotel Leo)', desc: 'Check-in (新濟州)', icon: 'fa-hotel', bg: 'bg-purple-100', note: '放行李，稍作休息', navQuery: '숙성도 노형점' },
-            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fa-fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
+            { type: 'dinner', time: '18:30', duration: 90, travelTime: 10, travelMode: 'walk', title: '晚餐 - 熟成到燒肉', desc: 'Suksungdo (熟成黑豬肉)', icon: 'fire-alt', bg: 'bg-red-100', note: '⚠️ 已訂位 18:30 (預付訂金 30,000元)', btnText: '訂位與菜單', btnAction: 'showSuksungdoInfo', navQuery: '호텔레오' },
             { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '利奧飯店', desc: '休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
         ];
         const day7Events = [
-            { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '睡飽飽，前往舊濟州探索', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주동문시장' },
+            { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '睡飽出發', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '제주동문시장' },
             { type: 'spot', time: 'auto', duration: 60, travelTime: 10, travelMode: 'walk', title: '濟州東門市場', desc: 'Jeju Dongmun Market', icon: 'fa-store', bg: 'bg-orange-100', note: '早上買伴手禮/水果比較少人', navQuery: '제주중앙지하상가' },
             { type: 'shopping', time: 'auto', duration: 90, travelTime: 15, travelMode: 'car', title: '中央地下街 / 中央街市場', desc: 'Jungang Underground Shopping Center', icon: 'fa-shopping-bag', bg: 'bg-blue-100', note: '好逛好買的購物天堂', customButtons: [{ text: '強力推薦', link: 'javascript:showJungangRecs()', icon: 'fa-thumbs-up', color: 'red' }], navQuery: '자매국수' },
             { type: 'food', time: 'auto', duration: 60, travelTime: 20, travelMode: 'car', title: '午餐 - 姊妹麵條', desc: 'Jamae Guksu (必吃豬肉湯麵)', icon: 'fa-utensils', bg: 'bg-red-100', note: '排隊名店，湯頭濃郁', navQuery: '브릭캠퍼스' },
@@ -362,49 +363,17 @@
         const day8Events = [
             { type: 'start', time: '09:30', duration: 0, travelTime: 20, travelMode: 'car', title: '飯店出發', desc: '退房，把握最後時光！', icon: 'fa-sun', bg: 'bg-yellow-100', navQuery: '이호테우말등대' },
             { type: 'spot', time: 'auto', duration: 30, travelTime: 25, travelMode: 'car', title: '梨湖小馬燈塔', desc: 'Iho Tewoo Horse Lighthouses', icon: 'fa-camera', bg: 'bg-red-50', note: '紅白小馬燈塔，拍照打卡聖地', navQuery: '애월카페거리' },
-            { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 제주' },
-            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세이프렌터카' },
+            { type: 'food', time: 'auto', duration: 90, travelTime: 25, travelMode: 'car', title: '愛月邑咖啡街 / 午餐', desc: 'Aewol Cafe Street', icon: 'fa-coffee', bg: 'bg-orange-100', note: '推薦：Randy\'s Donuts 或海景咖啡廳', navQuery: '아르떼뮤지엄 發' },
+            { type: 'spot', time: 'auto', duration: 90, travelTime: 40, travelMode: 'car', title: 'Arte Museum', desc: '光影藝術館 (沉浸式體驗)', icon: 'fa-palette', bg: 'bg-purple-100', note: '雨天備案首選，視覺饗宴', navQuery: '더세いフ렌터카' },
             { type: 'car', time: '16:30', duration: 30, travelTime: 15, travelMode: 'walk', title: '還車 - The Safe Rent A Car', desc: 'Return Rental Car', icon: 'fa-car', bg: 'bg-green-100', note: '檢查車況，搭乘接駁車前往機場', navQuery: '제주국제공항' },
-            { type: 'flight', time: '18:15', duration: 120, travelTime: 0, travelMode: null, title: '濟州機場報到', desc: 'Jeju Int\'l Airport (CJU)', icon: 'fa-plane-departure', bg: 'bg-blue-200', note: '辦理登機、退稅、最後免稅店衝刺' },
-            { type: 'flight', time: '20:15', duration: 0, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
-        ];
-
-        const allSpots = [
-            { name: "南苑貴賓室 VIP Lounge", desc: "高雄機場舒適休息，吃飽喝足開啟旅程。", img: "https://images.unsplash.com/photo-1572579893796-03c02d25f778?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "☕" },
-            { name: "倫敦貝果博物館", desc: "超人氣排隊名店，必吃蔥奶油貝果。", img: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🥯" },
-            { name: "海女飯捲", desc: "濟州特色美食，口感豐富的海女飯捲。", img: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80", tape: "tape-green", sticker: "🍙" },
-            { name: "咸德海灘 & Audrant", desc: "漸層果凍海景與必吃大蒜麵包。", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "🏖️" },
-            { name: "ECOLAND 森林小火車", desc: "搭乘英式復古小火車，漫遊葛查瓦原始林。", img: "https://images.unsplash.com/photo-1442544213729-6a15f1611937?auto=format&fit=crop&w=600&q=80", tape: "tape-green", sticker: "🚂" },
-            { name: "濟州鐵道自行車", desc: "自動行駛自行車，輕鬆欣賞龍臥岳與草原風光。", img: "https://images.unsplash.com/photo-1533230332213-913a69a9094e?auto=format&fit=crop&w=600&q=80", tape: "tape-pink", sticker: "🚲" },
-            { name: "三達里小村", desc: "韓劇拍攝地，感受寧靜的濟州小漁村氛圍。", img: "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🏡" },
-            { name: "富村食堂", desc: "CP值超高的白帶魚煮物定食，在地人推薦。", img: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🐟" },
-            { name: "牛島 Udo", desc: "絕美離島，騎電動車環島，品嚐花生冰淇淋。", img: "https://images.unsplash.com/photo-1629252392482-9092495d436a?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "🥜" },
-            { name: "Aqua Planet Jeju", desc: "亞洲最大級水族館，精彩海女表演必看。", img: "https://images.unsplash.com/photo-1583212235753-9c52728806c5?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "🐬" },
-            { name: "金豚黑豬肉 (城山)", desc: "濟州島必吃黑豬肉，肉質鮮美。", img: "https://images.unsplash.com/photo-1603073707010-85c378943336?auto=format&fit=crop&w=600&q=80", tape: "tape-red", sticker: "🥩" },
-            { name: "正房瀑布", desc: "亞洲唯一直接入海的瀑布，壯觀懸崖與海景。", img: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=600&q=80", tape: "tape-green", sticker: "🌊" },
-            { name: "每日偶來市場", desc: "西歸浦最大傳統市場，橘子麻糬、可樂餅必吃。", img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🍢" },
-            { name: "橘花閣樓", desc: "隱身在橘子園裡的網美咖啡廳，每個角落都好拍。", img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "☕" },
-            { name: "藍鼎自助晚餐", desc: "神話世界高級海鮮自助餐，帝王蟹吃到飽。", img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🍽️" },
-            { name: "神話主題公園", desc: "逗逗蟲主題樂園，設施豐富，色彩繽紛。", img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=80", tape: "tape-pink", sticker: "🎡" },
-            { name: "漢拿山 1100高地", desc: "冬季賞雪勝地，車子可直達，輕鬆賞雪。", img: "https://images.unsplash.com/photo-1483921020237-60f3e5e54c33?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "❄️" },
-            { name: "Pororo 樂園", desc: "小孩的夢幻天堂，室內外設施齊全，放電首選。", img: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🐧" },
-            { name: "彩虹海岸公路", desc: "七彩石墩綿延海岸線，背景是藍天大海，拍照效果滿分。", img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", tape: "tape-pink", sticker: "🌈" },
-            { name: "熟成到燒肉", desc: "超人氣熟成黑豬肉，需提前預約的美味。", img: "https://images.unsplash.com/photo-1603073707010-85c378943336?auto=format&fit=crop&w=600&q=80", tape: "tape-red", sticker: "🥩" },
-            { name: "濟州東門市場", desc: "濟州最大市場，伴手禮、水果、夜市小吃。", img: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🛍️" },
-            { name: "中央地下街", desc: "購物天堂，服飾、美妝、雜貨應有盡有。", img: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "👕" },
-            { name: "姊妹麵條", desc: "排隊名店，濃郁豬肉湯麵是濟州代表美食。", img: "https://images.unsplash.com/photo-1579888944880-d98341245702?auto=format&fit=crop&w=600&q=80", tape: "tape-yellow", sticker: "🍜" },
-            { name: "Brick Campus", desc: "樂高積木主題博物館，創意無限，雨天備案。", img: "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=600&q=80", tape: "tape-blue", sticker: "🧱" },
-            { name: "橋村炸雞", desc: "韓國國民炸雞，蜂蜜口味酥脆香甜。", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🍗" },
-            { name: "梨湖小馬燈塔", desc: "紅白雙色小馬造型燈塔，拍照打卡聖地。", img: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=600&q=80", tape: "tape-red", sticker: "🐴" },
-            { name: "愛月邑咖啡街", desc: "海景咖啡廳一級戰區，日落超美。", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=600&q=80", tape: "tape-orange", sticker: "🌊" },
-            { name: "Arte Museum", desc: "大型沉浸式光影藝術展，視覺震撼。", img: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80", tape: "tape-purple", sticker: "🖼️" }
+            { type: 'flight', time: '18:15', duration: 120, travelTime: 0, travelMode: null, title: '起飛回程 (IT671)', desc: '20:15 CJU ✈️ 21:50 KHH', icon: 'fa-home', bg: 'bg-blue-600 text-white', navQuery: '' }
         ];
 
         const tabs = [
             { id: 'flight', icon: 'fa-paper-plane', label: '航班', color: 'bg-blue-100' },
             { id: 'rate', icon: 'fa-won-sign', label: '匯率', color: 'bg-yellow-100' },
             { id: 'weather', icon: 'fa-sun', label: '氣象', color: 'bg-sky-100' },
-            { id: 'intro', icon: 'fa-map-marked-alt', label: '景點', color: 'bg-orange-100' },
+            { id: 'intro', icon: 'fa-book-open', label: '教學', color: 'bg-orange-100' },
             { id: 'prep', icon: 'fa-check-circle', label: '準備', color: 'bg-green-100' },
             { id: 'booking', icon: 'fa-file-alt', label: '憑證', color: 'bg-purple-100' }, 
             { id: 'day1', label: 'Day1', date: '1/30', week: '(五)', color: 'bg-red-50' },
@@ -413,28 +382,8 @@
             { id: 'day4', label: 'Day4', date: '2/02', week: '(一)', color: 'bg-red-50' },
             { id: 'day5', label: 'Day5', date: '2/03', week: '(二)', color: 'bg-red-50' },
             { id: 'day6', label: 'Day6', date: '2/04', week: '(三)', color: 'bg-red-50' },
-            { id: 'day7', label: 'Day7', date: '2/05', week: '(四)', color: 'bg-red-50' },
+            { id: 'day7', label: 'Day7', date: '2/05', week: '(發)', color: 'bg-red-50' },
             { id: 'day8', label: 'Day8', date: '2/06', week: '(五)', color: 'bg-red-50' },
-        ];
-
-        const passengersOutbound = [
-            { name: "LI,I-KUN", seat: "2A", bag: "15KG" },
-            { name: "CHEN,YING-YU", seat: "2C", bag: "15KG" },
-            { name: "LI,ZHI-QI", seat: "2B", bag: "15KG" },
-            { name: "HUNG,TSUNG-WEI", seat: "3F", bag: "20KG" },
-            { name: "HUANG,CHING-TING", seat: "2E", bag: "20KG" },
-            { name: "HUNG,SHAO-CHI", seat: "2F", bag: "20KG" },
-            { name: "HUNG,SHAO-JIE", seat: "2D", bag: "20KG" }
-        ];
-
-        const passengersInbound = [
-            { name: "LI,I-KUN", seat: "2F", bag: "25KG" },
-            { name: "CHEN,YING-YU", seat: "2D", bag: "25KG" },
-            { name: "LI,ZHI-QI", seat: "2E", bag: "20KG" },
-            { name: "HUNG,TSUNG-WEI", seat: "4C", bag: "20KG" },
-            { name: "HUANG,CHING-TING", seat: "4E", bag: "20KG" },
-            { name: "HUNG,SHAO-CHI", seat: "4F", bag: "20KG" },
-            { name: "HUNG,SHAO-JIE", seat: "4D", bag: "20KG" }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -511,27 +460,43 @@
             let currentTime = null;
 
             events.forEach((event, index) => {
-                let displayTime = event.time;
+                let displayTime = '';
+                
+                // 如果是備案，直接顯示彈性，不計算時間
                 if (event.time === 'backup') {
                     displayTime = '彈性';
-                } else if (index === 0) {
-                    currentTime = moment(event.time, "HH:mm");
-                } else if (event.time === 'auto') {
-                    const prevEvent = events[index - 1];
-                    if (prevEvent.time !== 'backup') {
-                        const addedMinutes = (prevEvent.duration || 0) + (prevEvent.travelTime || 0);
-                        currentTime = currentTime.clone().add(addedMinutes, 'minutes');
+                } else {
+                    // 如果是主行程，則計算或更新時間
+                    if (event.time !== 'auto') {
+                        // 固定時間
+                        currentTime = moment(event.time, "HH:mm");
+                    } else {
+                        // 自動時間：需找到「上一個非備案」的行程來進行加總
+                        let offsetMinutes = 0;
+                        let foundPrev = false;
+                        for (let i = index - 1; i >= 0; i--) {
+                            if (events[i].time !== 'backup') {
+                                // 找到最近一個正常行程，取其持續時間與交通時間
+                                offsetMinutes = (events[i].duration || 0) + (events[i].travelTime || 0);
+                                foundPrev = true;
+                                break;
+                            }
+                        }
+                        
+                        if (foundPrev && currentTime) {
+                            currentTime = currentTime.clone().add(offsetMinutes, 'minutes');
+                        } else if (!currentTime) {
+                            // 預防萬一第一個行程就是 auto
+                            currentTime = moment("08:00", "HH:mm");
+                        }
                     }
                     displayTime = currentTime.format('HH:mm');
-                } else {
-                    currentTime = moment(event.time, "HH:mm");
                 }
 
                 const hasBtn = event.btnText && event.btnAction;
                 const hasExtLink = event.externalLink;
                 const customButtons = event.customButtons || [];
                 const durationHtml = (event.duration > 0 && event.time !== 'backup') ? `<span class="text-[10px] text-slate-400 font-hand ml-2 bg-slate-50 px-1 rounded"><i class="fas fa-hourglass-half mr-1"></i>${event.duration}m</span>` : '';
-                const detailsHtml = event.details || '';
                 
                 const cardBg = event.isBackup ? 'bg-sky-50 border-2 border-blue-200 border-dashed' : 'bg-white border border-slate-100 shadow-sm';
                 const timeBg = event.isBackup ? 'bg-blue-200 text-white' : `${event.bg}`;
@@ -549,7 +514,7 @@
                             <h4 class="font-bold text-lg text-slate-800 leading-tight">${event.title}</h4>
                             <p class="text-slate-500 text-sm mt-1 font-hand">${event.desc}</p>
                             <div class="mt-3 flex flex-wrap gap-2">
-                                ${hasBtn ? `<button onclick="${event.btnAction}()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-full transition-colors font-bold flex items-center gap-1 border border-slate-300 border-dashed"><i class="fas fa-lightbulb text-jeju-orange"></i> ${event.btnText}</button>` : ''}
+                                ${hasBtn ? `<button onclick="${event.btnAction}()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-full transition-colors font-bold flex items-center gap-1 border border-slate-300 border-dashed"><i class="fas ${event.icon === 'fa-fire' || event.icon === 'fa-fish' || event.icon === 'fa-list' || event.icon === 'fa-wine-glass-alt' ? 'fa-list' : 'fa-lightbulb'} text-jeju-orange"></i> ${event.btnText}</button>` : ''}
                                 ${hasExtLink ? `<a href="${event.externalLink}" target="_blank" class="text-xs bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1.5 rounded-full transition-colors font-bold flex items-center gap-1 border border-orange-200 border-dashed"><i class="fas fa-globe"></i> 介紹</a>` : ''}
                                 ${customButtons.map(btn => {
                                     if (btn.link.startsWith('javascript:')) {
@@ -559,7 +524,6 @@
                                     }
                                 }).join('')}
                             </div>
-                            ${detailsHtml}
                             ${event.note ? `<div class="mt-2 text-[10px] text-slate-400 bg-slate-50 p-1 rounded inline-block"><i class="fas fa-info-circle mr-1"></i>${event.note}</div>` : ''}
                         </div>
                     </div>
@@ -585,27 +549,474 @@
         }
 
         window.closeModal = function() { document.getElementById('info-modal').classList.add('hidden'); }
+        
         window.showLoungeGuide = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left relative"><div class="absolute -top-2 -right-2 text-4xl opacity-20 rotate-12">☕</div><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-dashed border-slate-200 pb-3 font-hand tracking-wide">南苑貴賓室指引</h3><div class="bg-blue-50 p-4 rounded-xl mb-4 text-sm text-slate-700 shadow-inner border border-blue-100"><strong>地點：</strong> 高雄小港機場 國際航廈 3F</div><div class="space-y-3 font-hand text-lg text-slate-600"><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">1</span><span>通過證照查驗櫃檯進入免稅店區</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">2</span><span>直接<strong class="text-jeju-blue mx-1">「向左轉」</strong>(往 21-26 登機門方向)</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">3</span><span>沿著長廊直走到底</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">4</span><span>位於 <strong class="text-jeju-orange mx-1">22 號登機門</strong> 附近</span></div></div><div class="mt-4 bg-orange-50 p-3 rounded-lg text-sm text-slate-700 border border-orange-100"><strong>辨識特徵：</strong><br>外觀為復古紅磚牆與圓形拱門設計，呈現「蘇州庭園」風格。</div></div>`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="relative bg-white text-left">
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center justify-center gap-2 font-hand tracking-wide">
+                            <i class="fas fa-map-marker-alt text-jeju-orange"></i> 南苑貴賓室指引
+                        </h3>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <p class="font-bold text-slate-800 mb-1">📍 地點</p>
+                            <p>高雄小港機場 國際航廈 3F (出境管制區內)</p>
+                        </div>
+
+                        <div>
+                            <p class="font-bold text-slate-800 mb-2">🚶‍♂️ 如何前往</p>
+                            <ul class="list-disc pl-5 space-y-1 font-hand text-lg">
+                                <li>通過證照查驗櫃檯進入免稅店區。</li>
+                                <li>直接<span class="text-jeju-orange font-bold">「向左轉」</span>(往 21-26 登機門方向)。</li>
+                                <li>沿著長廊直走到底。</li>
+                                <li>位於 <span class="font-bold text-slate-800">22 號登機門</span> 附近。</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="font-bold text-slate-800 mb-1">👀 辨識特徵</p>
+                            <p>外觀為復古紅磚牆與圓形拱門設計，呈現「蘇州庭園」風格。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                         <button onclick="closeModal()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
             document.getElementById('info-modal').classList.remove('hidden');
         }
+
         window.showCarGuide = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left relative"><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-dashed border-slate-200 pb-3 font-hand tracking-wide">The Safe Rent A Car 取車指引</h3><div class="bg-yellow-50 p-4 rounded-xl mb-4 text-sm text-slate-700 shadow-inner border border-yellow-100"><strong>接駁地點：</strong><br>濟州國際機場 GATE 5 出口外，過斑馬線至租車接駁區 <span class="text-red-500 font-bold text-lg">5-14</span></div><div class="space-y-3 font-hand text-lg text-slate-600"><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">1</span><span>抵達濟州機場後，請往 <strong>GATE 5</strong> 出口移動</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">2</span><span>過斑馬線到達對面的租車接駁車停車場</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">3</span><span>尋找 <strong class="text-jeju-orange">5區域 14號 (5-14)</strong> 站牌</span></div><div class="flex items-start bg-white p-2 rounded-lg shadow-sm border border-slate-100"><span class="bg-slate-200 text-slate-600 w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs mr-3 font-sans font-bold mt-0.5">4</span><span>搭乘寫有 <strong>"The Safe Rent A Car"</strong> 的接駁車</span></div></div><div class="mt-4 bg-slate-100 p-3 rounded-lg text-sm text-slate-600 border border-slate-200"><strong>接駁車特徵：</strong><br>通常是白色或黃色的小巴士，車身印有 The Safe Rent A Car LOGO。</div></div>`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="relative bg-white text-left">
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center justify-center gap-2 font-hand tracking-wide">
+                            <i class="fas fa-car text-jeju-orange"></i> The Safe Rent A Car 取車指引
+                        </h3>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <p class="font-bold text-slate-800 mb-1">📍 接駁地點</p>
+                            <p>濟州國際機場 GATE 5 出口外，過斑馬線至租車接駁區 <strong>5-14</strong></p>
+                        </div>
+
+                        <div>
+                            <p class="font-bold text-slate-800 mb-2">🚶‍♂️ 如何前往接駁車</p>
+                            <ul class="list-disc pl-5 space-y-1 font-hand text-lg">
+                                <li>抵達濟州機場後，請往 <strong>GATE 5</strong> 出口移動。</li>
+                                <li>過斑馬線到達對面的<strong>租車接駁車停車場 (Rent-a-car House)</strong>。</li>
+                                <li>尋找 <strong>5區域 14號 (5-14)</strong> 站牌。</li>
+                                <li>搭乘寫有 <strong>"The Safe Rent A Car" (더세이프렌터카)</strong> 的接駁車。</li>
+                                <li>接駁車每 20-30 分鐘一班 (營運時間 08:00~20:00)。</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="font-bold text-slate-800 mb-1">🚌 接駁車特徵</p>
+                            <p>通常是白色或黃色的小巴士，車身印有 The Safe Rent A Car LOGO。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                         <button onclick="closeModal()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
         window.showEcoLandPrice = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-200 pb-2">ECOLAND 票價資訊</h3><div class="space-y-3 font-hand text-lg"><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>成人 (19歲以上)</span><span class="font-bold">₩16,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>青少年 (13-18歲)</span><span class="font-bold">₩13,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>兒童 (3-12歲)</span><span class="font-bold">₩11,000</span></div></div><div class="mt-4 bg-green-50 p-3 rounded-lg text-xs text-green-700">💡 建議預留 2-3 小時遊玩時間，小火車每 7-12 分鐘一班。</div></div>`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-green-600"><i class="fas fa-train"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-green-300 pb-3 font-hand tracking-wide">
+                        🚂 ECOLAND 森林小火車
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 票價區塊 -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-ticket-alt"></i> 門票價格 (含火車搭乘)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-user-tie text-xs mr-2 opacity-50"></i>成人 <span class="text-[10px] font-sans ml-1 text-slate-400">(19歲+)</span></span>
+                                    <span class="font-bold text-green-600">₩16,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-user-graduate text-xs mr-2 opacity-50"></i>青少年 <span class="text-[10px] font-sans ml-1 text-slate-400">(13-18歲)</span></span>
+                                    <span class="font-bold text-blue-500">₩13,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-child text-xs mr-2 opacity-50"></i>兒童 <span class="text-[10px] font-sans ml-1 text-slate-400">(3-12歲)</span></span>
+                                    <span class="font-bold text-orange-500">₩11,000</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-2 italic">* 36個月以下幼兒憑證件免費入場</p>
+                        </div>
+
+                        <!-- 時間區塊 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 冬季營運資訊
+                            </h4>
+                            <div class="text-sm text-slate-600 space-y-1.5 font-sans px-1">
+                                <div class="flex justify-between items-center">
+                                    <span>首班車發車：</span><span class="font-bold bg-white px-2 py-0.5 rounded shadow-sm text-blue-600">08:30</span>
+                                </div>
+                                <div class="flex justify-between items-center text-red-500">
+                                    <span>最後售票/入場：</span><span class="font-bold bg-white px-2 py-0.5 rounded shadow-sm">16:30</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1"><i class="fas fa-info-circle mr-1"></i>營業時間隨日落時間與天氣彈性調整</p>
+                            </div>
+                        </div>
+
+                        <!-- 攻略區塊 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i> 親子遊玩提醒
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">1</span>
+                                    建議停留 2-3 小時，園區非常大！
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">2</span>
+                                    火車間隔 7-12 分鐘，共有 4 個主題站。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-yellow-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">3</span>
+                                    每一站都可隨意下車，玩完再搭下一班。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
             document.getElementById('info-modal').classList.remove('hidden');
         }
+        
         window.showRailBikePrice = function() {
-            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-pink-200 pb-2">濟州鐵道自行車 票價</h3><div class="space-y-3 font-hand text-lg"><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>2人座</span><span class="font-bold">₩30,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>3人座</span><span class="font-bold">₩40,000</span></div><div class="flex justify-between border-b border-dashed border-gray-200 pb-1"><span>4人座</span><span class="font-bold">₩48,000</span></div></div><div class="mt-4 bg-pink-50 p-3 rounded-lg text-xs text-pink-700">💡 請提前 20 分鐘抵達售票處換票。車輛為自動駕駛，不用費力踩！</div></div>`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-pink-600"><i class="fas fa-bicycle"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-pink-300 pb-3 font-hand tracking-wide">
+                        🚲 濟州鐵道自行車
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 票價區塊 -->
+                        <div class="bg-pink-50 p-4 rounded-2xl border border-pink-100 shadow-sm">
+                            <h4 class="font-bold text-pink-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-tags"></i> 乘車費用 (依車型計價)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-user-friends text-xs mr-2 opacity-50"></i>2 人座</span>
+                                    <span class="font-bold text-pink-600">₩30,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-users text-xs mr-2 opacity-50"></i>3 人座</span>
+                                    <span class="font-bold text-purple-500">₩40,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-50">
+                                    <span class="text-slate-600 flex items-center"><i class="fas fa-user-group text-xs mr-2 opacity-50"></i>4 人座</span>
+                                    <span class="font-bold text-indigo-500">₩48,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 時間區塊 -->
+                        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm">
+                            <h4 class="font-bold text-purple-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-hourglass-start"></i> 營運時間與發車
+                            </h4>
+                            <div class="text-sm text-slate-600 space-y-1.5 font-sans px-1">
+                                <div class="flex justify-between items-center">
+                                    <span>營運時段：</span><span class="font-bold">09:00 - 17:30</span>
+                                </div>
+                                <div class="flex justify-between items-center text-jeju-blue font-bold">
+                                    <span>發車間隔：</span><span>每整點發車一次</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1"><i class="fas fa-info-circle mr-1"></i>請務必提前 20 分鐘抵達售票處換票</p>
+                            </div>
+                        </div>
+
+                        <!-- 攻略區塊 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-sparkles"></i> 遊玩小提醒
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    車輛為自動行駛(電動輔助)，完全不需要費力踩！
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    沿途可欣賞龍臥岳、草原風光與放牧的牛群。
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-orange-400 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">!</span>
+                                    車廂備有透明防雨/風罩，即使冬天也不會太冷。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-pink-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
             document.getElementById('info-modal').classList.remove('hidden');
         }
+
+        window.showBuchonMenu = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-orange-600"><i class="fas fa-fish"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-orange-300 pb-3 font-hand tracking-wide">
+                        🐟 富村食堂 (부촌식당) 菜單
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 招牌煮物區 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-star text-jeju-orange"></i> 招牌煮物定食 (含小菜+湯)
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-bold text-slate-800 leading-tight">白帶魚煮物定食</p>
+                                            <p class="text-[10px] font-sans text-slate-400">갈치조림 정식 (Braised Cutlassfish)</p>
+                                        </div>
+                                        <span class="font-bold text-orange-600 ml-2">₩15,000</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-bold text-slate-800 leading-tight">鯖魚煮物定食</p>
+                                            <p class="text-[10px] font-sans text-slate-400">고등어조림 정식 (Braised Mackerel)</p>
+                                        </div>
+                                        <span class="font-bold text-orange-600 ml-2">₩13,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 烤魚與在地風味 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-utensils"></i> 現烤魚類與在地風味
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">烤鯖魚</p>
+                                        <p class="text-[9px] font-sans text-slate-400">고등어구이 (Grilled Mackerel)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩12,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">烤白帶魚 (大)</p>
+                                        <p class="text-[9px] font-sans text-slate-400">갈치구이 (Grilled Cutlassfish)</p>
+                                    </div>
+                                    <span class="font-bold text-blue-600">₩25,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">濟州鮑魚粥</p>
+                                        <p class="text-[9px] font-sans text-slate-400">전복죽 (Abalone Porridge)</p>
+                                    </div>
+                                    <span class="font-bold text-green-600">₩13,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 暖心湯品 -->
+                        <div class="bg-teal-50 p-4 rounded-2xl border border-teal-100 shadow-sm">
+                            <h4 class="font-bold text-teal-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-mug-hot"></i> 鮮甜暖心湯品
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">海膽美帶子湯</p>
+                                        <p class="text-[9px] font-sans text-slate-400">성게미역국 (Sea Urchin Seaweed Soup)</p>
+                                    </div>
+                                    <span class="font-bold text-teal-600">₩15,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">鮑魚砂鍋湯</p>
+                                        <p class="text-[9px] font-sans text-slate-400">전복뚝배기 (Abalone Hot Pot Soup)</p>
+                                    </div>
+                                    <span class="font-bold text-teal-600">₩15,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 貼心提醒 -->
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-gray-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 餐廳筆記
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-1.5 pl-1 font-hand text-base">
+                                <li>• <strong>定食內容：</strong> 包含一碗飯、當日例湯以及 5-6 種精緻韓式小菜。</li>
+                                <li>• <strong>親子推薦：</strong> 烤鯖魚與海膽湯口味清淡鮮美，非常適合小孩。</li>
+                                <li>• <strong>點餐提示：</strong> 煮物定食微辣，若完全不吃辣可選烤魚或湯類。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        window.showGeumdotMenu = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-red-600"><i class="fas fa-fire"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-red-300 pb-3 font-hand tracking-wide">
+                        🥩 金돗 黑豬肉 (금돗 성산) 菜單
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 套餐區 -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-sm">
+                            <h4 class="font-bold text-red-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-thumbs-up text-jeju-orange"></i> 超值限定套餐 (Signature Set)
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-bold text-slate-800 leading-tight">金돗 黑豬肉二人套餐</p>
+                                            <p class="text-[10px] font-sans text-slate-400">금돗 흑돼지 세트 (600g / Belly+Neck)</p>
+                                        </div>
+                                        <span class="font-bold text-red-600 ml-2">₩66,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 單點肉品 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-utensils"></i> 頂級單點部位 (180g / 份)
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">黑豬五花肉</p>
+                                        <p class="text-[9px] font-sans text-slate-400">흑오겹살 (Black Pork Belly)</p>
+                                    </div>
+                                    <span class="font-bold text-orange-600">₩22,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">黑豬豬頸肉</p>
+                                        <p class="text-[9px] font-sans text-slate-400">흑목살 (Black Pork Neck)</p>
+                                    </div>
+                                    <span class="font-bold text-orange-600">₩22,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">熟成白豬肉</p>
+                                        <p class="text-[9px] font-sans text-slate-400">숙성 백돼지 (Aged Pork)</p>
+                                    </div>
+                                    <span class="font-bold text-slate-500">₩18,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 配菜區 -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-bowl-rice"></i> 必點道地配菜
+                            </h4>
+                            <div class="space-y-2 font-hand text-lg">
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">黑豬肉泡菜湯</p>
+                                        <p class="text-[9px] font-sans text-slate-400">흑돼지 김치찌개 (Pork Kimchi Stew)</p>
+                                    </div>
+                                    <span class="font-bold text-green-600">₩7,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">水冷麵 / 拌冷麵</p>
+                                        <p class="text-[9px] font-sans text-slate-400">물냉면 / 비빔냉면 (Cold Noodles)</p>
+                                    </div>
+                                    <span class="font-bold text-green-600">₩7,000</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white px-3 py-2 rounded-lg border border-slate-50">
+                                    <div>
+                                        <p class="font-bold text-slate-800 text-base leading-none mb-1">火山爆發蒸蛋</p>
+                                        <p class="text-[9px] font-sans text-slate-400">계란찜 (Steamed Egg)</p>
+                                    </div>
+                                    <span class="font-bold text-green-600">₩4,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 飲品區 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-glass-water"></i> 飲品與酒類
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 font-hand text-base">
+                                <div class="flex justify-between bg-white px-2 py-1 rounded"><span>燒酒 Soju</span><b>₩5,000</b></div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded"><span>啤酒 Beer</span><b>₩5,000</b></div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded"><span>汽水 Soda</span><b>₩2,000</b></div>
+                                <div class="flex justify-between bg-white px-2 py-1 rounded"><span>花生瑪格利</span><b>₩5,000</b></div>
+                            </div>
+                        </div>
+
+                        <!-- 遊玩小提醒 -->
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 shadow-sm text-xs">
+                            <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 燒肉小指南
+                            </h4>
+                            <ul class="space-y-1 text-slate-600 font-hand text-base leading-relaxed">
+                                <li>• 店員會幫忙代烤，只要專心坐著吃就行！</li>
+                                <li>• 推薦吃法：先沾點「鯷魚魚露」或「芥末」最對味。</li>
+                                <li>• 蒸蛋口感綿密，是小朋友的最愛。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-red-700 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
         window.showFerryInfo = function() {
             document.getElementById('modal-content-area').innerHTML = `
                 <div class="text-left relative">
-                    <div class="absolute -top-2 -right-2 text-4xl opacity-20 rotate-12">⛴️</div>
+                    <div class="absolute -top-2 -right-2 text-4xl opacity-20 rotate-12"> ferry </div>
                     <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-dashed border-slate-200 pb-3 font-hand tracking-wide">
                         牛島渡輪 船班 & 票價
                     </h3>
@@ -648,6 +1059,9 @@
                         <p class="font-bold text-yellow-800 mb-1">⚠️ 搭船必備</p>
                         <ul class="list-disc pl-4 space-y-1 text-yellow-700"><li>所有乘客的<strong>護照正本</strong>。</li><li>填寫<strong>乘船申報單</strong> (一式兩份，去回程各一張)。</li><li>建議提早 30 分鐘抵達售票處。</li></ul>
                     </div>
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
                 </div>
             `;
             document.getElementById('info-modal').classList.remove('hidden');
@@ -676,7 +1090,6 @@
                             下船後租「電動三輪車」或搭乘「海岸循環巴士」遊玩最方便。
                         </div>
                     </div>
-
                     <div class="space-y-0 pl-2">
             `;
 
@@ -713,49 +1126,162 @@
             document.getElementById('modal-content-area').innerHTML = html;
             document.getElementById('info-modal').classList.remove('hidden');
         }
+
+        window.showAquaPlanetInfo = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-blue-600"><i class="fas fa-fish"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-blue-300 pb-3 font-hand tracking-wide">
+                        🐬 Aqua Planet Jeju 玩樂指南
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 門票狀況區 (Agoda Note) -->
+                        <div class="bg-blue-600 text-white p-4 rounded-2xl shadow-lg border-2 border-blue-400 relative overflow-hidden">
+                            <div class="absolute -right-2 -bottom-2 text-5xl opacity-20 rotate-12"><i class="fas fa-check-circle"></i></div>
+                            <div class="relative z-10 flex items-center gap-3">
+                                <i class="fas fa-ticket-alt text-2xl"></i>
+                                <div>
+                                    <p class="font-bold text-lg leading-tight">門票已購買</p>
+                                    <p class="text-xs opacity-90 font-hand text-base">Agoda 預訂成功，現場出示憑證即可</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 簡介區 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 景點簡介
+                            </h4>
+                            <p class="text-xs text-slate-600 leading-relaxed font-sans px-1">
+                                濟州島必去！亞洲最大級別的水族館。由水族館、海洋科學館及海洋劇場組成，擁有 5,000 多種、4 萬 8 千多隻海洋生物。
+                            </p>
+                        </div>
+
+                        <!-- 表演時間區 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-star"></i> 必看精彩表演
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-orange-100">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><i class="fas fa-swimmer mr-1 text-orange-500"></i> 海女潛水演示 (水族館 B1)</p>
+                                    <p class="text-[10px] text-slate-500 mb-2">觀看濟州海女無裝備潛水示範與故事分享。</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded">10:30</span>
+                                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded">12:20</span>
+                                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded">14:10</span>
+                                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded">16:00</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-orange-100">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><i class="fas fa-theater-masks mr-1 text-blue-500"></i> 海洋競技場 (劇場 B1)</p>
+                                    <p class="text-[10px] text-slate-500 mb-2">包含俄羅斯空中飛人雜技與海獅、海豚表演。</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded">11:10</span>
+                                        <span class="bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded">13:00</span>
+                                        <span class="bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded">15:00</span>
+                                        <span class="bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded">16:50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 票價參考區 -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-coins"></i> 票價參考 (現場原價)
+                            </h4>
+                            <div class="space-y-1.5 font-hand text-lg">
+                                <div class="flex justify-between items-center text-slate-600">
+                                    <span>成人 (19歲+)</span><span class="font-bold">₩42,400</span>
+                                </div>
+                                <div class="flex justify-between items-center text-slate-600">
+                                    <span>兒童 (12歲以下)</span><span class="font-bold">₩38,500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
         
         window.showOlleMarketRecs = function() {
              document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-orange-200 pb-2">每日偶來市場 必吃推薦</h3>
-                    <div class="space-y-4 font-hand text-lg">
-                        <div class="flex items-center bg-orange-50 p-3 rounded-lg">
-                            <div class="text-2xl mr-3">🍊</div>
-                            <div>
-                                <h4 class="font-bold text-slate-800">橘子麻糬 (Omaegi Teok)</h4>
-                                <p class="text-xs text-slate-500">外皮Q彈，內餡包著整顆濟州橘子，酸甜好滋味！</p>
+                <div class="text-left relative">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-jeju-orange"><i class="fas fa-store"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-jeju-orange pb-3 font-hand tracking-wide">
+                        🍊 每日偶來市場 強力推薦
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 必吃美食區 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-utensils"></i> 邊走邊吃四大天王
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><span class="text-orange-500 mr-1">❶</span> 橘子麻糬 (귤모찌)</p>
+                                    <p class="text-[10px] text-slate-500">外皮Q彈，內餡是整顆新鮮多汁的橘子，酸甜清爽！</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><span class="text-orange-500 mr-1">❷</span> 黑豬肉可樂餅 (흑돼지 고로케)</p>
+                                    <p class="text-[10px] text-slate-500">外殼酥脆，內餡是紮實的黑豬肉與洋蔥，飽足感十足。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><span class="text-orange-500 mr-1">❸</span> 螃蟹奶油可樂餅 (대게그라탕)</p>
+                                    <p class="text-[10px] text-slate-500">將蟹肉與濃郁起司填入蟹殼後火烤，香氣逼人。</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                                    <p class="font-bold text-slate-800 text-sm mb-1"><span class="text-orange-500 mr-1">❹</span> 漢拿峰果汁 (한라봉 주스)</p>
+                                    <p class="text-[10px] text-slate-500">100% 現榨，來到濟州島每天都要來上一瓶的酸甜滋味。</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center bg-red-50 p-3 rounded-lg">
-                            <div class="text-2xl mr-3">🍖</div>
-                            <div>
-                                <h4 class="font-bold text-slate-800">黑豬肉可樂餅</h4>
-                                <p class="text-xs text-slate-500">酥脆外皮+多汁黑豬肉餡，排隊名店。</p>
+
+                        <!-- 伴手禮重點區 -->
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 shadow-lg relative overflow-hidden">
+                            <div class="absolute right-0 top-0 bg-red-500 text-white text-[10px] px-2 py-1 rounded-bl-lg font-bold">必逛店鋪</div>
+                            <h4 class="font-bold text-red-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-gift text-red-500"></i> 伴手禮首選推薦
+                            </h4>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-red-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="bg-red-100 text-red-600 font-black px-3 py-1 rounded-full text-sm">📍 188 號攤位</span>
+                                    <i class="fas fa-shopping-bag text-red-200"></i>
+                                </div>
+                                <div class="text-slate-700 font-hand text-lg space-y-2">
+                                    <p>這家店貨色非常齊全，且價格公道，推薦購買：</p>
+                                    <ul class="list-disc pl-5 text-base space-y-1">
+                                        <li><strong>漢拿峰巧克力 / 橘子巧克力</strong> (多盒買有優惠)</li>
+                                        <li><strong>濟州橘子乾</strong> (輕便好帶，適合送禮)</li>
+                                        <li><strong>石頭爺爺雞蛋糕 / 造型小飾品</strong></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center bg-yellow-50 p-3 rounded-lg">
-                            <div class="text-2xl mr-3">🦀</div>
-                            <div>
-                                <h4 class="font-bold text-slate-800">螃蟹可樂餅 (Crab Gratin)</h4>
-                                <p class="text-xs text-slate-500">滿滿蟹肉與起司，火烤後香氣四溢。</p>
-                            </div>
+
+                        <!-- 市場攻略提醒 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm text-xs">
+                            <h4 class="font-bold text-blue-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> 逛街小筆記
+                            </h4>
+                            <ul class="space-y-1.5 text-slate-600 font-hand text-base leading-relaxed">
+                                <li>• <strong>營業時間：</strong> 07:00 - 21:00 (夜市氛圍在傍晚最熱鬧)。</li>
+                                <li>• <strong>停車提醒：</strong> 市場設有大型公用停車場，前 30 分鐘通常免費。</li>
+                                <li>• <strong>親子友善：</strong> 市場中央有條流水造景步道，可以讓小朋友坐在這裡休息吃東西。</li>
+                            </ul>
                         </div>
-                        <div class="flex items-center bg-blue-50 p-3 rounded-lg">
-                            <div class="text-2xl mr-3">🐟</div>
-                            <div>
-                                <h4 class="font-bold text-slate-800">生魚片拼盤</h4>
-                                <p class="text-xs text-slate-500">現切生魚片，價格實惠，適合外帶回飯店。</p>
-                            </div>
-                        </div>
-                        <!-- 新增伴手禮推薦 -->
-                        <div class="flex items-center bg-purple-50 p-3 rounded-lg border border-purple-100">
-                            <div class="text-2xl mr-3">🎁</div>
-                            <div>
-                                <h4 class="font-bold text-purple-800">伴手禮推薦</h4>
-                                <p class="text-sm font-bold text-slate-700 mt-1">📍 188號攤位</p>
-                                <p class="text-xs text-slate-500">推薦購買橘子乾、巧克力等特色伴手禮。</p>
-                            </div>
-                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-jeju-orange text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
@@ -763,57 +1289,159 @@
         }
 
         window.showCafeInfo = function() {
-             document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-orange-200 pb-2">橘花閣樓 資訊</h3>
-                    <div class="mb-4">
-                         <h5 class="font-bold text-orange-600 mb-2 font-hand text-lg"><i class="fas fa-clock mr-1"></i> 營業資訊</h5>
-                         <div class="bg-white p-3 rounded-lg border border-orange-100 text-sm text-slate-600 shadow-sm">
-                            每日 11:00 - 19:00 <br>
-                            <span class="text-xs text-orange-400">(最後點餐 18:15)</span>
-                         </div>
-                    </div>
-                    <div>
-                         <h5 class="font-bold text-orange-600 mb-2 font-hand text-lg"><i class="fas fa-coins mr-1"></i> 收費方式</h5>
-                         <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 text-sm text-slate-700">
-                            <p class="mb-1"><span class="font-bold bg-white text-orange-600 px-2 py-0.5 rounded text-xs shadow-sm">低消</span> 每人一杯飲品 (含兒童)</p>
-                            <ul class="list-disc pl-4 space-y-1 text-xs opacity-90">
-                                <li>橘子拿鐵: ₩7,000</li>
-                                <li>橘子氣泡飲: ₩7,000</li>
-                                <li>橘子羊羹甜點: ₩4,000起</li>
+            const gamttanamNav = `https://map.naver.com/p/search/${encodeURIComponent('감따남')}`;
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-jeju-orange"><i class="fas fa-coffee"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-orange-300 pb-3 font-hand tracking-wide">
+                        🍊 橘花閣樓 (귤꽃다락) 指南
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業資訊 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-100 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-clock"></i> 營業資訊
+                            </h4>
+                            <div class="text-sm text-slate-600 font-sans px-1">
+                                <p class="flex justify-between"><span>每日營業時間：</span><span class="font-bold">11:00 - 19:00</span></p>
+                                <p class="flex justify-between text-red-500 mt-1"><span>最後入店/點餐：</span><span class="font-bold text-xs">18:15</span></p>
+                            </div>
+                        </div>
+
+                        <!-- 採橘子體驗區 -->
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-200 shadow-sm">
+                            <h4 class="font-bold text-green-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-basket-shopping"></i> 採橘子體驗 (產季限定)
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="bg-white p-2 rounded-lg border border-green-100 shadow-sm flex justify-between items-center">
+                                    <span>體驗收費 <span class="text-xs font-sans text-slate-400">(含現場試吃)</span></span>
+                                    <b class="text-green-600">₩5,000 / 人</b>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg border border-green-100 shadow-sm flex justify-between items-center">
+                                    <span>外帶小桶 <span class="text-xs font-sans text-slate-400">(約 1-1.5kg)</span></span>
+                                    <b class="text-green-600">₩10,000 / 桶</b>
+                                </div>
+                                <div class="text-xs text-slate-600 font-sans mt-2 bg-white/50 p-2 rounded border border-dashed border-green-300">
+                                    <p class="font-bold mb-1 underline">採摘規則：</p>
+                                    <ul class="list-disc pl-4 space-y-1">
+                                        <li>請務必使用店家提供的專用剪刀，嚴禁徒手拔取。</li>
+                                        <li>採下的橘子請勿丟棄或浪費，請依指示放入籃內。</li>
+                                        <li>禁止攀爬橘子樹或搖晃樹幹，以免損壞果樹。</li>
+                                        <li>果園路面可能濕滑，小朋友需由大人陪同。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 消費規則 -->
+                        <div class="bg-white p-4 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-coins text-jeju-orange"></i> 咖啡廳規範
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-1 pl-1 font-hand text-base">
+                                <li>• <strong>低消：</strong> 每人必須點一份飲品 (包含孩童)。</li>
+                                <li>• <strong>推薦：</strong> 橘子拿鐵、橘子氣泡飲、手工橘子羊羹。</li>
+                                <li>• <strong>禁令：</strong> 嚴禁外食，禁止商業攝影或頻繁更換衣服拍照。</li>
                             </ul>
-                         </div>
+                        </div>
+
+                        <!-- 客滿備案區 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-md relative overflow-hidden">
+                            <div class="absolute right-0 top-0 bg-yellow-400 text-white text-[9px] px-2 py-0.5 rounded-bl-lg font-bold uppercase">Backup Plan</div>
+                            <h4 class="font-bold text-yellow-800 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-map-signs text-yellow-600"></i> 客滿備案：Gamttanam
+                            </h4>
+                            <p class="text-[11px] text-slate-500 mb-3 leading-relaxed">
+                                如果橘花閣樓客滿或排隊太久，推薦前往附近的 <strong>Gamttanam (감따남)</strong>，同樣擁有絕美橘子園景觀與採摘體驗！
+                            </p>
+                            <a href="${gamttanamNav}" target="_blank" class="w-full bg-white border border-yellow-400 text-yellow-700 py-2 rounded-xl text-xs font-bold shadow-sm flex items-center justify-center gap-2 active:scale-95 transition">
+                                <i class="fas fa-location-arrow"></i> 導航前往 Gamttanam
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-jeju-orange text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
-             document.getElementById('info-modal').classList.remove('hidden');
+            document.getElementById('info-modal').classList.remove('hidden');
         }
 
         window.showLandingDiningInfo = function() {
             document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-yellow-200 pb-2">藍鼎自助晚餐 資訊</h3>
-                    <div class="mb-4">
-                        <h5 class="font-bold text-yellow-700 mb-2 font-hand text-lg"><i class="fas fa-clock mr-1"></i> 營業時間</h5>
-                        <div class="bg-white p-3 rounded-lg border border-yellow-200 text-sm text-slate-600 shadow-sm">
-                            <p>晚餐時段：18:00 - 21:30 (每日)</p>
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-yellow-600"><i class="fas fa-crown"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-yellow-400 pb-3 font-hand tracking-wide">
+                        🍽️ 藍鼎自助晚餐 (Landing Dining)
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 預約狀態區 -->
+                        <div class="bg-yellow-600 text-white p-4 rounded-2xl shadow-lg border-2 border-yellow-400 relative overflow-hidden">
+                            <div class="absolute -right-2 -bottom-2 text-5xl opacity-20 rotate-12"><i class="fas fa-calendar-check"></i></div>
+                            <div class="relative z-10 flex items-center gap-3">
+                                <i class="fas fa-user-clock text-2xl"></i>
+                                <div>
+                                    <p class="font-bold text-lg leading-tight">已預約 18:00</p>
+                                    <p class="text-xs opacity-90 font-hand text-base">時間不可變動，請準時抵達飯店 1F</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 營業與消費 -->
+                        <div class="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 shadow-sm">
+                            <h4 class="font-bold text-yellow-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-coins"></i> 營業時間與收費標準
+                            </h4>
+                            <div class="text-sm text-slate-600 space-y-2 font-sans px-1">
+                                <div class="flex justify-between items-center">
+                                    <span>晚餐營運時段：</span><span class="font-bold bg-white px-2 py-0.5 rounded shadow-sm text-yellow-600">18:00 - 21:30</span>
+                                </div>
+                                <div class="grid grid-cols-1 gap-2 mt-3 font-hand text-lg">
+                                    <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-yellow-100">
+                                        <span>成人 (13歲+)</span><b class="text-yellow-700">₩149,000</b>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-yellow-100">
+                                        <span>兒童 (37個月-12歲)</span><b class="text-yellow-700">₩75,000</b>
+                                    </div>
+                                    <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-yellow-100">
+                                        <span>幼兒 (36個月以下)</span><b class="text-green-600 font-bold">免費 (FREE)</b>
+                                    </div>
+                                </div>
+                                <p class="text-[10px] text-slate-400 italic mt-2">* 價格已包含 10% 服務費與 10% 稅金。幼兒請備妥年齡證明。</p>
+                            </div>
+                        </div>
+
+                        <!-- 頂級亮點區 -->
+                        <div class="bg-orange-50 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                            <h4 class="font-bold text-orange-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-gem"></i> 必吃頂級食材
+                            </h4>
+                            <ul class="text-xs text-slate-600 space-y-2 pl-1 font-hand text-base">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-orange-400"></i> 無限量供應：長腳蟹、波士頓龍蝦、鮑魚。</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-orange-400"></i> 濟州特色：現烤黑豬肉、當地新鮮刺身拼盤。</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-orange-400"></i> 精緻甜點：現做鬆餅、頂級手工冰淇淋區。</li>
+                            </ul>
+                        </div>
+
+                        <!-- 貼心提醒 -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm text-xs">
+                            <h4 class="font-bold text-slate-700 mb-2 flex items-center gap-2">
+                                <i class="fas fa-info-circle text-slate-400"></i> 用餐小筆記
+                            </h4>
+                            <ul class="space-y-1.5 text-slate-500 font-hand text-base leading-relaxed">
+                                <li>• 餐廳備有大量高品質兒童餐椅與餐具。</li>
+                                <li>• 著裝建議：Smart Casual (避免穿著客房拖鞋或睡衣)。</li>
+                                <li>• 飲水：除了現榨果汁，酒類通常需額外付費點購。</li>
+                            </ul>
                         </div>
                     </div>
-                    <div>
-                        <h5 class="font-bold text-yellow-700 mb-2 font-hand text-lg"><i class="fas fa-receipt mr-1"></i> 價格表 (含稅)</h5>
-                        <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-100 text-sm text-slate-700">
-                            <div class="grid grid-cols-2 gap-3 mb-2 font-bold text-base">
-                                <div class="flex justify-between border-b border-yellow-200 pb-1">
-                                    <span>成人</span><span>₩149,000</span>
-                                </div>
-                                <div class="flex justify-between border-b border-yellow-200 pb-1">
-                                    <span>兒童(12歲↓)</span><span>₩75,000</span>
-                                </div>
-                            </div>
-                            <div class="text-[11px] text-red-500 mt-2">
-                                <i class="fas fa-exclamation-circle"></i> 36個月以下幼兒免費 (需出示證明文件)
-                            </div>
-                        </div>
+
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-yellow-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
@@ -821,60 +1449,89 @@
         }
 
         window.showThemeParkInfo = function() {
+            // 建議將照片上傳至 GitHub，檔名設定為：jeju_shinhwa_park.jpg
+            const photoUrl = "https://raw.githubusercontent.com/[你的GitHub帳號]/[你的專案名稱]/main/jeju_shinhwa_park.jpg";
+            
             document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-purple-200 pb-2">神話主題公園 攻略</h3>
-                    
-                    <div class="mb-4">
-                        <h5 class="font-bold text-purple-700 mb-2 font-hand text-lg"><i class="fas fa-clock mr-1"></i> 營業資訊</h5>
-                        <div class="bg-purple-50 p-3 rounded-lg text-sm text-slate-700">
-                            <p>每日 10:00 - 20:00</p>
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-purple-600"><i class="fas fa-ticket-alt"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-purple-300 pb-3 font-hand tracking-wide">
+                        🎡 神話主題公園 攻略指南
+                    </h3>
+
+                    <div class="space-y-4">
+                        <!-- 營業與入場資訊 -->
+                        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-purple-700 text-sm flex items-center gap-2">
+                                    <i class="fas fa-door-open"></i> 營業資訊
+                                </h4>
+                                <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">免票入場</span>
+                            </div>
+                            <div class="text-sm text-slate-600 space-y-1.5 font-sans px-1">
+                                <div class="flex justify-between"><span>營業時間：</span><span class="font-bold">10:00 - 20:00</span></div>
+                                <p class="text-[10px] text-slate-400 italic">註：園區可免費進入參觀/逛商店街，遊樂設施需另購票。</p>
+                            </div>
+                        </div>
+
+                        <!-- 票價與 Big 3 -->
+                        <div class="bg-white p-4 rounded-2xl border border-2 border-dashed border-purple-200 shadow-sm">
+                            <h4 class="font-bold text-slate-800 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-tags text-purple-500"></i> 各式票價與使用方式
+                            </h4>
+                            <div class="space-y-3 font-hand text-lg">
+                                <div class="flex justify-between items-center border-b border-gray-50 pb-1.5">
+                                    <span>全日通票 (All-Day Pass)</span><b class="text-purple-600">₩30,000起</b>
+                                </div>
+                                <div class="flex justify-between items-center bg-purple-50 p-2 rounded-lg">
+                                    <span>Big 3 券 <span class="text-xs text-slate-400">(任選3項設施)</span></span><b class="text-purple-600 text-xl">₩16,000</b>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-50 pb-1.5">
+                                    <span>單項設施券 (Single Ride)</span><b class="text-purple-600">₩6,000起</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 小孩設施清單 -->
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm">
+                            <h4 class="font-bold text-blue-700 mb-3 text-sm flex items-center gap-2">
+                                <i class="fas fa-child"></i> 小孩能玩的設施 (身高分級)
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-white p-2 rounded-lg shadow-sm">
+                                    <p class="font-bold text-blue-600 text-[11px] border-b mb-1.5 pb-0.5">🟢 90cm - 100cm (家長陪同)</p>
+                                    <ul class="text-[11px] text-slate-600 grid grid-cols-1 gap-1">
+                                        <li>• 逗逗蟲世界快車 <span class="text-orange-400 font-bold">(必玩!)</span></li>
+                                        <li>• 旋轉樂園 (旋轉木馬)</li>
+                                        <li>• 逗逗蟲影院 (4D 影院)</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg shadow-sm">
+                                    <p class="font-bold text-purple-600 text-[11px] border-b mb-1.5 pb-0.5">🟡 105cm - 120cm</p>
+                                    <ul class="text-[11px] text-slate-600 grid grid-cols-1 gap-1">
+                                        <li>• 奧斯卡 V 世界</li>
+                                        <li>• 飛越奧斯卡</li>
+                                        <li>• 逗逗蟲太空冒險</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 園區地圖展示區 -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 shadow-sm">
+                            <h4 class="font-bold text-slate-700 mb-2 text-sm flex items-center gap-2">
+                                <i class="fas fa-map"></i> 園區地圖
+                            </h4>
+                            <div class="bg-white p-1 rounded border border-slate-200">
+                                <img src="${photoUrl}" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=400&q=80';" 
+                                     class="w-full h-auto rounded shadow-sm" alt="園區地圖">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <h5 class="font-bold text-purple-700 mb-2 font-hand text-lg"><i class="fas fa-ticket-alt mr-1"></i> Big 3 券使用方式</h5>
-                        <div class="bg-white border-2 border-dashed border-purple-200 p-3 rounded-lg text-sm text-slate-600">
-                            <ul class="list-disc pl-4 space-y-1">
-                                <li>憑憑證換票或直接掃描入場。</li>
-                                <li>可任選園區內 <strong>3項</strong> 遊樂設施體驗。</li>
-                                <li>適合不想玩整天，只想體驗重點設施的旅客。</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div>
-                         <h5 class="font-bold text-purple-700 mb-2 font-hand text-lg"><i class="fas fa-child mr-1"></i> 小孩能玩的設施 (身高限制)</h5>
-                         <div class="space-y-2 text-xs text-slate-600">
-                            <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-train text-purple-400 mr-1"></i>逗逗蟲世界快車</span>
-                                <span class="font-bold text-green-600">90cm+</span>
-                            </div>
-                             <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-film text-purple-400 mr-1"></i>旋轉公園4D影院</span>
-                                <span class="font-bold text-green-600">100cm+</span>
-                            </div>
-                            <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-horse text-purple-400 mr-1"></i>逗逗蟲旋轉木馬</span>
-                                <span class="font-bold text-green-600">105cm+</span>
-                            </div>
-                             <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-rocket text-purple-400 mr-1"></i>逗逗蟲太空冒險</span>
-                                <span class="font-bold text-orange-500">115cm+</span>
-                            </div>
-                             <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-music text-purple-400 mr-1"></i>舞動奧斯卡</span>
-                                <span class="font-bold text-orange-500">120cm+</span>
-                            </div>
-                             <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-dragon text-purple-400 mr-1"></i>奧斯卡之龍</span>
-                                <span class="font-bold text-orange-500">120cm+</span>
-                            </div>
-                             <div class="flex items-center justify-between border-b border-purple-100 pb-1">
-                                <span><i class="fas fa-plane text-purple-400 mr-1"></i>飛行逗逗蟲</span>
-                                <span class="font-bold text-red-500">130cm+</span>
-                            </div>
-                         </div>
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">知道了</button>
                     </div>
                 </div>
             `;
@@ -882,97 +1539,23 @@
         }
 
         window.showPororoInfo = function() {
-            document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-blue-200 pb-2">Pororo & Tayo 樂園</h3>
-                    
-                    <div class="mb-4">
-                        <h5 class="font-bold text-blue-600 mb-2 font-hand text-lg"><i class="fas fa-clock mr-1"></i> 營業資訊</h5>
-                        <div class="bg-blue-50 p-3 rounded-lg text-sm text-slate-700">
-                            <p>每日 10:00 - 18:00</p>
-                            <p class="text-xs text-slate-500 mt-1">(戶外設施視天氣開放)</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h5 class="font-bold text-blue-600 mb-2 font-hand text-lg"><i class="fas fa-ticket-alt mr-1"></i> 票價參考 (全日通票)</h5>
-                        <div class="bg-white border-2 border-dashed border-blue-200 p-3 rounded-lg text-sm text-slate-600">
-                             <div class="grid grid-cols-2 gap-2 mb-2">
-                                <div class="border-b border-gray-100 pb-1 flex justify-between">
-                                    <span>兒童</span><span class="font-bold text-slate-800">₩40,000</span>
-                                </div>
-                                <div class="border-b border-gray-100 pb-1 flex justify-between">
-                                    <span>成人</span><span class="font-bold text-slate-800">₩30,000</span>
-                                </div>
-                            </div>
-                            <div class="text-[10px] text-slate-400 mt-2">
-                                * 兒童票比成人貴是因為設施主要是給小孩玩的<br>
-                                * 下午 3 點後入場有優惠價 (After 3)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-blue-200 pb-2 font-hand">Pororo 樂園</h3><p class="font-hand">室內外皆有設施，推薦預留 4 小時以上。</p></div>`;
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
         window.showSuksungdoInfo = function() {
-            document.getElementById('modal-content-area').innerHTML = `
-                <div class="text-left relative">
-                    <div class="absolute -top-2 -right-2 text-4xl opacity-20 rotate-12">🥩</div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2">熟成到 (Suksungdo)</h3>
-                    
-                    <div class="bg-red-50 p-3 rounded-xl mb-4 border border-red-100 text-sm text-red-800 shadow-sm">
-                        <div class="flex items-center mb-1">
-                            <i class="fas fa-check-circle mr-2 text-lg"></i>
-                            <span class="font-bold text-lg">已訂位 18:30</span>
-                        </div>
-                        <div class="ml-6 text-xs bg-white inline-block px-2 py-1 rounded border border-red-200">
-                            已付訂金: <strong>30,000 韓元</strong>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <h5 class="font-bold text-slate-700 mb-1 font-hand text-lg"><i class="fas fa-clock mr-1"></i> 營業時間</h5>
-                        <p class="text-sm text-slate-600 pl-2">11:30 - 22:00 (最後點餐 21:15)</p>
-                    </div>
-
-                    <div>
-                        <h5 class="font-bold text-slate-700 mb-2 font-hand text-lg"><i class="fas fa-utensils mr-1"></i> 必點菜單 & 價格</h5>
-                        <div class="space-y-2 text-sm text-slate-600">
-                             <div class="flex justify-between border-b border-dashed border-gray-200 pb-1">
-                                <span>960 熟成帶骨里脊</span>
-                                <span class="font-bold">₩38,000</span>
-                            </div>
-                            <div class="flex justify-between border-b border-dashed border-gray-200 pb-1">
-                                <span>720 熟成以西結五花肉</span>
-                                <span class="font-bold">₩22,000</span>
-                            </div>
-                             <div class="flex justify-between border-b border-dashed border-gray-200 pb-1">
-                                <span>熟成豬頸肉</span>
-                                <span class="font-bold">₩22,000</span>
-                            </div>
-                            <div class="flex justify-between border-b border-dashed border-gray-200 pb-1">
-                                <span>家傳泡菜湯</span>
-                                <span class="font-bold">₩7,000</span>
-                            </div>
-                        </div>
-                        <p class="text-[10px] text-slate-400 mt-2">* 每日限量部位建議早點確認</p>
-                    </div>
-                </div>
-            `;
+            document.getElementById('modal-content-area').innerHTML = `<div class="text-left"><h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2 font-hand">熟成到燒肉</h3><p class="font-hand">已訂位 18:30。必點熟成五花肉！</p></div>`;
             document.getElementById('info-modal').classList.remove('hidden');
         }
 
-        // 新增 Day 7 Modal Function
         window.showJungangRecs = function() {
              document.getElementById('modal-content-area').innerHTML = `
                 <div class="text-left">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2">中央地下街 強力推薦</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 text-center border-b-2 border-red-200 pb-2 font-hand">中央地下街推薦</h3>
                     <div class="bg-red-50 p-4 rounded-xl text-center text-slate-600 font-hand text-lg border border-red-100">
                         <i class="fas fa-edit text-4xl mb-2 text-red-300"></i><br>
                         <span class="font-bold text-red-500">內容撰寫中...</span><br>
-                        <span class="text-sm">(稍後補上推薦店家與必買清單)</span>
+                        <span class="text-sm">(包含服飾、美妝與在地美食推薦)</span>
                     </div>
                 </div>
             `;
@@ -980,307 +1563,19 @@
         }
 
         async function fetchRate() {
-            const el = document.getElementById('rate-display');
             try {
                 const res = await fetch('https://api.exchangerate-api.com/v4/latest/TWD');
                 const data = await res.json();
                 currentExchangeRate = data.rates.KRW;
-                if(document.getElementById('krw-val')) document.getElementById('krw-val').innerText = currentExchangeRate.toFixed(2);
-                if(document.getElementById('calc-twd') && document.getElementById('calc-twd').value === "") convertCurrency('twd');
-                
-                // Update cheat sheet
-                const listEl = document.getElementById('rate-cheat-sheet');
-                if (listEl) {
-                    const amounts = [1000, 5000, 10000, 30000, 50000];
-                    let html = '';
-                    amounts.forEach(krw => {
-                        const twd = Math.round(krw / currentExchangeRate);
-                        html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1 last:border-0"><span class="font-bold text-slate-700">₩ ${krw.toLocaleString()}</span><span class="text-xs text-slate-400">≈</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
-                    });
-                    listEl.innerHTML = html;
+                if(document.getElementById('krw-val')) {
+                    document.getElementById('rate-loading').style.display = 'none';
+                    document.getElementById('rate-result').classList.remove('hidden');
+                    document.getElementById('krw-val').innerText = currentExchangeRate.toFixed(2);
                 }
+                updateRateCheatSheet(1/currentExchangeRate);
             } catch (e) { console.error(e); }
         }
-        function convertCurrency(source) {
-            if(!currentExchangeRate) return;
-            const twd = document.getElementById('calc-twd'), krw = document.getElementById('calc-krw');
-            if(source==='twd') krw.value=(parseFloat(twd.value)*currentExchangeRate).toFixed(0)||'';
-            else twd.value=(parseFloat(krw.value)/currentExchangeRate).toFixed(0)||'';
-        }
 
-        async function fetchWeather() {
-            if(!document.getElementById('weather-widget')) return;
-            if(weatherDataCache) { renderWeatherWidget(weatherDataCache); return; }
-            try {
-                const url = "https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max&timezone=Asia%2FSeoul&forecast_days=8";
-                const res = await fetch(url);
-                const data = await res.json();
-                weatherDataCache = data;
-                renderWeatherWidget(data);
-            } catch (e) { console.error(e); }
-        }
-        function renderWeatherWidget(data) {
-            if(!document.getElementById('weather-widget')) return;
-            const current = data.current;
-            document.getElementById('curr-temp').innerText = `${current.temperature_2m}°`;
-            document.getElementById('weather-loading').style.display='none';
-            document.getElementById('weather-content').classList.remove('hidden');
-
-            document.getElementById('w-wind').innerText = `${current.wind_speed_10m} km/h`;
-            document.getElementById('w-hum').innerText = `${current.relative_humidity_2m}%`;
-            document.getElementById('w-feel').innerText = `${current.apparent_temperature}°`;
-            document.getElementById('w-uv').innerText = data.daily.uv_index_max[0];
-            
-            // OOTD
-            const tipEl = document.getElementById('weather-tip');
-            if (tipEl) {
-                let tip = "";
-                if (current.apparent_temperature < 5) tip = "超級冷！羽絨衣、圍巾、暖暖包是必須的！🧤";
-                else if (current.apparent_temperature < 10) tip = "有點冷喔，建議洋蔥式穿搭，帶件厚外套。🧥";
-                else if (current.apparent_temperature < 15) tip = "涼爽舒適，長袖衛衣或針織衫剛好。👕";
-                else tip = "天氣不錯，輕便穿著即可！👟";
-                if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(current.weather_code)) tip += " <br>⚠️ 會下雨，記得帶傘！☂️";
-                tipEl.innerHTML = tip;
-            }
-
-            let html = '';
-            for(let i=0;i<7;i++) {
-                const d = data.daily;
-                const date = moment(d.time[i]).format('MM/DD');
-                let icon = 'fa-sun text-orange-400';
-                if(d.weather_code[i] > 3) icon = 'fa-cloud text-gray-400';
-                if(d.weather_code[i] > 50) icon = 'fa-cloud-rain text-blue-400';
-                
-                html += `
-                <div onclick="showWeatherDetail(${i})" class="flex-shrink-0 w-20 flex flex-col items-center p-2 bg-white border-2 border-dashed border-slate-200 rounded-xl snap-center mx-1 active:scale-95 transition-transform cursor-pointer hover:border-jeju-blue">
-                    <span class="text-sm font-hand font-bold text-slate-600">${date}</span>
-                    <i class="fas ${icon} text-xl my-2"></i>
-                    <span class="text-[10px] font-bold text-slate-500">${d.temperature_2m_min[i]}°~${d.temperature_2m_max[i]}°</span>
-                </div>`;
-            }
-            document.getElementById('forecast-container').innerHTML = html;
-        }
-        window.showWeatherDetail = function(i) {
-            if(!weatherDataCache) return;
-            const d = weatherDataCache.daily;
-            document.getElementById('modal-content-area').innerHTML = `<div class="mb-4"><div class="text-2xl font-bold">${moment(d.time[i]).format('MM/DD')}</div><div class="text-4xl">${d.temperature_2m_min[i]}° - ${d.temperature_2m_max[i]}°</div></div><div class="grid grid-cols-2 gap-3 text-left bg-slate-50 p-4 rounded-xl text-sm"><div>降雨: ${d.precipitation_probability_max[i]}%</div><div>紫外線: ${d.uv_index_max[i]}</div></div><div class="mt-4 text-xs text-slate-400">點擊背景關閉</div>`;
-            document.getElementById('info-modal').classList.remove('hidden');
-        }
-
-        window.toggleDetails = function(id) {
-            const el = document.getElementById(id);
-            const icon = document.getElementById(id + '-icon');
-            if(el.classList.contains('show')) { el.classList.remove('show'); if(icon) icon.classList.remove('rotate-180'); }
-            else { el.classList.add('show'); if(icon) icon.classList.add('rotate-180'); }
-        }
-        window.updateImage = function(wrapperId, input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgEl = document.querySelector(`#${wrapperId} img`);
-                    if(imgEl) imgEl.src = e.target.result;
-                    try { localStorage.setItem('img-' + wrapperId, e.target.result); } catch(e) {}
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function renderPassengerTable(list) {
-            return `<div class="overflow-x-auto"><table class="w-full text-sm text-left mt-2 border-collapse"><thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b"><tr><th class="px-2 py-2 w-1/2">Name</th><th class="px-1 py-2 text-center w-1/4">Seat</th><th class="px-1 py-2 text-right w-1/4">KG</th></tr></thead><tbody>${list.map(p=>`<tr class="bg-white border-b hover:bg-yellow-50"><td class="px-2 py-2 font-medium text-slate-900 text-xs break-all">${p.name}</td><td class="px-1 py-2 text-center font-hand font-bold text-lg text-jeju-blue">${p.seat}</td><td class="px-1 py-2 text-right font-hand font-bold text-slate-600">${p.bag}</td></tr>`).join('')}<tr class="bg-slate-50 font-bold text-xs"><td class="px-2 py-2 text-right" colspan="2">Total:</td><td class="px-1 py-2 text-right">${list.reduce((acc, curr) => acc + parseInt(curr.bag), 0)} KG</td></tr></tbody></table></div>`;
-        }
-
-        function getContent(id) {
-            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold text-slate-700 font-hand tracking-wide">${text}</h2></div>`;
-            const bookingItem = (title, sub, imgId, iconClass, colorClass, defaultFilenames) => {
-                const filenames = Array.isArray(defaultFilenames) ? defaultFilenames : [defaultFilenames];
-                const fallbackImg = "https://images.unsplash.com/photo-1548115184-bc6544d06a58?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80";
-                const imagesHtml = filenames.map((filename, index) => {
-                    const imgSrc = localStorage.getItem(`img-${imgId}-${index}`) || filename; 
-                    return `<div class="flex-1 min-w-[200px] p-2 flex flex-col items-center relative" id="${imgId}-${index}"><div class="inline-block p-1 bg-white shadow-md transform ${index % 2 === 0 ? 'rotate-0' : '-rotate-0'} relative group w-full border border-gray-100"><img src="${imgSrc}" onerror="this.src='${fallbackImg}'" class="rounded w-full h-auto" alt="Booking Image"></div><input type="file" id="file-${imgId}-${index}" style="display: none;" accept="image/*" onchange="updateImage('${imgId}-${index}', this)"><div class="mt-2"><button onclick="event.stopPropagation(); document.getElementById('file-${imgId}-${index}').click();" class="text-[10px] bg-slate-200 hover:bg-slate-300 text-slate-600 px-3 py-1 rounded-full transition-colors font-bold whitespace-nowrap"><i class="fas fa-camera mr-1"></i> 更換</button></div><div class="text-[9px] text-slate-400 mt-2 break-all text-center leading-tight"><i class="fas fa-file-image mr-1"></i>${filename}</div></div>`;
-                }).join('');
-                return `<div class="bg-white rounded-xl shadow-sm border-2 border-slate-100 overflow-hidden cursor-pointer hover:border-${colorClass}-400 transition-all mb-4 relative" onclick="toggleDetails('${imgId}')"><div class="p-3 flex items-center justify-between"><div class="flex items-center gap-3"><div class="bg-${colorClass}-100 text-${colorClass}-500 w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center text-lg border-2 border-white shadow-sm"><i class="${iconClass}"></i></div><div><h3 class="font-bold text-lg font-hand text-slate-700 tracking-wide leading-tight">${title}</h3><p class="text-xs text-slate-400 font-sans border-b border-dotted border-${colorClass}-200 inline-block">${sub}</p></div></div><i id="${imgId}-icon" class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i></div><div id="${imgId}" class="details-expand bg-paper border-t-2 border-dashed border-slate-200"><div class="p-3"><div class="flex flex-wrap justify-center -mx-2">${imagesHtml}</div></div></div></div>`;
-            };
-            const linkItem = (title, sub, iconClass, colorClass, links) => `<div class="bg-white rounded-xl shadow-sm border-2 border-slate-100 overflow-hidden mb-4 relative"><div class="p-3 flex items-center justify-between"><div class="flex items-center gap-3"><div class="bg-${colorClass}-100 text-${colorClass}-500 w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center text-lg border-2 border-white shadow-sm"><i class="${iconClass}"></i></div><div><h3 class="font-bold text-lg font-hand text-slate-700 tracking-wide leading-tight">${title}</h3><p class="text-xs text-slate-400 font-sans border-b border-dotted border-${colorClass}-200 inline-block">${sub}</p></div></div></div><div class="bg-paper border-t-2 border-dashed border-slate-200 p-3"><div class="flex flex-col gap-2">${links.map(link => `<a href="${link.url}" target="_blank" class="flex items-center p-3 bg-white rounded-lg border border-slate-200 shadow-sm hover:shadow-md hover:border-${colorClass}-300 transition-all group"><div class="bg-${colorClass}-50 text-${colorClass}-500 w-8 h-8 rounded-full flex items-center justify-center mr-3 group-hover:bg-${colorClass}-100"><i class="fas fa-link"></i></div><span class="font-bold text-slate-700 group-hover:text-${colorClass}-600">${link.text}</span><i class="fas fa-external-link-alt ml-auto text-slate-300 group-hover:text-${colorClass}-400 text-xs"></i></a>`).join('')}</div></div></div>`;
-            const prepGroup = (title, items, color) => `<div class="mb-4 bg-white p-4 rounded-lg shadow-sm relative overflow-hidden"><div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 24px;"></div><div class="relative inline-block bg-${color}-100 px-3 py-1 rounded mb-3 transform -rotate-1 shadow-sm border border-${color}-200"><span class="font-bold text-${color}-600 font-hand text-lg tracking-wider">${title}</span></div><div class="relative space-y-2 pl-1">${items.map(item => `<label class="flex items-center cursor-pointer hover:bg-${color}-50 p-1 rounded transition-colors"><input type="checkbox" class="custom-checkbox text-${color}-500 mr-2 flex-shrink-0"><span class="text-slate-600 font-hand text-base pt-1 leading-none">${item}</span></label>`).join('')}</div></div>`;
-            const dayPlanner = (dayNum, dateStr) => `${header(`Day ${dayNum} : ${dateStr}`)}<div class="bg-yellow-100 p-3 rounded-lg shadow-sm transform -rotate-1 mb-6 border border-yellow-200 relative"><div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-red-100 opacity-60 rounded-sm"></div><h3 class="font-bold text-base text-orange-800 text-center font-hand"><i class="fas fa-star mr-1"></i> Highlights</h3><p class="text-slate-700 text-center mt-1 font-hand text-lg">Coming Soon...</p></div>`;
-
-            switch(id) {
-                case 'intro':
-                    return `${header('Jeju Best Spots 必去景點')}
-                    <div class="grid grid-cols-2 gap-4 pb-10">
-                        ${allSpots.map((spot, index) => `
-                            <div class="polaroid-card transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0 transition-transform duration-300">
-                                <div class="masking-tape ${spot.tape}"></div>
-                                <div class="relative">
-                                    <img src="${spot.img}" class="w-full aspect-video object-cover rounded-sm mb-2 filter sepia-[.1]">
-                                    <div class="doodle-sticker" style="bottom:-10px; right:-10px; transform: rotate(10deg);">${spot.sticker}</div>
-                                </div>
-                                <h4 class="font-bold text-slate-700 text-lg font-hand leading-tight mb-1">${spot.name}</h4>
-                                <p class="text-xs text-slate-500 font-sans leading-relaxed border-t border-dashed border-gray-200 pt-1">${spot.desc}</p>
-                            </div>
-                        `).join('')}
-                    </div>`;
-                    
-                case 'flight':
-                    return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
-                case 'rate': return `
-                    ${header('Calculator 匯率計算機')}
-                    
-                    <div id="rate-display">
-                        <div class="bg-white border-2 border-slate-200 rounded-xl p-4 mb-6 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-2 bg-stripes-gray opacity-20"></div>
-                            
-                            <div id="rate-loading" class="text-center font-hand text-xl py-4">連線中...</div>
-                            <div id="rate-result" class="hidden relative z-10">
-                                <div class="flex justify-between items-center mb-4 border-b border-dashed border-slate-200 pb-2">
-                                    <span class="text-xs text-slate-400 font-bold">TODAY'S RATE</span>
-                                    <span class="text-2xl font-black text-jeju-orange font-hand">1 TWD ≈ <span id="krw-val">--</span> KRW</span>
-                                </div>
-                                <div class="flex flex-col gap-3">
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">TWD <img src="https://flagcdn.com/w20/tw.png" class="inline w-4 ml-1"></span>
-                                        <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" 
-                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-slate-700 bg-slate-50 rounded-lg border border-slate-200 focus:outline-none focus:border-jeju-orange transition-all text-right font-hand">
-                                    </div>
-                                    <div class="text-center text-slate-300 text-xs"><i class="fas fa-exchange-alt rotate-90"></i></div>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">KRW <img src="https://flagcdn.com/w20/kr.png" class="inline w-4 ml-1"></span>
-                                        <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" 
-                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-jeju-blue bg-blue-50 rounded-lg border border-blue-200 focus:outline-none focus:border-jeju-blue transition-all text-right font-hand">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 購物速查表 (Sticky Note Style) -->
-                        <div class="bg-yellow-100 p-4 rounded-lg shadow-md transform rotate-1 border border-yellow-200 relative">
-                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-yellow-200 opacity-50 rotate-1 rounded-sm"></div>
-                            <h4 class="font-bold text-yellow-800 mb-2 font-hand text-lg text-center border-b border-yellow-300 pb-1">🛍️ 購物速查表 (Cheat Sheet)</h4>
-                            <ul class="space-y-1 text-sm font-hand text-slate-700" id="rate-cheat-sheet">
-                                <li class="text-center text-xs text-gray-400">Loading rates...</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- 記帳表單 -->
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 mt-6">
-                        <h3 class="font-bold text-jeju-green mb-4 flex items-center gap-2 font-hand text-lg">
-                            <i class="fas fa-pen"></i> 新增支出
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="grid grid-cols-2 gap-3">
-                                <input type="text" id="expense-name" placeholder="項目名稱 (如: 晚餐)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                <select id="expense-category" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                    <option value="food">🍽️ 飲食</option>
-                                    <option value="transport">🚗 交通</option>
-                                    <option value="hotel">🏨 住宿</option>
-                                    <option value="shopping">🛍️ 購物</option>
-                                    <option value="fun">🎡 娛樂</option>
-                                    <option value="other">📦 其他</option>
-                                </select>
-                            </div>
-                            <div class="flex gap-2">
-                                <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                <button onclick="addExpense()" class="bg-jeju-green text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition shadow-sm font-hand text-lg">
-                                    新增
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 記帳列表與統計 -->
-                    <div class="space-y-4 pb-20">
-                        <div class="flex justify-between items-center px-2">
-                            <h3 class="font-bold text-slate-700 font-hand text-lg">消費紀錄</h3>
-                            <div class="text-right">
-                                <p class="text-[10px] text-gray-400">總計約</p>
-                                <p class="text-xl font-bold text-jeju-orange font-mono" id="total-twd">NT$ 0</p>
-                            </div>
-                        </div>
-                        
-                        <div id="expense-list" class="space-y-2">
-                            <!-- JS 生成 -->
-                            <div class="text-center py-10 opacity-50">
-                                <div class="text-4xl mb-2">💸</div>
-                                <p class="text-sm font-hand">還沒有消費紀錄喔！</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                case 'weather': return `
-                    ${header('7 Days Weather 一週氣象')}
-                    <div id="weather-widget">
-                        <div id="weather-loading" class="text-center py-10 font-hand text-xl text-slate-400">Checking...</div>
-                        <div id="weather-content" class="hidden">
-                            <!-- Main Weather Card -->
-                            <div class="bg-gradient-to-br from-blue-400 to-blue-200 rounded-2xl p-5 text-white shadow-md mb-6 relative overflow-hidden">
-                                <div class="absolute top-[-20px] right-[-20px] text-9xl opacity-20 text-white"><i class="fas fa-cloud-sun"></i></div>
-                                <div class="z-10 relative">
-                                    <h3 class="text-lg font-bold mb-1 font-hand tracking-wider">Jeju City (Today)</h3>
-                                    <div class="flex items-end">
-                                        <div class="text-6xl font-black font-hand mr-3" id="curr-temp">--°</div>
-                                        <div class="text-xl font-medium opacity-90 mb-2" id="curr-desc">--</div>
-                                    </div>
-                                    
-                                    <!-- Detail Grid -->
-                                    <div class="grid grid-cols-2 gap-2 mt-4 bg-white/20 backdrop-blur-sm p-3 rounded-lg text-xs">
-                                        <div class="flex items-center"><i class="fas fa-wind mr-2 opacity-70"></i> <span id="w-wind">--</span></div>
-                                        <div class="flex items-center"><i class="fas fa-tint mr-2 opacity-70"></i> <span id="w-hum">--</span></div>
-                                        <div class="flex items-center"><i class="fas fa-sun mr-2 opacity-70"></i> <span id="w-uv">UV --</span></div>
-                                        <div class="flex items-center"><i class="fas fa-temperature-high mr-2 opacity-70"></i> 體感 <span id="w-feel">--</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- 穿搭便條紙 -->
-                            <div class="bg-pink-50 p-3 rounded-lg shadow-sm border-l-4 border-pink-300 mb-6 flex items-start">
-                                <i class="fas fa-tshirt text-pink-400 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-bold text-pink-800 text-xs mb-1">OOTD 穿搭建議</h4>
-                                    <p class="text-xs text-slate-600" id="weather-tip">載入中...</p>
-                                </div>
-                            </div>
-
-                            <h3 class="font-bold text-slate-600 mb-2 ml-1 text-sm flex items-center justify-between">
-                                <span><i class="fas fa-calendar-week mr-1"></i> Forecast</span>
-                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400">Slide →</span>
-                            </h3>
-                            
-                            <div class="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar" id="forecast-container">
-                                <!-- JS Generated -->
-                            </div>
-                            
-                            <div class="text-[10px] text-slate-400 text-center mt-2">
-                                Data: Open-Meteo.com
-                            </div>
-                        </div>
-                    </div>
-                `;
-                case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('出發前必做', ['預辦登機 (48小時前)', '線上填寫電子入境卡 (e-Arrival Card)'], 'red')}${prepGroup('必備證件', ['護照 (效期6個月+)', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', '購買 eSIM 卡', '漫遊開通'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
-                case 'booking': return `${header('Booking & Tickets 憑證')}<div class="space-y-4">
-                    ${bookingItem('The Safe Rent A Car', '租車資訊', 'img-car', 'fas fa-car', 'green', ['The_Safe_Rent_A_Car_1.png', 'The_Safe_Rent_A_Car_2.png', 'The_Safe_Rent_A_Car_3.png', 'The_Safe_Rent_A_Car_4.png', 'The_Safe_Rent_A_Car_5.png', 'The_Safe_Rent_A_Car_6.png', 'The_Safe_Rent_A_Car_7.png'])}
-                    ${bookingItem('【Day1】濟州Glad Maison飯店', '濟州市區', 'img-h1', 'fas fa-hotel', 'purple', 'Maison_Glad_Voucher.png')}
-                    ${bookingItem('【Day2.3】城山貝斯特飯店', '城山', 'img-h2', 'fas fa-hotel', 'purple', ['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'])}
-                    ${bookingItem('【Day4.5】神話世界-藍鼎', '神話世界', 'img-h3', 'fas fa-hotel', 'purple', ['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'])}
-                    ${bookingItem('【Day6.7】利奧飯店', '新濟州', 'img-h4', 'fas fa-hotel', 'purple', ['Hotel_Leo_1.png', 'Hotel_Leo_2.png'])}
-                    ${linkItem('Catch Table', '餐廳訂位連結', 'fas fa-utensils', 'orange', [{ text: '【London Bagel Museum】', url: 'https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju' }, { text: '【熟成到燒肉】', url: 'https://www.catchtable.net/zh-TW/shop/suksungdo_jeju' }])}
-                    ${bookingItem('Aqua Planet', '海洋館門票', 'img-aqua', 'fas fa-fish', 'blue', ['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'])}
-                </div>`;
-                
-                case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
-                case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
-                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
-                case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
-                case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
-                case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
-                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(四)');
-                case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
-                default: return '<div>Coming Soon</div>';
-            }
-        }
-        
-        // --- Helper Functions ---
-        
         function updateRateCheatSheet(rate) {
             const listEl = document.getElementById('rate-cheat-sheet');
             if (!listEl) return;
@@ -1288,51 +1583,55 @@
             let html = '';
             amounts.forEach(krw => {
                 const twd = Math.round(krw * rate);
-                html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1 last:border-0"><span class="font-bold text-slate-700">₩ ${krw.toLocaleString()}</span><span class="text-xs text-slate-400">≈</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
+                html += `<li class="flex justify-between items-center border-b border-dashed border-yellow-300 pb-1"><span class="font-bold">₩ ${krw.toLocaleString()}</span><span class="font-bold text-jeju-orange">NT$ ${twd.toLocaleString()}</span></li>`;
             });
             listEl.innerHTML = html;
         }
 
-        function updateOOTD(feelTemp, weatherCode) {
-            const tipEl = document.getElementById('weather-tip');
-            if (!tipEl) return;
-            let tip = "";
-            if (feelTemp < 5) tip = "超級冷！羽絨衣、圍巾、暖暖包是必須的！🧤";
-            else if (feelTemp < 10) tip = "有點冷喔，建議洋蔥式穿搭，帶件厚外套。🧥";
-            else if (feelTemp < 15) tip = "涼爽舒適，長袖衛衣或針織衫剛好。👕";
-            else tip = "天氣不錯，輕便穿著即可！👟";
-            if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) tip += " <br>⚠️ 會下雨，記得帶傘！☂️";
-            tipEl.innerHTML = tip;
+        async function fetchWeather() {
+            if(!document.getElementById('weather-widget')) return;
+            try {
+                const url = "https://api.open-meteo.com/v1/forecast?latitude=33.4996&longitude=126.5312&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul&forecast_days=8";
+                const res = await fetch(url);
+                const data = await res.json();
+                weatherDataCache = data;
+                renderWeatherWidget(data);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderWeatherWidget(data) {
+            const current = data.current;
+            document.getElementById('curr-temp').innerText = `${current.temperature_2m}°`;
+            document.getElementById('weather-loading').style.display='none';
+            document.getElementById('weather-content').classList.remove('hidden');
+            
+            let html = '';
+            for(let i=0;i<7;i++) {
+                const date = moment(data.daily.time[i]).format('MM/DD');
+                html += `
+                <div class="flex-shrink-0 w-20 flex flex-col items-center p-2 bg-white border-2 border-dashed border-slate-200 rounded-xl mx-1">
+                    <span class="text-sm font-bold">${date}</span>
+                    <span class="text-[10px]">${data.daily.temperature_2m_min[i]}°~${data.daily.temperature_2m_max[i]}°</span>
+                </div>`;
+            }
+            document.getElementById('forecast-container').innerHTML = html;
         }
 
         function addExpense() {
             const name = document.getElementById('expense-name').value;
-            const category = document.getElementById('expense-category').value;
             const amount = parseFloat(document.getElementById('expense-amount').value);
             
-            if(!name || !amount) return alert('請輸入項目與金額');
+            if(!name || !amount) {
+                document.getElementById('modal-content-area').innerHTML = `<p class="p-4 font-bold">請輸入項目名稱與金額喔！</p>`;
+                document.getElementById('info-modal').classList.remove('hidden');
+                return;
+            }
             
-            expenseData.push({
-                id: Date.now(),
-                name,
-                category,
-                amount,
-                date: new Date().toISOString()
-            });
-            
+            expenseData.push({ id: Date.now(), name, amount, date: new Date().toISOString() });
             localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
             renderExpenses();
-            
             document.getElementById('expense-name').value = '';
             document.getElementById('expense-amount').value = '';
-        }
-
-        function deleteExpense(id) {
-            if(confirm('確定要刪除這筆紀錄嗎？')) {
-                expenseData = expenseData.filter(e => e.id !== id);
-                localStorage.setItem('jeju_expenses', JSON.stringify(expenseData));
-                renderExpenses();
-            }
         }
 
         function renderExpenses() {
@@ -1341,90 +1640,99 @@
             if(!listEl) return;
             
             if(expenseData.length === 0) {
-                listEl.innerHTML = `
-                    <div class="text-center py-10 opacity-50">
-                        <div class="text-4xl mb-2">💸</div>
-                        <p class="text-sm font-hand">還沒有消費紀錄喔！</p>
-                    </div>`;
+                listEl.innerHTML = `<p class="text-center py-10 opacity-50 font-hand">還沒有消費紀錄喔！</p>`;
                 totalEl.innerText = 'NT$ 0';
                 return;
             }
             
             let html = '';
             let totalTwd = 0;
-            
-            expenseData.slice().sort((a,b) => new Date(b.date) - new Date(a.date)).forEach((ex) => {
-                const rateForTWD = 1 / currentExchangeRate; 
-                const twd = Math.round(ex.amount * rateForTWD);
-                
+            expenseData.forEach((ex) => {
+                const twd = Math.round(ex.amount / currentExchangeRate);
                 totalTwd += twd;
-                
-                const catIcons = {
-                    food: '🍽️', transport: '🚗', hotel: '🏨', shopping: '🛍️', fun: '🎡', other: '📦'
-                };
-                
-                html += `
-                    <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm border border-slate-100">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">${catIcons[ex.category]}</span>
-                            <div>
-                                <div class="font-bold text-slate-700 text-sm font-hand">${ex.name}</div>
-                                <div class="text-[10px] text-slate-400">${moment(ex.date).format('MM/DD HH:mm')}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="text-right">
-                                <div class="font-bold text-jeju-blue font-mono">₩ ${ex.amount.toLocaleString()}</div>
-                                <div class="text-[10px] text-slate-400">≈ NT$ ${twd.toLocaleString()}</div>
-                            </div>
-                            <button onclick="deleteExpense(${ex.id})" class="text-slate-300 hover:text-red-400 ml-1 p-1"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-sm mb-2"><div class="font-bold text-sm">${ex.name}</div><div class="font-bold text-jeju-blue">₩ ${ex.amount.toLocaleString()}</div></div>`;
             });
-            
             listEl.innerHTML = html;
             totalEl.innerText = `NT$ ${totalTwd.toLocaleString()}`;
         }
 
-        async function fetchRate() {
-            const el = document.getElementById('rate-display');
-            try {
-                const res = await fetch('https://api.exchangerate-api.com/v4/latest/TWD');
-                const data = await res.json();
-                
-                const rateForKRW = data.rates.KRW;
-                currentExchangeRate = rateForKRW; 
+        function toggleDetails(id) {
+            const el = document.getElementById(id);
+            if(el.classList.contains('show')) el.classList.remove('show');
+            else el.classList.add('show');
+        }
 
-                if(document.getElementById('krw-val')) {
-                    document.getElementById('rate-loading').style.display = 'none';
-                    document.getElementById('rate-result').classList.remove('hidden');
-                    document.getElementById('krw-val').innerText = rateForKRW.toFixed(2);
-                }
-                
-                updateRateCheatSheet(1/rateForKRW);
-                
-                if(document.getElementById('expense-list')) {
-                    renderExpenses();
-                }
-
-                if(document.getElementById('calc-twd') && document.getElementById('calc-twd').value === "") convertCurrency('twd');
-            } catch (e) { console.error(e); }
+        function getContent(id) {
+            const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand">${text}</h2></div>`;
+            
+            switch(id) {
+                case 'intro':
+                    return `${header('Tutorial 教學')}
+                    <div class="bg-orange-50 p-10 rounded-xl text-center text-slate-600 font-hand text-lg border border-orange-100 mt-4">
+                        <i class="fas fa-edit text-4xl mb-2 text-orange-300"></i><br>
+                        <span class="font-bold text-orange-500">內容撰寫中...</span><br>
+                        <span class="text-sm">(稍後補上教學資訊)</span>
+                    </div>`;
+                case 'flight':
+                    return `${header('Flight Info')}${renderBookingInfo()}`;
+                case 'rate': 
+                    return `
+                    ${header('Currency Calculator')}
+                    <div id="rate-display">
+                        <div class="bg-white border-2 border-slate-200 rounded-xl p-4 mb-6 shadow-sm">
+                            <div id="rate-loading" class="text-center font-hand text-xl">連線中...</div>
+                            <div id="rate-result" class="hidden">
+                                <span class="text-2xl font-black text-jeju-orange font-hand">1 TWD ≈ <span id="krw-val">--</span> KRW</span>
+                                <div class="mt-4 space-y-3">
+                                    <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" class="w-full p-2 border rounded-lg font-hand">
+                                    <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" class="w-full p-2 border rounded-lg font-hand text-jeju-blue">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-100 p-4 rounded-lg shadow-md mb-6"><ul class="space-y-1 font-hand" id="rate-cheat-sheet"></ul></div>
+                        <div class="bg-white p-5 rounded-xl border mb-6">
+                            <h3 class="font-bold text-jeju-green mb-4 font-hand">新增支出</h3>
+                            <input type="text" id="expense-name" placeholder="項目" class="w-full mb-2 p-2 border rounded-lg">
+                            <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="w-full mb-2 p-2 border rounded-lg">
+                            <button onclick="addExpense()" class="w-full bg-jeju-green text-white py-2 rounded-lg font-bold font-hand">新增</button>
+                        </div>
+                        <div class="flex justify-between items-center mb-2 px-2">
+                            <h3 class="font-bold font-hand">消費紀錄</h3>
+                            <p class="font-bold text-jeju-orange" id="total-twd">NT$ 0</p>
+                        </div>
+                        <div id="expense-list"></div>
+                    </div>`;
+                case 'weather': 
+                    return `${header('7 Days Weather')}
+                    <div id="weather-widget">
+                        <div id="weather-loading" class="text-center py-10 font-hand">Checking...</div>
+                        <div id="weather-content" class="hidden">
+                            <div class="bg-blue-400 rounded-2xl p-5 text-white mb-6">
+                                <div class="text-6xl font-black font-hand" id="curr-temp">--°</div>
+                            </div>
+                            <div class="flex overflow-x-auto gap-3 pb-4 hide-scrollbar" id="forecast-container"></div>
+                        </div>
+                    </div>`;
+                case 'prep': 
+                    return `${header('Checklist')}<div class="bg-white p-4 rounded-lg border mb-4"><ul class="space-y-2 font-hand"><li><input type="checkbox" class="mr-2"> 護照</li><li><input type="checkbox" class="mr-2"> 國際駕照</li></ul></div>`;
+                case 'booking': 
+                    return `${header('Vouchers')}<div class="bg-white p-4 rounded-lg border mb-4 font-hand">租車、飯店、門票憑證已備妥於各行程中。</div>`;
+                case 'day1': return renderScheduleList(day1Events, 'Day 1 : 1/30(五)');
+                case 'day2': return renderScheduleList(day2Events, 'Day 2 : 1/31(六)');
+                case 'day3': return renderScheduleList(day3Events, 'Day 3 : 2/01(日)');
+                case 'day4': return renderScheduleList(day4Events, 'Day 4 : 2/02(一)');
+                case 'day5': return renderScheduleList(day5Events, 'Day 5 : 2/03(二)');
+                case 'day6': return renderScheduleList(day6Events, 'Day 6 : 2/04(三)');
+                case 'day7': return renderScheduleList(day7Events, 'Day 7 : 2/05(發)');
+                case 'day8': return renderScheduleList(day8Events, 'Day 8 : 2/06(五)');
+                default: return '<div>Coming Soon</div>';
+            }
         }
 
         function convertCurrency(source) {
-            if(!currentExchangeRate) return;
             const twd = document.getElementById('calc-twd'), krw = document.getElementById('calc-krw');
             if(source==='twd') krw.value=(parseFloat(twd.value)*currentExchangeRate).toFixed(0)||'';
             else twd.value=(parseFloat(krw.value)/currentExchangeRate).toFixed(0)||'';
-        }
-        
-        const originalLoadContent = loadContent;
-        loadContent = function(tabId) {
-            originalLoadContent(tabId);
-            if(tabId === 'rate' && currentExchangeRate) {
-                renderExpenses();
-            }
         }
     </script>
 </body>
