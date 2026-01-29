@@ -580,7 +580,8 @@
             { id: 'intro', icon: 'fa-book-open', label: '教學', color: 'bg-orange-100' },
             { id: 'prep', icon: 'fa-check-circle', label: '準備', color: 'bg-green-100' },
             { id: 'booking', icon: 'fa-file-alt', label: '憑證', color: 'bg-purple-100' }, 
-            { id: 'shopping', icon: 'fa-shopping-cart', label: '購物', color: 'bg-pink-100' }, // 新增購物分頁
+            { id: 'shopping', icon: 'fa-shopping-cart', label: '購物', color: 'bg-pink-100' },
+            { id: 'language', icon: 'fa-comments', label: '會話', color: 'bg-teal-100' }, // 新增會話分頁
             { id: 'day1', label: 'Day1', date: '1/30', week: '(五)', color: 'bg-red-50' },
             { id: 'day2', label: 'Day2', date: '1/31', week: '(六)', color: 'bg-red-50' },
             { id: 'day3', label: 'Day3', date: '2/01', week: '(日)', color: 'bg-red-50' },
@@ -601,9 +602,9 @@
 
         function renderMenu() {
             const menu = document.getElementById('tab-menu');
-            // 修改 slice 範圍以包含新按鈕
-            const mainTabs = tabs.slice(0, 7);
-            const dayTabs = tabs.slice(7, 15);
+            // 修改為 8 個一排
+            const mainTabs = tabs.slice(0, 8);
+            const dayTabs = tabs.slice(8, 16);
 
             const renderMainBtn = (tab) => `
                 <button onclick="loadContent('${tab.id}')" 
@@ -624,9 +625,9 @@
                 </button>
             `;
 
-            // 修改 grid-cols-6 為 grid-cols-7
+            // 將 grid-cols-7 改為 grid-cols-8
             menu.innerHTML = `
-                <div class="grid grid-cols-7 gap-1 w-full px-1">${mainTabs.map(renderMainBtn).join('')}</div>
+                <div class="grid grid-cols-8 gap-1 w-full px-1">${mainTabs.map(renderMainBtn).join('')}</div>
                 <div class="grid grid-cols-8 gap-0.5 w-full px-1 mt-1">${dayTabs.map(renderDayBtn).join('')}</div>
             `;
         }
@@ -2935,6 +2936,44 @@
         function getContent(id) {
             const header = (text) => `<div class="mb-6 text-center"><h2 class="washi-tape-title text-xl font-bold font-hand">${text}</h2></div>`;
             
+            // 新增：渲染會話區塊的輔助函式
+            const renderLangSection = (title, icon, colorClass, items) => {
+                const listHtml = items.map(item => `
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-1 relative overflow-hidden group hover:shadow-md transition-shadow">
+                        <div class="absolute right-0 top-0 w-8 h-8 ${colorClass.replace('text-', 'bg-').replace('600', '100').replace('700', '100')} rounded-bl-xl opacity-50 transition-opacity group-hover:opacity-100"></div>
+                        
+                        <div class="font-bold text-slate-800 text-sm flex items-center justify-between z-10">
+                            ${item.cn}
+                        </div>
+                        
+                        <div class="text-xl font-bold ${colorClass} font-sans my-0.5">${item.kr}</div>
+                        
+                        <div class="flex flex-wrap items-baseline gap-2">
+                            <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md font-hand tracking-wide">
+                                🔊 ${item.pron}
+                            </span>
+                        </div>
+                        
+                        ${item.note ? `
+                        <div class="mt-2 pt-2 border-t border-dashed border-slate-100 text-[10px] text-slate-400 leading-tight">
+                            <i class="fas fa-comment-dots mr-1 text-slate-300"></i>${item.note}
+                        </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-slate-700 mb-3 px-2 border-l-4 ${colorClass.replace('text-', 'border-').replace('600', '400').replace('700', '400')} flex items-center">
+                            <i class="fas ${icon} mr-2"></i> ${title}
+                        </h3>
+                        <div class="space-y-3 px-2">
+                            ${listHtml}
+                        </div>
+                    </div>
+                `;
+            };
+
             switch(id) {
                 case 'intro':
                     return `${header('Tutorial 出發前必看教學')}
@@ -3569,9 +3608,9 @@
                                     </div>
                                     
                                     <!-- 藥局辨識小撇步 -->
-                                    <div class="mt-2 text-[9px] text-slate-500 text-left bg-slate-50 p-2 rounded-lg border border-slate-100 leading-tight">
-                                        <span class="font-bold text-slate-700">💡 認明招牌：</span>
-                                        <span class="text-red-500 font-bold text-sm align-bottom">약</span> (藥) + 綠色/紅色十字 ➕
+                                    <div class="mt-2 text-[9px] text-slate-500 text-left bg-green-50 p-2 rounded-lg border border-green-100 leading-tight">
+                                        <span class="font-bold text-green-700">💡 濟州藥局長怎樣?</span><br>
+                                        請認明大大的 <span class="text-red-500 font-bold text-sm align-bottom">약</span> (藥) 字招牌，通常會有紅色或綠色的十字燈號 ➕。
                                     </div>
                                 </div>
                             </div>
@@ -3588,7 +3627,7 @@
                             👍 網友推薦
                         </h3>
                         
-                        <!-- 1. 藥局必買懶人包 (新增區塊：橫向滑動) -->
+                        <!-- 1. 藥局必買懶人包 (橫向滑動) -->
                         <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 shadow-sm mx-2 mb-6">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="font-bold text-indigo-700 text-sm flex items-center gap-2">
@@ -3599,7 +3638,7 @@
 
                             <!-- Horizontal Scroll Container -->
                             <div class="flex overflow-x-auto gap-3 pb-2 snap-x hide-scrollbar">
-                                <!-- Card 1: 痘痘/去疤 -->
+                                <!-- Card 1 -->
                                 <div class="flex-shrink-0 w-36 bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all snap-center" onclick="window.open('S__160620631.jpg', '_blank')">
                                     <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
                                         <img src="S__160620631.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-1';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -3612,7 +3651,7 @@
                                     </p>
                                 </div>
 
-                                <!-- Card 2: 萬用/消腫 -->
+                                <!-- Card 2 -->
                                 <div class="flex-shrink-0 w-36 bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all snap-center" onclick="window.open('S__160620633.jpg', '_blank')">
                                     <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
                                         <img src="S__160620633.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-2';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -3625,7 +3664,7 @@
                                     </p>
                                 </div>
 
-                                <!-- Card 3: 熊貓/美白 -->
+                                <!-- Card 3 -->
                                 <div class="flex-shrink-0 w-36 bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all snap-center" onclick="window.open('S__160620634.jpg', '_blank')">
                                     <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
                                         <img src="S__160620634.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-3';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -3687,6 +3726,54 @@
                             </div>
                         </div>
                     </div>`;
+
+                case 'language':
+                    return `${header('Korean Phrases 實用會話')}
+                    
+                    <div class="bg-teal-50 p-4 rounded-2xl border border-teal-100 shadow-sm mb-6 text-xs text-slate-600">
+                        <i class="fas fa-smile-wink mr-1 text-teal-500"></i> 
+                        <strong>小撇步：</strong> 遇到溝通困難時，直接把手機畫面秀給店員看也是一招喔！
+                    </div>
+
+                    ${renderLangSection('萬用問候與禮貌 (必備)', 'fa-hand-sparkles', 'text-teal-600', [
+                        { cn: '您好 / (早、午、晚安)', kr: '안녕하세요', pron: '安妞哈se唷', note: '不管進去哪裡，這句是絕對的開場白。' },
+                        { cn: '謝謝', kr: '감사합니다', pron: '康撒哈米噠', note: '對店員、加油站人員說這句最得體。' },
+                        { cn: '不好意思 / 打擾一下', kr: '잠시만요', pron: '蠶洗滿妞', note: '想要借過，或是店員在忙想引起注意時使用。' },
+                        { cn: '對不起', kr: '죄송합니다', pron: '罪松哈米噠', note: '不小心撞到人，或是在路上開車稍微擋到人時致意用。' },
+                        { cn: '再見 (對留下來的人說)', kr: '안녕히 계세요', pron: '安妞hee / K-se唷', note: '離開店家時，請對方「好好留步」的意思。' },
+                    ])}
+
+                    ${renderLangSection('自駕租車與加油 (最重要！)', 'fa-car-side', 'text-blue-600', [
+                        { cn: '請把油加滿', kr: '가득 채워 주세요', pron: '卡ㄉㄜ / 切喔 / 朱se唷', note: '還車前通常需要加滿油，這句最常用（가득 = Full）。' },
+                        { cn: '請加汽油 (Regular)', kr: '휘발유 넣어 주세요', pron: '輝八溜 / 諾喔 / 朱se唷', note: '請再次確認租車合約上的油種，加錯會很麻煩。' },
+                        { cn: '請加柴油 (Diesel)', kr: '경유 넣어 주세요', pron: 'Kiong-溜 / 諾喔 / 朱se唷', note: '濟州島很多休旅車是吃柴油的，請務必確認。' },
+                        { cn: '請問哪裡有停車場？', kr: '주차장 어디예요?', pron: '朱恰江 / 歐底也唷？', note: '濟州島市區或是熱門海邊咖啡廳，停車位有時不好找。' },
+                        { cn: '停車費多少錢？', kr: '주차비 얼마예요?', pron: '朱恰B / 歐麻也唷？', note: '有些景點停車是免費的，有些則要收費。' },
+                        { cn: '請幫我在導航設定這個地址', kr: '내비에 주소 좀 찍어 주세요', pron: '內比欸 / 朱搜 / 囧 / 積勾朱se唷', note: '租車取車時，若不會用車上韓文導航，可請工作人員先幫忙設定第一次。' },
+                    ])}
+
+                    ${renderLangSection('餐廳點餐與用餐', 'fa-utensils', 'text-orange-600', [
+                        { cn: '請問有中文菜單嗎？', kr: '중국어 메뉴판 있어요?', pron: '中國喔 / 美妞判 / 伊搜唷？', note: '濟州島觀光客多，很多店家其實備有中文菜單。' },
+                        { cn: '請給我菜單', kr: '메뉴판 좀 주세요', pron: '美妞判 / 囧 / 朱se唷', note: '如果沒有中文版，至少先拿韓文版來看圖片。' },
+                        { cn: '這道菜會辣嗎？', kr: '이거 매워요?', pron: '伊勾 / 梅窩唷？', note: '韓國的「不辣」有時還是微辣，怕辣的人一定要問。' },
+                        { cn: '請給我水', kr: '물 좀 주세요', pron: '穆 / 囧 / 朱se唷', note: '韓國餐廳水通常要自己倒，但講這句店員也會幫忙。' },
+                        { cn: '請幫我結帳', kr: '계산해 주세요', pron: 'K-san黑 / 朱se唷', note: '通常是拿著帳單去櫃檯結帳，不是在桌邊結喔。' },
+                    ])}
+
+                    ${renderLangSection('購物 (伴手禮與橘子)', 'fa-shopping-bag', 'text-pink-600', [
+                        { cn: '這多少錢？', kr: '이거 얼마예요?', pron: '伊勾 / 歐麻也唷？', note: '手指著想要的橘子或巧克力問即可。' },
+                        { cn: '請給我這個', kr: '이거 주세요', pron: '伊勾 / 朱se唷', note: '萬用金句，手指著商品說這句就能買。' },
+                        { cn: '可以用信用卡嗎？', kr: '카드 돼요?', pron: '卡嘟 / 推唷？', note: '濟州島幾乎都能刷卡，但在傳統市場買小吃有時現金更方便。' },
+                        { cn: '沒關係 (不用了)', kr: '괜찮아요', pron: '困恰那唷', note: '當店員熱情推銷其他產品，或詢問需不需要袋子時，若不需要可說這句。' },
+                    ])}
+
+                    ${renderLangSection('住宿與求助', 'fa-bed', 'text-purple-600', [
+                        { cn: '我要辦理入住', kr: '체크인 할게요', pron: 'Check-in / 哈給唷', note: '直接用英文 Check-in 加韓文尾音即可。' },
+                        { cn: '可以寄放行李嗎？', kr: '짐 맡길 수 있어요?', pron: '欽 / 馬ㄍㄧ Su / 伊搜唷？', note: '如果提早到飯店或退房後還想去玩，可以詢問寄放。' },
+                        { cn: '請問便利商店在哪裡？', kr: '편의점 어디예요?', pron: 'Pion-伊-囧 / 歐底也唷？', note: '半夜想買水或泡麵時很需要問這句。' },
+                    ])}
+                    
+                    <div class="pb-20"></div>`;
 
                 case 'day1': 
                     // 插入橫向行程膠囊，移除舊的報到與乘客資訊
