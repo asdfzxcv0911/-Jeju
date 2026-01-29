@@ -278,7 +278,7 @@
             const checkInUrl = "https://sci.tigerairtw.com/zh-TW/login";
             return `
                 <div class="mb-4 space-y-2">
-                    <!-- Z4WW7F Booking (新增登機證按鈕) -->
+                    <!-- Z4WW7F Booking -->
                     <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
                          <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
                          <div class="z-10">
@@ -295,22 +295,27 @@
                          </div>
                     </div>
                     
-                    <!-- M5NCRC Booking -->
+                    <!-- M5NCRC Booking (新增登機證按鈕) -->
                     <div class="bg-white p-2 rounded-lg border-2 border-dashed border-slate-200 flex justify-between items-center relative overflow-hidden">
                          <div class="absolute right-0 top-0 text-6xl opacity-5 rotate-12 select-none"><i class="fas fa-ticket-alt"></i></div>
                          <div class="z-10">
                             <div class="text-[10px] text-slate-400 font-bold mb-0.5"><i class="fas fa-user-tag mr-1"></i>HUNG,TSUNG-WEI</div>
                             <div class="text-xl font-black text-jeju-blue font-hand tracking-widest leading-none">M5NCRC</div>
                          </div>
-                         <a href="${checkInUrl}" target="_blank" class="z-10 bg-jeju-blue text-white text-xs px-3 py-2 rounded-lg font-bold shadow-sm hover:bg-blue-600 transition-transform active:scale-95 flex items-center">
-                            <i class="fas fa-passport mr-1"></i> 自助報到
-                         </a>
+                         <div class="z-10 flex flex-col gap-1.5">
+                             <a href="${checkInUrl}" target="_blank" class="bg-jeju-blue text-white text-[10px] px-3 py-1.5 rounded-md font-bold shadow-sm hover:bg-blue-600 transition-transform active:scale-95 flex items-center justify-center min-w-[85px]">
+                                <i class="fas fa-passport mr-1"></i> 自助報到
+                             </a>
+                             <button onclick="showBoardingPassM5NCRC()" class="bg-slate-600 text-white text-[10px] px-3 py-1.5 rounded-md font-bold shadow-sm hover:bg-slate-700 transition-transform active:scale-95 flex items-center justify-center min-w-[85px]">
+                                <i class="fas fa-qrcode mr-1"></i> 登機證
+                             </button>
+                         </div>
                     </div>
                 </div>
             `;
         }
 
-        // 新增：顯示 Z4WW7F 登機證
+        // 顯示 Z4WW7F 登機證
         window.showBoardingPassZ4WW7F = function() {
             document.getElementById('modal-content-area').innerHTML = `
                 <div class="text-left relative h-full">
@@ -320,7 +325,6 @@
                     </h3>
 
                     <div class="space-y-4">
-                         <!-- Boarding Pass Images -->
                          <div class="p-2 grid grid-cols-1 gap-4">
                              ${['BoardingPass_1.jpg', 'BoardingPass_2.jpg'].map((img, i) => `
                                 <div class="rounded-lg overflow-hidden border-2 border-slate-200 shadow-sm relative cursor-pointer group"
@@ -334,11 +338,46 @@
                                 </div>
                             `).join('')}
                         </div>
+                        <div class="text-xs text-slate-500 text-center bg-slate-50 p-2 rounded-lg">
+                             <i class="fas fa-info-circle mr-1"></i>請將照片命名為 BoardingPass_1.jpg 與 BoardingPass_2.jpg
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button onclick="closeModal()" class="w-full bg-slate-700 text-white py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition">關閉</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('info-modal').classList.remove('hidden');
+        }
+
+        // 新增：顯示 M5NCRC 登機證
+        window.showBoardingPassM5NCRC = function() {
+            document.getElementById('modal-content-area').innerHTML = `
+                <div class="text-left relative h-full">
+                    <div class="absolute -top-4 -right-2 text-5xl opacity-20 rotate-12 text-slate-600"><i class="fas fa-ticket-alt"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center border-b-2 border-slate-300 pb-3 font-hand tracking-wide">
+                        ✈️ 登機證 (M5NCRC)
+                    </h3>
+
+                    <div class="space-y-4">
+                         <div class="p-2 grid grid-cols-1 gap-4">
+                             ${['BoardingPass_3.jpg', 'BoardingPass_4.jpg'].map((img, i) => `
+                                <div class="rounded-lg overflow-hidden border-2 border-slate-200 shadow-sm relative cursor-pointer group"
+                                     onclick="window.open('${img}', '_blank')">
+                                    <img src="${img}" 
+                                         onerror="this.src='https://placehold.co/600x300?text=Boarding+Pass+${i+3}';" 
+                                         class="w-full h-auto object-cover group-hover:opacity-90 transition-opacity">
+                                    <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm">
+                                        <i class="fas fa-search-plus mr-1"></i> 點擊放大
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
                         
                         <div class="text-xs text-slate-500 text-center bg-slate-50 p-2 rounded-lg">
                              <i class="fas fa-info-circle mr-1"></i>請將登機證截圖命名為<br>
-                             <span class="font-mono bg-white px-1 rounded border border-slate-200">BoardingPass_1.jpg</span> 與 
-                             <span class="font-mono bg-white px-1 rounded border border-slate-200">BoardingPass_2.jpg</span><br>
+                             <span class="font-mono bg-white px-1 rounded border border-slate-200">BoardingPass_3.jpg</span> 與 
+                             <span class="font-mono bg-white px-1 rounded border border-slate-200">BoardingPass_4.jpg</span><br>
                              並放入同資料夾
                         </div>
                     </div>
@@ -427,11 +466,34 @@
 
         // Day Data (All Days)
         const day1Events = [
-            { type: 'start', time: '13:30', duration: 90, travelTime: 60, travelMode: 'walk', title: '南苑貴賓室 VIP Lounge', desc: '吃飽喝足，準備出發！(KHH)', icon: 'fa-utensils', bg: 'bg-blue-100', btnText: '怎麼去?', btnAction: 'showLoungeGuide', navQuery: '', externalLink: 'https://orange.udn.com/orange/story/121417/9179081' },
+            { type: 'start', time: '13:30', duration: 90, travelTime: 60, travelMode: 'walk', title: '南苑貴賓室 VIP Lounge', desc: '吃飽喝足，準備出發！(KHH)', icon: 'fa-utensils', bg: 'bg-blue-100', btnText: '怎麼去?', btnAction: 'showLoungeGuide', navQuery: '', externalLink: 'https://orange.udn.com/orange/story/121417/9179081', customButtons: [{ text: '龍騰貴賓室', link: 'https://eticket.canlead.com.tw/LOUNGE/login.aspx', icon: 'fa-ticket-alt', color: 'purple' }] },
             { type: 'flight', time: '16:00', duration: 145, travelTime: 0, travelMode: 'plane', title: '快樂起航 (IT670)', desc: '16:00 KHH ✈️ 19:25 CJU (含時差)', icon: 'fa-plane-departure', bg: 'bg-orange-100', isFlight: true, navQuery: '' },
             { type: 'arrive', time: '19:25', duration: 60, travelTime: 15, travelMode: 'walk', title: '抵達濟州 & 入境', desc: '填寫入境卡、提領行李', icon: 'fa-passport', bg: 'bg-green-100', note: '預計 20:25 完成', navQuery: '더세이프렌터카' },
             { type: 'car', time: 'auto', duration: 30, travelTime: 15, travelMode: 'car', title: 'The Safe Rent A Car', desc: '搭接駁車前往取車', icon: 'fa-car', bg: 'bg-yellow-100', btnText: '取車指引', btnAction: 'showCarGuide', navQuery: 'https://map.naver.com/p/directions/14081868.5306003,3962495.0698039,%EB%8D%94%EC%84%B8%EC%9D%B4%ED%94%84%EB%A0%8C%ED%84%B0%EC%B9%B4,1041558315,PLACE_POI/14080643.3928124,3959888.7729626,%EB%A9%94%EC%A2%85%20%EA%B8%80%EB%9E%98%EB%93%9C%20%EC%A0%9C%EC%A3%BC,11659012,PLACE_POI/-/car?c=14.00,0,0,0,dh' },
-            { type: 'hotel', time: 'auto', duration: 0, travelTime: 0, travelMode: null, title: '濟州 Glad Maison 飯店', desc: 'Check-in 休息', icon: 'fa-bed', bg: 'bg-purple-100', navQuery: '' }
+            { 
+                type: 'hotel', 
+                time: 'auto', 
+                duration: 30, 
+                travelTime: 10, 
+                travelMode: 'walk', 
+                title: '濟州 Glad Maison 飯店', 
+                desc: 'Check-in 休息 & 放行李', 
+                icon: 'fa-bed', 
+                bg: 'bg-purple-100', 
+                navQuery: 'https://map.naver.com/p/directions/14080643.3928124,3959888.7729626,%EB%A9%94%EC%A2%85%20%EA%B8%80%EB%9E%98%EB%93%9C%20%EC%A0%9C%EC%A3%BC,11659012,PLACE_POI/14079836.8608377,3959885.7297987,%EA%B7%B8%EB%9E%9C%EB%93%9C%20%ED%95%98%EC%96%8F%ED%8A%B8%20%EC%A0%9C%EC%A3%BC,1919264399,PLACE_POI/-/walk?c=16.00,0,0,0,dh' 
+            },
+            { 
+                type: 'shopping', 
+                time: 'auto', 
+                duration: 40, 
+                travelTime: 0, 
+                travelMode: null, 
+                title: '買WOWPASS', 
+                desc: '濟州君悅酒店 (Grand Hyatt) 1樓大廳', 
+                icon: 'fa-credit-card', 
+                bg: 'bg-indigo-100', 
+                note: '機台位於1樓花藝區旁' 
+            }
         ];
         
         const day2Events = [
@@ -518,6 +580,7 @@
             { id: 'intro', icon: 'fa-book-open', label: '教學', color: 'bg-orange-100' },
             { id: 'prep', icon: 'fa-check-circle', label: '準備', color: 'bg-green-100' },
             { id: 'booking', icon: 'fa-file-alt', label: '憑證', color: 'bg-purple-100' }, 
+            { id: 'shopping', icon: 'fa-shopping-cart', label: '購物', color: 'bg-pink-100' }, // 新增購物分頁
             { id: 'day1', label: 'Day1', date: '1/30', week: '(五)', color: 'bg-red-50' },
             { id: 'day2', label: 'Day2', date: '1/31', week: '(六)', color: 'bg-red-50' },
             { id: 'day3', label: 'Day3', date: '2/01', week: '(日)', color: 'bg-red-50' },
@@ -538,8 +601,9 @@
 
         function renderMenu() {
             const menu = document.getElementById('tab-menu');
-            const mainTabs = tabs.slice(0, 6);
-            const dayTabs = tabs.slice(6, 14);
+            // 修改 slice 範圍以包含新按鈕
+            const mainTabs = tabs.slice(0, 7);
+            const dayTabs = tabs.slice(7, 15);
 
             const renderMainBtn = (tab) => `
                 <button onclick="loadContent('${tab.id}')" 
@@ -560,8 +624,9 @@
                 </button>
             `;
 
+            // 修改 grid-cols-6 為 grid-cols-7
             menu.innerHTML = `
-                <div class="grid grid-cols-6 gap-1 w-full px-1">${mainTabs.map(renderMainBtn).join('')}</div>
+                <div class="grid grid-cols-7 gap-1 w-full px-1">${mainTabs.map(renderMainBtn).join('')}</div>
                 <div class="grid grid-cols-8 gap-0.5 w-full px-1 mt-1">${dayTabs.map(renderDayBtn).join('')}</div>
             `;
         }
@@ -3068,360 +3133,185 @@
                             </div>
                         </div>
                     </div>`;
-                case 'flight':
-                    return `${header('Flight Info 航班資訊')}${renderBookingInfo()}<div class="flex flex-col gap-4"><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('outbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-orange text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">去程 Outbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">16:00 <span class="text-xs text-slate-400 block font-sans">KHH</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-orange">IT 670</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">19:25 <span class="text-xs text-slate-400 block font-sans">CJU</span></div></div></div><div id="outbound-details" class="details-expand bg-orange-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersOutbound)}</div></div></div><div class="bg-white rounded-xl shadow-md border-2 border-slate-100 overflow-hidden cursor-pointer" onclick="toggleDetails('inbound-details')"><div class="p-4 relative"><div class="absolute right-0 top-0 bg-jeju-blue text-white px-3 py-1 rounded-bl-lg font-bold text-xs z-10">回程 Inbound</div><div class="flex justify-between items-center text-center mt-2"><div class="text-2xl font-hand font-bold text-slate-800">20:15 <span class="text-xs text-slate-400 block font-sans">CJU</span></div><div class="flex-1 px-2"><div class="border-b-2 border-dashed border-slate-300 relative h-1 w-full my-2"></div><div class="flex justify-between text-[10px] text-slate-500 font-bold uppercase"><span>Tigerair</span><span class="text-jeju-blue">IT 671</span></div></div><div class="text-2xl font-hand font-bold text-slate-800">21:50 <span class="text-xs text-slate-400 block font-sans">KHH</span></div></div></div><div id="inbound-details" class="details-expand bg-blue-50 px-4"><div class="pb-4 pt-2">${renderPassengerTable(passengersInbound)}</div></div></div></div>`;
-                case 'rate': 
-                    return `
-                    ${header('Currency Calculator')}
-                    <div id="rate-display">
-                        <div class="bg-white border-2 border-slate-200 rounded-xl p-4 mb-6 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-2 bg-stripes-gray opacity-20"></div>
-                            <div id="rate-loading" class="text-center font-hand text-xl py-4">連線中...</div>
-                            <div id="rate-result" class="hidden relative z-10">
-                                <div class="flex justify-between items-center mb-4 border-b border-dashed border-slate-200 pb-2">
-                                    <span class="text-xs text-slate-400 font-bold">TODAY'S RATE</span>
-                                    <span class="text-2xl font-black text-jeju-orange font-hand">1 TWD ≈ <span id="krw-val">--</span> KRW</span>
-                                </div>
-                                <div class="flex flex-col gap-3">
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">TWD <img src="https://flagcdn.com/w20/tw.png" class="inline w-4 ml-1"></span>
-                                        <input type="number" id="calc-twd" placeholder="輸入台幣" oninput="convertCurrency('twd')" 
-                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-slate-700 bg-slate-50 rounded-lg border border-slate-200 focus:outline-none focus:border-jeju-orange transition-all text-right font-hand">
-                                    </div>
-                                    <div class="text-center text-slate-300 text-xs"><i class="fas fa-exchange-alt rotate-90"></i></div>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-xs">KRW <img src="https://flagcdn.com/w20/kr.png" class="inline w-4 ml-1"></span>
-                                        <input type="number" id="calc-krw" placeholder="輸入韓元" oninput="convertCurrency('krw')" 
-                                            class="w-full pl-16 pr-3 py-2 text-lg font-bold text-jeju-blue bg-blue-50 rounded-lg border border-blue-200 focus:outline-none focus:border-jeju-blue transition-all text-right font-hand">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="bg-yellow-100 p-4 rounded-lg shadow-md mb-6"><ul class="space-y-1 font-hand text-slate-700" id="rate-cheat-sheet"></ul></div>
-                        
-                        <!-- 記帳表單 -->
-                        <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 mb-6 mt-6">
-                            <h3 class="font-bold text-jeju-green mb-4 flex items-center gap-2 font-hand text-lg">
-                                <i class="fas fa-pen"></i> 新增支出
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="grid grid-cols-2 gap-3">
-                                    <input type="text" id="expense-name" placeholder="項目名稱 (如: 晚餐)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                    <select id="expense-category" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                        <option value="food">🍽️ 飲食</option>
-                                        <option value="transport">🚗 交通</option>
-                                        <option value="hotel">🏨 住宿</option>
-                                        <option value="shopping">🛍️ 購物</option>
-                                        <option value="fun">🎡 娛樂</option>
-                                        <option value="other">📦 其他</option>
-                                    </select>
-                                </div>
-                                <div class="flex gap-2">
-                                    <input type="number" id="expense-amount" placeholder="金額 (KRW)" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-jeju-green">
-                                    <button onclick="addExpense()" class="bg-jeju-green text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition shadow-sm font-hand text-lg">
-                                        新增
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                case 'shopping':
+                    return `${header('Shopping List 購物清單')}
+                    
+                    <div class="bg-pink-50 p-4 rounded-2xl border border-pink-100 shadow-sm mb-6 text-xs text-slate-600">
+                        <i class="fas fa-camera mr-1 text-pink-500"></i> 
+                        <strong>使用說明：</strong> 將您的想買的物品截圖或照片放入資料夾，並修改為對應檔名即可顯示。
+                    </div>
 
-                        <!-- 記帳列表與統計 -->
-                        <div class="space-y-4 pb-20">
-                            <div class="flex justify-between items-center px-2">
-                                <h3 class="font-bold text-slate-700 font-hand text-lg">消費紀錄</h3>
-                                <div class="text-right">
-                                    <p class="text-[10px] text-gray-400">總計約</p>
-                                    <p class="text-xl font-bold text-jeju-orange font-mono" id="total-twd">NT$ 0</p>
+                    <!-- 區塊 1: 必買清單 -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-slate-700 mb-3 px-2 border-l-4 border-jeju-orange flex items-center">
+                            🔥 必買清單
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4 px-2">
+                            <!-- Item 1: 軍人暖暖包 -->
+                            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 relative group hover:shadow-md transition-shadow flex flex-col h-full">
+                                <!-- 圖片區 -->
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 cursor-pointer shrink-0" onclick="window.open('soldier_hotpack.jpg', '_blank')">
+                                    <img src="soldier_hotpack.jpg" 
+                                         onerror="this.src='https://placehold.co/300x300?text=請放入照片\\nsoldier_hotpack.jpg';" 
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
+                                    <div class="absolute bottom-1 right-1 bg-black/50 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">點擊放大</div>
                                 </div>
-                            </div>
-                            
-                            <div id="expense-list" class="space-y-2">
-                                <!-- JS 生成 -->
-                            </div>
-                        </div>
-                    </div>`;
-                case 'weather': return `
-                    ${header('7 Days Weather 一週氣象')}
-                    <div id="weather-widget">
-                        <div id="weather-loading" class="text-center py-10 font-hand text-xl text-slate-400">Checking...</div>
-                        <div id="weather-content" class="hidden">
-                            <!-- Main Weather Card -->
-                            <div class="bg-gradient-to-br from-blue-400 to-blue-200 rounded-2xl p-5 text-white shadow-md mb-6 relative overflow-hidden">
-                                <div class="absolute top-[-20px] right-[-20px] text-9xl opacity-20 text-white"><i class="fas fa-cloud-sun"></i></div>
-                                <div class="z-10 relative">
-                                    <h3 class="text-lg font-bold mb-1 font-hand tracking-wider">Jeju City (Today)</h3>
-                                    <div class="flex items-end">
-                                        <div class="text-6xl font-black font-hand mr-3" id="curr-temp">--°</div>
-                                        <div class="text-xl font-medium opacity-90 mb-2" id="curr-desc">--</div>
-                                    </div>
+                                <!-- 文字區 -->
+                                <div class="mt-3 text-center flex-1 flex flex-col">
+                                    <h3 class="font-bold text-slate-700 font-hand text-lg leading-tight">軍人暖暖包</h3>
+                                    <p class="text-[10px] text-slate-400 font-sans mt-1 bg-slate-50 inline-block px-2 py-0.5 rounded mb-2">soldier_hotpack.jpg</p>
                                     
-                                    <!-- Detail Grid -->
-                                    <div class="grid grid-cols-2 gap-2 mt-4 bg-white/20 backdrop-blur-sm p-3 rounded-lg text-xs">
-                                        <div class="flex items-center"><i class="fas fa-wind mr-2 opacity-70"></i> <span id="w-wind">--</span></div>
-                                        <div class="flex items-center"><i class="fas fa-tint mr-2 opacity-70"></i> <span id="w-hum">--</span></div>
-                                        <div class="flex items-center"><i class="fas fa-sun mr-2 opacity-70"></i> <span id="w-uv">UV --</span></div>
-                                        <div class="flex items-center"><i class="fas fa-temperature-high mr-2 opacity-70"></i> 體感 <span id="w-feel">--</span></div>
+                                    <div class="mt-auto">
+                                        <p class="text-[10px] text-slate-500 font-bold mb-1"><i class="fas fa-map-marker-alt text-red-400"></i> 哪裡買?</p>
+                                        <div class="flex flex-wrap gap-1 justify-center">
+                                            <span class="bg-sky-50 text-sky-600 border border-sky-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">🏪 便利商店</span>
+                                            <span class="bg-red-50 text-red-600 border border-red-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">🛒 大創 Daiso</span>
+                                            <span class="bg-green-50 text-green-600 border border-green-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">🛍️ 樂天超市</span>
+                                        </div>
+                                        <p class="text-[9px] text-orange-400 mt-1">*認明 My Hot (마이핫)</p>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <!-- 穿搭便條紙 -->
-                            <div class="bg-pink-50 p-3 rounded-lg shadow-sm border-l-4 border-pink-300 mb-6 flex items-start">
-                                <i class="fas fa-tshirt text-pink-400 mt-1 mr-3"></i>
-                                <div>
-                                    <h4 class="font-bold text-pink-800 text-xs mb-1">OOTD 穿搭建議</h4>
-                                    <p class="text-xs text-slate-600" id="weather-tip">載入中...</p>
+                                <!-- 裝飾貼紙 -->
+                                <div class="absolute -top-2 -right-2 bg-pink-100 text-pink-500 w-8 h-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm transform rotate-12">
+                                    <i class="fas fa-heart text-sm"></i>
                                 </div>
                             </div>
 
-                            <h3 class="font-bold text-slate-600 mb-2 ml-1 text-sm flex items-center justify-between">
-                                <span><i class="fas fa-calendar-week mr-1"></i> Forecast</span>
-                                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400">Slide →</span>
-                            </h3>
-                            
-                            <div class="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar" id="forecast-container">
-                                <!-- JS Generated -->
-                            </div>
-                            
-                            <div class="text-[10px] text-slate-400 text-center mt-2">
-                                Data: Open-Meteo.com
-                            </div>
-                        </div>
-                    </div>`;
-                case 'prep': return `${header('Checklist 行前準備')}<div class="grid grid-cols-1 gap-4">${prepGroup('出發前必做', ['預辦登機 (48小時前)', '線上填寫電子入境卡 (e-Arrival Card)'], 'red')}${prepGroup('必備證件', ['護照 (效期6個月+)', '機票電子檔', '訂房憑證', '國際駕照'], 'blue')}${prepGroup('金流與網路', ['WOWPASS 卡', '韓元現金', '信用卡 (海外)', '購買 eSIM 卡', '漫遊開通'], 'yellow')}${prepGroup('冬季衣物', ['防風厚外套', '發熱衣 x3', '好走的鞋', '毛帽、圍巾、手套', '兒童備用衣物'], 'orange')}${prepGroup('電子雜物', ['轉接頭 (4.8mm)', '行動電源', '充電線', '雨衣/傘', '暖暖包'], 'green')}${prepGroup('親子與藥品', ['兒童退燒/腸胃藥', '個人藥品', '安撫零食', '輕便推車', '濕紙巾'], 'purple')}</div>`;
-                case 'booking': 
-                    return `${header('電子憑證 Vouchers')}
-                    <div class="space-y-8 pb-24 px-1">
-                        <!-- User Tip -->
-                        <div class="bg-yellow-50/80 backdrop-blur-sm p-4 rounded-2xl border-2 border-yellow-200 text-sm text-slate-600 flex items-start gap-3 shadow-sm">
-                            <i class="fas fa-lightbulb text-yellow-500 text-lg mt-0.5"></i>
-                            <div>
-                                <strong>小貼士：</strong><br>
-                                點擊縮圖可開啟原始大圖，建議截圖保存以防網路不穩。
-                            </div>
-                        </div>
-
-                        <!-- 1. 租車憑證 (Folder Style) -->
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-orange-200 to-amber-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative bg-white rounded-2xl border border-orange-100 shadow-lg overflow-hidden">
-                                <!-- Header -->
-                                <div class="bg-orange-50 px-5 py-3 border-b border-orange-100 flex justify-between items-center">
-                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
-                                        <span class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-500"><i class="fas fa-car"></i></span>
-                                        The Safe Rent A Car
-                                    </h3>
-                                    <span class="bg-orange-200 text-orange-800 text-[10px] font-bold px-2 py-1 rounded-full">7 Documents</span>
+                            <!-- Item 2: 鍾根堂益生菌 -->
+                            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 relative group hover:shadow-md transition-shadow flex flex-col h-full">
+                                <!-- 圖片區 -->
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 cursor-pointer shrink-0" onclick="window.open('lacto_fit.jpg', '_blank')">
+                                    <img src="lacto_fit.jpg" 
+                                         onerror="this.src='https://placehold.co/300x300?text=請放入照片\\nlacto_fit.jpg';" 
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
+                                    <div class="absolute bottom-1 right-1 bg-black/50 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">點擊放大</div>
                                 </div>
-                                <!-- Details -->
-                                <div class="px-5 py-3 bg-slate-50 flex justify-between text-xs text-slate-500 font-mono border-b border-slate-100">
-                                    <span>PICK-UP: 01/30 20:00</span>
-                                    <span>RETURN: 02/06 16:30</span>
-                                </div>
-                                <!-- Grid -->
-                                <div class="p-5 grid grid-cols-3 sm:grid-cols-4 gap-3 bg-white">
-                                    ${[1, 2, 3, 4, 5, 6, 7].map(num => `
-                                        <div class="aspect-[3/4] rounded-lg overflow-hidden border border-slate-200 cursor-pointer relative group/img shadow-sm hover:shadow-md transition-all" 
-                                             onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/The_Safe_Rent_A_Car_${num}.png?raw=true', '_blank')">
-                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/The_Safe_Rent_A_Car_${num}.png?raw=true" class="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500">
-                                            <div class="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 transition-colors"></div>
-                                            <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 rounded backdrop-blur-sm">Page ${num}</div>
+                                <!-- 文字區 -->
+                                <div class="mt-3 text-center flex-1 flex flex-col">
+                                    <h3 class="font-bold text-slate-700 font-hand text-lg leading-tight">鍾根堂益生菌</h3>
+                                    <p class="text-[10px] text-slate-400 font-sans mt-1 bg-slate-50 inline-block px-2 py-0.5 rounded mb-2">lacto_fit.jpg</p>
+                                    
+                                    <div class="mt-auto">
+                                        <p class="text-[10px] text-slate-500 font-bold mb-1"><i class="fas fa-map-marker-alt text-yellow-400"></i> 哪裡買?</p>
+                                        <div class="flex flex-wrap gap-1 justify-center">
+                                            <span class="bg-pink-50 text-pink-600 border border-pink-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">💄 Olive Young</span>
+                                            <span class="bg-green-50 text-green-600 border border-green-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">🛍️ 樂天/E-mart</span>
+                                            <span class="bg-blue-50 text-blue-600 border border-blue-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">✈️ 免稅店</span>
                                         </div>
-                                    `).join('')}
+                                        <p class="text-[9px] text-yellow-500 mt-1">*黃色罐裝 (Gold) 最熱銷</p>
+                                    </div>
+                                </div>
+                                <!-- 裝飾貼紙 -->
+                                <div class="absolute -top-2 -right-2 bg-yellow-100 text-yellow-500 w-8 h-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm transform -rotate-6">
+                                    <i class="fas fa-star text-sm"></i>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- 2. 住宿憑證 (Timeline Style) -->
-                        <div class="relative">
-                            <div class="absolute left-6 top-4 bottom-4 w-0.5 bg-slate-200 border-l-2 border-dotted border-slate-300"></div>
-                            
-                            <h3 class="font-bold text-slate-700 text-lg mb-6 pl-2 flex items-center gap-2">
-                                <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 shadow-sm z-10"><i class="fas fa-bed"></i></span>
-                                住宿憑證 (7 Nights)
-                            </h3>
-
-                            <div class="space-y-8">
-                                <!-- Hotel 1 -->
-                                <div class="relative pl-14 group">
-                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-300 transition-colors">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h4 class="font-bold text-slate-800">濟州 Glad Maison</h4>
-                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>1/30 - 1/31 (1 Night)</p>
-                                            </div>
-                                            <span class="text-2xl text-slate-100"><i class="fas fa-hotel"></i></span>
+                            <!-- Item 3: 韓國驅蟲藥 -->
+                            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 relative group hover:shadow-md transition-shadow flex flex-col h-full">
+                                <!-- 圖片區 -->
+                                <div class="aspect-square rounded-xl overflow-hidden bg-slate-50 relative border border-slate-100 cursor-pointer shrink-0" onclick="window.open('deworming_medicine.jpg', '_blank')">
+                                    <img src="deworming_medicine.jpg" 
+                                         onerror="this.src='https://placehold.co/300x300?text=請放入照片\\ndeworming_medicine.jpg';" 
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
+                                    <div class="absolute bottom-1 right-1 bg-black/50 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">點擊放大</div>
+                                </div>
+                                <!-- 文字區 -->
+                                <div class="mt-3 text-center flex-1 flex flex-col">
+                                    <h3 class="font-bold text-slate-700 font-hand text-lg leading-tight">韓國驅蟲藥</h3>
+                                    <p class="text-[10px] text-slate-400 font-sans mt-1 bg-slate-50 inline-block px-2 py-0.5 rounded mb-2">deworming_medicine.jpg</p>
+                                    
+                                    <div class="mt-auto">
+                                        <p class="text-[10px] text-slate-500 font-bold mb-1"><i class="fas fa-map-marker-alt text-green-400"></i> 哪裡買?</p>
+                                        <div class="flex flex-wrap gap-1 justify-center">
+                                            <span class="bg-green-50 text-green-600 border border-green-200 text-[9px] px-2 py-1 rounded-md font-bold shadow-sm">💊 藥局 (Yakguk)</span>
                                         </div>
-                                        <div class="rounded-xl overflow-hidden shadow-inner border border-slate-100 relative h-32 cursor-pointer" onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/Maison_Glad_Voucher.png?raw=true', '_blank')">
-                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/Maison_Glad_Voucher.png?raw=true" class="w-full h-full object-cover">
-                                            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur text-slate-700 text-xs px-2 py-1 rounded shadow-sm font-bold"><i class="fas fa-expand mr-1"></i>查看憑證</div>
+                                        
+                                        <!-- 藥局辨識小撇步 -->
+                                        <div class="mt-2 text-[9px] text-slate-500 text-left bg-green-50 p-2 rounded-lg border border-green-100 leading-tight">
+                                            <span class="font-bold text-green-700">💡 濟州藥局長怎樣?</span><br>
+                                            請認明大大的 <span class="text-red-500 font-bold text-sm align-bottom">약</span> (藥) 字招牌，通常會有紅色或綠色的十字燈號 ➕。
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Hotel 2 (Carousel for 2 images) -->
-                                <div class="relative pl-14 group">
-                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-purple-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-purple-300 transition-colors">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h4 class="font-bold text-slate-800">Coop City Seongsan</h4>
-                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>1/31 - 2/02 (2 Nights)</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
-                                            ${['Coop_City_Seongsan_1.png', 'Coop_City_Seongsan_2.png'].map((img, i) => `
-                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
-                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
-                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
-                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Hotel 3 -->
-                                <div class="relative pl-14 group">
-                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-yellow-400 rounded-full border-2 border-white shadow-sm z-10"></div>
-                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-yellow-300 transition-colors">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h4 class="font-bold text-slate-800">神話世界 藍鼎</h4>
-                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>2/02 - 2/04 (2 Nights)</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
-                                            ${['Shinhwa_Landing_1.png', 'Shinhwa_Landing_2.png'].map((img, i) => `
-                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
-                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
-                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
-                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Hotel 4 -->
-                                <div class="relative pl-14 group">
-                                    <div class="absolute left-[21px] top-3 w-3 h-3 bg-slate-600 rounded-full border-2 border-white shadow-sm z-10"></div>
-                                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-slate-400 transition-colors">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h4 class="font-bold text-slate-800">Hotel Leo</h4>
-                                                <p class="text-xs text-slate-400 mt-0.5"><i class="far fa-calendar-alt mr-1"></i>2/04 - 2/06 (2 Nights)</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x hide-scrollbar">
-                                            ${['Hotel_Leo_1.png', 'Hotel_Leo_2.png'].map((img, i) => `
-                                                <div class="flex-shrink-0 w-4/5 snap-center rounded-xl overflow-hidden shadow-sm border border-slate-100 relative h-32 cursor-pointer" 
-                                                     onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
-                                                    <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
-                                                    <div class="absolute top-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded">${i+1}/2</div>
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- 裝飾貼紙 -->
+                                <div class="absolute -top-2 -right-2 bg-green-100 text-green-500 w-8 h-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm transform rotate-3">
+                                <i class="fas fa-capsules text-sm"></i>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 3. 門票憑證 (Ticket Style) -->
-                        <div class="relative group mt-4">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative bg-white rounded-2xl border border-blue-100 shadow-md overflow-hidden">
-                                <div class="bg-blue-50 px-5 py-3 border-b border-blue-100 flex justify-between items-center">
-                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
-                                        <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500"><i class="fas fa-ticket-alt"></i></span>
-                                        Aqua Planet 水族館
-                                    </h3>
-                                    <span class="bg-blue-200 text-blue-800 text-[10px] font-bold px-2 py-1 rounded-full">2 Tickets</span>
-                                </div>
-                                <div class="p-5 flex gap-3 overflow-x-auto snap-x hide-scrollbar">
-                                     ${['Aqua_Planet_Ticket_1.png', 'Aqua_Planet_Ticket_2.png'].map((img, i) => `
-                                        <div class="flex-shrink-0 w-[45%] snap-center aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 relative cursor-pointer shadow-sm hover:shadow-md transition-shadow"
-                                             onclick="window.open('https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true', '_blank')">
-                                            <img src="https://github.com/asdfzxcv0911/-Jeju/blob/main/${img}?raw=true" class="w-full h-full object-cover">
-                                            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-2">
-                                                <span class="text-white text-xs font-bold"><i class="fas fa-search"></i> No.${i+1}</span>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
+                    <!-- 區塊 2: 網友推薦 -->
+                    <div class="mb-20">
+                        <h3 class="text-lg font-bold text-slate-700 mb-3 px-2 border-l-4 border-pink-400 flex items-center">
+                            👍 網友推薦
+                        </h3>
+                        
+                        <!-- 藥局必買懶人包 -->
+                        <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 shadow-sm mx-2">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-bold text-indigo-700 text-sm flex items-center gap-2">
+                                    <i class="fas fa-first-aid"></i> 韓國藥局必買清單
+                                </h4>
+                                <span class="bg-white text-indigo-500 text-[9px] px-2 py-1 rounded-full shadow-sm font-bold">Cheatsheet</span>
                             </div>
-                        </div>
 
-                        <!-- 4. 餐廳預約 (Catch Table Links) -->
-                        <div class="relative group mt-4">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-red-200 to-orange-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative bg-white rounded-2xl border border-red-100 shadow-md overflow-hidden">
-                                <div class="bg-red-50 px-5 py-3 border-b border-red-100 flex justify-between items-center">
-                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
-                                        <span class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500"><i class="fas fa-utensils"></i></span>
-                                        餐廳預約 (Catch Table)
-                                    </h3>
-                                    <span class="bg-red-200 text-red-800 text-[10px] font-bold px-2 py-1 rounded-full">2 Bookings</span>
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- Card 1 -->
+                                <div class="bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all" onclick="window.open('S__160620631.jpg', '_blank')">
+                                    <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
+                                        <img src="S__160620631.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-1';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                        <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-search-plus"></i></div>
+                                    </div>
+                                    <p class="text-[10px] text-center mt-2 text-slate-600 font-bold leading-tight">
+                                        <span class="text-indigo-500">●</span> 痘痘藥膏<br>
+                                        <span class="text-indigo-500">●</span> 去疤/黑眼圈
+                                    </p>
                                 </div>
-                                <div class="p-5 space-y-3">
-                                    <!-- Item 1 -->
-                                    <a href="https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jeju" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors group/item">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-500 text-lg font-bold"><i class="fas fa-bread-slice"></i></div>
-                                            <div>
-                                                <h4 class="font-bold text-slate-700 text-sm">倫敦貝果博物館</h4>
-                                                <p class="text-xs text-slate-400">London Bagel Museum</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-2 text-xs text-slate-400 group-hover/item:text-orange-500 transition-colors">
-                                            <span>查看預約</span> <i class="fas fa-external-link-alt"></i>
-                                        </div>
-                                    </a>
-                                    <!-- Item 2 -->
-                                    <a href="https://www.catchtable.net/zh-TW/shop/suksungdo_jeju" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors group/item">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-red-500 text-lg font-bold"><i class="fas fa-fire"></i></div>
-                                            <div>
-                                                <h4 class="font-bold text-slate-700 text-sm">熟成到燒肉</h4>
-                                                <p class="text-xs text-slate-400">Suksungdo</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-2 text-xs text-slate-400 group-hover/item:text-red-500 transition-colors">
-                                            <span>查看預約</span> <i class="fas fa-external-link-alt"></i>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- 5. eSIM 憑證 -->
-                        <div class="relative group mt-4">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-green-200 to-teal-200 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-                            <div class="relative bg-white rounded-2xl border border-green-100 shadow-md overflow-hidden">
-                                <div class="bg-green-50 px-5 py-3 border-b border-green-100 flex justify-between items-center">
-                                    <h3 class="font-bold text-slate-700 flex items-center gap-2">
-                                        <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-500"><i class="fas fa-sim-card"></i></span>
-                                        宜昆、映羽esim憑證
-                                    </h3>
-                                    <span class="bg-green-200 text-green-800 text-[10px] font-bold px-2 py-1 rounded-full">4 Vouchers</span>
+                                <!-- Card 2 -->
+                                <div class="bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all" onclick="window.open('S__160620633.jpg', '_blank')">
+                                    <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
+                                        <img src="S__160620633.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-2';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                        <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-search-plus"></i></div>
+                                    </div>
+                                    <p class="text-[10px] text-center mt-2 text-slate-600 font-bold leading-tight">
+                                        <span class="text-indigo-500">●</span> 萬用霜<br>
+                                        <span class="text-indigo-500">●</span> 消腫液/膠原蛋白
+                                    </p>
                                 </div>
-                                <div class="p-5 flex gap-3 overflow-x-auto snap-x hide-scrollbar">
-                                     ${['eSIM_1.jpg', 'eSIM_2.jpg', 'eSIM_3.jpg', 'eSIM_4.jpg'].map((img, i) => `
-                                        <div class="flex-shrink-0 w-[45%] snap-center aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 relative cursor-pointer shadow-sm hover:shadow-md transition-shadow"
-                                             onclick="window.open('${img}', '_blank')">
-                                            <img src="${img}" 
-                                                 onerror="this.src='https://placehold.co/400x600?text=${img}';" 
-                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-2">
-                                                <span class="text-white text-xs font-bold"><i class="fas fa-expand"></i> 點擊放大</span>
-                                            </div>
-                                        </div>
-                                    `).join('')}
+
+                                <!-- Card 3 -->
+                                <div class="bg-white p-2 rounded-xl shadow-sm border border-indigo-50 cursor-pointer group relative hover:shadow-md transition-all" onclick="window.open('S__160620634.jpg', '_blank')">
+                                    <div class="aspect-[3/5] rounded-lg overflow-hidden bg-slate-100 relative">
+                                        <img src="S__160620634.jpg" onerror="this.src='https://placehold.co/300x500?text=藥局-3';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                        <div class="absolute bottom-1 right-1 bg-black/60 text-white text-[9px] px-1.5 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-search-plus"></i></div>
+                                    </div>
+                                    <p class="text-[10px] text-center mt-2 text-slate-600 font-bold leading-tight">
+                                        <span class="text-indigo-500">●</span> 熊貓再生霜<br>
+                                        <span class="text-indigo-500">●</span> 美白/護手霜
+                                    </p>
                                 </div>
-                                <div class="px-5 pb-3 text-[10px] text-slate-400 text-center">
-                                    <i class="fas fa-info-circle mr-1"></i>請將照片命名為 eSIM_1~4.jpg 並放在同資料夾
+
+                                <!-- Note Block -->
+                                <div class="flex flex-col justify-center items-center bg-white/50 rounded-xl p-2 border border-dashed border-indigo-200">
+                                    <div class="text-center">
+                                        <i class="fas fa-camera text-2xl text-indigo-300 mb-1"></i>
+                                        <p class="text-[10px] text-slate-500 font-hand">
+                                            直接拿照片給<br>藥師看最快！
+                                        </p>
+                                    </div>
+                                    <div class="mt-2 w-full h-[1px] bg-indigo-100"></div>
+                                    <p class="text-[9px] text-indigo-400 mt-2 text-center">
+                                        點擊圖片可放大
+                                    </p>
                                 </div>
                             </div>
                         </div>
